@@ -6,6 +6,7 @@
     <title>Riwayat Transaksi - Sobat Sampah Desa Mekarmaya</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <!-- FontAwesome untuk Icon -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous">
     <!-- Google Font Inter -->
@@ -17,10 +18,13 @@
         body { font-family: 'Inter', sans-serif; }
     </style>
 </head>
-<body class="bg-gray-100 text-gray-800 antialiased min-h-screen flex">
+<body x-data="{ sidebarOpen: false }" class="bg-gray-100 text-gray-800 antialiased min-h-screen flex">
+
+    <!-- Overlay Mobile -->
+    <div x-show="sidebarOpen" @click="sidebarOpen = false" x-transition.opacity class="fixed inset-0 z-20 bg-black/50 md:hidden"></div>
 
     <!-- SIDEBAR NAVIGASI WARGA -->
-    <aside class="w-64 bg-emerald-800 text-white flex flex-col justify-between shrink-0 hidden md:flex shadow-xl">
+    <aside :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'" class="fixed inset-y-0 left-0 z-30 w-64 bg-emerald-800 text-white flex flex-col justify-between shrink-0 transition-transform duration-300 md:relative md:translate-x-0 md:flex shadow-xl">
         <div>
             <div class="p-6 border-b border-emerald-700">
                 <h1 class="font-bold text-sm leading-tight uppercase tracking-wider">
@@ -63,7 +67,12 @@
         
         <!-- TOPBAR MOBILE NAV -->
         <header class="bg-white h-16 shadow-sm border-b border-gray-100 flex md:hidden items-center justify-between px-4 z-10">
-            <h2 class="text-xs font-bold text-emerald-800 uppercase tracking-wider">Riwayat Pembukuan</h2>
+            <div class="flex items-center space-x-3">
+                <button @click="sidebarOpen = true" class="text-gray-600 focus:outline-none text-lg cursor-pointer hover:text-emerald-600">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h2 class="text-xs font-bold text-emerald-800 uppercase tracking-wider">Riwayat Pembukuan</h2>
+            </div>
             <a href="{{ route('warga.dashboard') }}" class="text-emerald-700 text-xs font-bold"><i class="fas fa-arrow-left mr-1"></i> Dashboard</a>
         </header>
 

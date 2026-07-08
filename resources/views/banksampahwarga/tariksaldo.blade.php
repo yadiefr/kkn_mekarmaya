@@ -5,14 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tarik Saldo - Sobat Sampah</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>body { font-family: 'Inter', sans-serif; }</style>
 </head>
-<body class="bg-gray-100 text-gray-800 antialiased min-h-screen flex">
+<body x-data="{ sidebarOpen: false }" class="bg-gray-100 text-gray-800 antialiased min-h-screen flex">
+
+    <!-- Overlay Mobile -->
+    <div x-show="sidebarOpen" @click="sidebarOpen = false" x-transition.opacity class="fixed inset-0 z-20 bg-black/50 md:hidden"></div>
 
     <!-- SIDEBAR -->
-    <aside class="w-64 bg-emerald-800 text-white flex flex-col justify-between shrink-0 hidden md:flex shadow-xl">
+    <aside :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'" class="fixed inset-y-0 left-0 z-30 w-64 bg-emerald-800 text-white flex flex-col justify-between shrink-0 transition-transform duration-300 md:relative md:translate-x-0 md:flex shadow-xl">
         <div>
             <div class="p-6 border-b border-emerald-700">
                 <h1 class="font-bold text-sm leading-tight uppercase tracking-wider">SOBAT SAMPAH<br><span class="text-emerald-300 text-xs font-medium normal-case">Tabungan Warga</span></h1>
@@ -39,6 +43,17 @@
 
     <!-- CONTENT WRAPPER -->
     <div class="flex-grow flex flex-col min-w-0">
+        
+        <header class="bg-white h-16 shadow-sm border-b border-gray-100 flex md:hidden items-center justify-between px-4 z-10">
+            <div class="flex items-center space-x-3">
+                <button @click="sidebarOpen = true" class="text-gray-600 focus:outline-none text-lg cursor-pointer hover:text-emerald-600">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h2 class="text-xs font-bold text-emerald-800 uppercase tracking-wider">Tarik Saldo</h2>
+            </div>
+            <a href="{{ route('warga.dashboard') }}" class="text-emerald-700 text-xs font-bold"><i class="fas fa-arrow-left mr-1"></i> Dashboard</a>
+        </header>
+
         <main class="flex-grow p-4 sm:p-6 lg:p-8 space-y-6 overflow-y-auto">
             
             <div>
