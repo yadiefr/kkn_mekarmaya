@@ -119,10 +119,19 @@
                                     <td class="p-4 text-gray-500 leading-relaxed">{{ $w->tempat_lahir }}, {{ \Carbon\Carbon::parse($w->tanggal_lahir)->translatedFormat('d M Y') }}<br><span class="text-[10px] text-gray-400">{{ $w->jenis_kelamin }}</span></td>
                                     <td class="p-4 text-gray-500 max-w-xs truncate">{{ $w->alamat }}</td>
                                     <td class="p-4 text-center">
-                                        <form action="{{ route('admin.aktivasi.toggle', $w->id) }}" method="POST">
-                                            @csrf
-                                            <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white text-[11px] font-bold px-4 py-1.5 rounded-lg shadow-sm transition cursor-pointer"><i class="fas fa-user-check mr-1.5"></i>Aktifkan (ON)</button>
-                                        </form>
+                                        <div class="flex items-center justify-center space-x-2">
+                                            <form action="{{ route('admin.aktivasi.toggle', $w->id) }}" method="POST">
+                                                @csrf
+                                                <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white text-[11px] font-bold px-4 py-1.5 rounded-lg shadow-sm transition cursor-pointer"><i class="fas fa-user-check mr-1.5"></i>Aktifkan (ON)</button>
+                                            </form>
+                                            <form action="{{ route('admin.aktivasi.destroy', $w->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus akun warga ini?');">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="bg-red-600 hover:bg-red-700 text-white text-[11px] font-bold px-3 py-1.5 rounded-lg shadow-sm transition cursor-pointer" title="Hapus Akun">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </form>
+                                        </div>
                                     </td>
                                 </tr>
                             @empty
@@ -160,10 +169,19 @@
                                     <td class="p-4 text-gray-500 leading-relaxed">{{ $w->tempat_lahir }}, {{ \Carbon\Carbon::parse($w->tanggal_lahir)->translatedFormat('d M Y') }}<br><span class="text-[10px] text-gray-400">{{ $w->jenis_kelamin }}</span></td>
                                     <td class="p-4 text-gray-500 max-w-xs truncate">{{ $w->alamat }}</td>
                                     <td class="p-4 text-center">
-                                        <form action="{{ route('admin.aktivasi.toggle', $w->id) }}" method="POST">
-                                            @csrf
-                                            <button type="submit" class="bg-red-50 hover:bg-red-100 text-red-700 text-[11px] font-bold px-3 py-1.5 rounded-lg border border-red-200 transition cursor-pointer"><i class="fas fa-user-slash mr-1.5"></i>Nonaktifkan (OFF)</button>
-                                        </form>
+                                        <div class="flex items-center justify-center space-x-2">
+                                            <form action="{{ route('admin.aktivasi.toggle', $w->id) }}" method="POST">
+                                                @csrf
+                                                <button type="submit" class="bg-red-50 hover:bg-red-100 text-red-700 text-[11px] font-bold px-3 py-1.5 rounded-lg border border-red-200 transition cursor-pointer"><i class="fas fa-user-slash mr-1.5"></i>Nonaktifkan (OFF)</button>
+                                            </form>
+                                            <form action="{{ route('admin.aktivasi.destroy', $w->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus akun warga ini secara permanen?');">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="bg-red-600 hover:bg-red-700 text-white text-[11px] font-bold px-3 py-1.5 rounded-lg shadow-sm transition cursor-pointer" title="Hapus Akun">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </form>
+                                        </div>
                                     </td>
                                 </tr>
                             @empty

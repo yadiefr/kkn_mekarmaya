@@ -46,4 +46,13 @@ class AdminAktivasiController extends Controller
 
         return back()->with('success', $pesan);
     }
+
+    public function destroy($id)
+    {
+        $warga = User::where('role', 'warga')->findOrFail($id);
+        $namaWarga = $warga->name;
+        $warga->delete();
+
+        return back()->with('success', "Akun warga bernama {$namaWarga} berhasil dihapus.");
+    }
 }

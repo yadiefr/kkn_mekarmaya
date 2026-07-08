@@ -86,6 +86,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/aktivasi-warga', [AdminAktivasiController::class, 'index'])->name('admin.aktivasi');
     // Rute aksi mengubah status akses ON/OFF
     Route::post('/admin/aktivasi-warga/{id}/toggle', [AdminAktivasiController::class, 'toggleAkses'])->name('admin.aktivasi.toggle');
+    // Rute menghapus warga
+    Route::delete('/admin/aktivasi-warga/{id}', [AdminAktivasiController::class, 'destroy'])->name('admin.aktivasi.destroy');
     // Tampilan Form & List Setor Sampah
     Route::get('/admin/setor-sampah', [AdminSetorController::class, 'index'])->name('admin.setor');
     // Eksekusi Simpan Nota Setoran
