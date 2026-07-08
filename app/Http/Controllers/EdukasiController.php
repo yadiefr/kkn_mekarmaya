@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\Edukasi;
 
 class EdukasiController extends Controller
 {
@@ -19,7 +20,9 @@ class EdukasiController extends Controller
             )
             ->get();
 
+        $edukasis = Edukasi::latest()->get();
+
         // Mengirimkan data ke view edukasi.blade.php
-        return view('edukasi', compact('trashDictionaries'));
+        return view('edukasi', compact('trashDictionaries', 'edukasis'));
     }
 }

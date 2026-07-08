@@ -108,6 +108,9 @@ Route::middleware(['auth'])->group(function () {
     
     // Kelola Edukasi
     Route::get('/admin/edukasi', [AdminEdukasiController::class, 'index'])->name('admin.edukasi');
+    Route::post('/admin/edukasi/simpan', [AdminEdukasiController::class, 'store'])->name('admin.edukasi.store');
+    Route::post('/admin/edukasi/update/{id}', [AdminEdukasiController::class, 'update'])->name('admin.edukasi.update');
+    Route::post('/admin/edukasi/hapus/{id}', [AdminEdukasiController::class, 'destroy'])->name('admin.edukasi.destroy');
     
     Route::get('/admin/setting-harga', [AdminHargaController::class, 'index'])->name('admin.harga.index');
     Route::post('/admin/setting-harga/simpan', [AdminHargaController::class, 'store'])->name('admin.harga.store');

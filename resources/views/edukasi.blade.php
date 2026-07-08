@@ -245,178 +245,56 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <!-- Card 0: Resep Kompos -->
-            <div onclick="openModal('modalKompos')" class="bg-white p-5 rounded-xl border border-gray-100 shadow-xs hover:shadow-md transition duration-200 cursor-pointer flex flex-col justify-between group">
-                <div>
-                    <div class="w-9 h-9 bg-emerald-50 text-emerald-700 rounded-lg flex items-center justify-center text-sm mb-4"><i class="fas fa-mortar-pestle"></i></div>
-                    <h4 class="text-sm font-bold text-gray-900 group-hover:text-emerald-700 transition">Membuat Pupuk Kompos</h4>
-                    <p class="text-xs text-gray-400 mt-1.5 leading-relaxed">Resep mengolah limbah basah sisa makanan dapur menjadi pupuk organik penyubur tanah.</p>
+            @forelse($edukasis as $edukasi)
+                <div onclick="openModal('modalEdukasi{{ $edukasi->id }}')" class="bg-white p-5 rounded-xl border border-gray-100 shadow-xs hover:shadow-md transition duration-200 cursor-pointer flex flex-col justify-between group">
+                    <div>
+                        <div class="w-full h-32 mb-4 bg-gray-50 rounded-lg flex items-center justify-center overflow-hidden border border-gray-100 relative">
+                            @if($edukasi->image_path && file_exists(public_path($edukasi->image_path)))
+                                <img src="{{ asset($edukasi->image_path) }}" alt="{{ $edukasi->title }}" class="w-full h-full object-cover">
+                            @else
+                                <i class="fas {{ $edukasi->icon ?? 'fa-book' }} text-emerald-300 text-4xl"></i>
+                            @endif
+                            <span class="absolute top-2 right-2 bg-white/90 backdrop-blur-xs text-emerald-800 text-[9px] font-bold px-2 py-1 rounded shadow-xs uppercase tracking-wider">
+                                {{ $edukasi->category }}
+                            </span>
+                        </div>
+                        <h4 class="text-sm font-bold text-gray-900 group-hover:text-emerald-700 transition">{{ $edukasi->title }}</h4>
+                        <p class="text-xs text-gray-400 mt-1.5 leading-relaxed line-clamp-2">{{ Str::limit($edukasi->content, 80) }}</p>
+                    </div>
+                    <span class="text-[11px] font-semibold text-emerald-700 mt-4 inline-block">Buka Panduan <i class="fas fa-arrow-right ml-1 text-[9px]"></i></span>
                 </div>
-                <span class="text-[11px] font-semibold text-emerald-700 mt-4 inline-block">Buka Panduan <i class="fas fa-arrow-right ml-1 text-[9px]"></i></span>
-            </div>
-
-            <!-- Card 1: Hemat Energi -->
-            <div onclick="openModal('modalEnergi')" class="bg-white p-5 rounded-xl border border-gray-100 shadow-xs hover:shadow-md transition duration-200 cursor-pointer flex flex-col justify-between group">
-                <div>
-                    <div class="w-9 h-9 bg-amber-50 text-amber-700 rounded-lg flex items-center justify-center text-sm mb-4"><i class="fas fa-lightbulb"></i></div>
-                    <h4 class="text-sm font-bold text-gray-900 group-hover:text-amber-700 transition">Efisiensi & Hemat Energi</h4>
-                    <p class="text-xs text-gray-400 mt-1.5 leading-relaxed">Strategi jitu mengurangi emisi karbon lewat kebiasaan penggunaan listrik harian.</p>
+            @empty
+                <div class="col-span-full text-center py-12 text-gray-400 border border-dashed border-gray-200 bg-white rounded-xl">
+                    <i class="fas fa-book-open text-2xl mb-2 text-gray-300"></i>
+                    <p class="text-xs">Belum ada konten edukasi yang tersedia saat ini.</p>
                 </div>
-                <span class="text-[11px] font-semibold text-amber-700 mt-4 inline-block">Buka Panduan <i class="fas fa-arrow-right ml-1 text-[9px]"></i></span>
-            </div>
-
-            <!-- Card 2: Keanekaragaman Hayati -->
-            <div onclick="openModal('modalAlam')" class="bg-white p-5 rounded-xl border border-gray-100 shadow-xs hover:shadow-md transition duration-200 cursor-pointer flex flex-col justify-between group">
-                <div>
-                    <div class="w-9 h-9 bg-blue-50 text-blue-700 rounded-lg flex items-center justify-center text-sm mb-4"><i class="fas fa-tree"></i></div>
-                    <h4 class="text-sm font-bold text-gray-900 group-hover:text-blue-700 transition">Pelestarian Ekosistem Alam</h4>
-                    <p class="text-xs text-gray-400 mt-1.5 leading-relaxed">Langkah taktis menjaga keseimbangan flora, fauna, dan rantai ekologi lokal desa.</p>
-                </div>
-                <span class="text-[11px] font-semibold text-blue-700 mt-4 inline-block">Buka Panduan <i class="fas fa-arrow-right ml-1 text-[9px]"></i></span>
-            </div>
-
-            <!-- Card 3: Bijak Plastik -->
-            <div onclick="openModal('modalPlastik')" class="bg-white p-5 rounded-xl border border-gray-100 shadow-xs hover:shadow-md transition duration-200 cursor-pointer flex flex-col justify-between group">
-                <div>
-                    <div class="w-9 h-9 bg-purple-50 text-purple-700 rounded-lg flex items-center justify-center text-sm mb-4"><i class="fas fa-recycle"></i></div>
-                    <h4 class="text-sm font-bold text-gray-900 group-hover:text-purple-700 transition">Pengelolaan Sampah Plastik</h4>
-                    <p class="text-xs text-gray-400 mt-1.5 leading-relaxed">Gerakan zero-waste melalui metode reduksi, pemilahan sumber, dan ekonomi sirkular.</p>
-                </div>
-                <span class="text-[11px] font-semibold text-purple-700 mt-4 inline-block">Buka Panduan <i class="fas fa-arrow-right ml-1 text-[9px]"></i></span>
-            </div>
-
-            <!-- Card 4: Konservasi Air -->
-            <div onclick="openModal('modalAir')" class="bg-white p-5 rounded-xl border border-gray-100 shadow-xs hover:shadow-md transition duration-200 cursor-pointer flex flex-col justify-between group">
-                <div>
-                    <div class="w-9 h-9 bg-cyan-50 text-cyan-700 rounded-lg flex items-center justify-center text-sm mb-4"><i class="fas fa-droplet"></i></div>
-                    <h4 class="text-sm font-bold text-gray-900 group-hover:text-cyan-700 transition">Konservasi & Perlindungan Air</h4>
-                    <p class="text-xs text-gray-400 mt-1.5 leading-relaxed">Cara cerdas menghemat air higienis dan memaksimalkan penyerapan air tanah kedaerahan.</p>
-                </div>
-                <span class="text-[11px] font-semibold text-cyan-700 mt-4 inline-block">Buka Panduan <i class="fas fa-arrow-right ml-1 text-[9px]"></i></span>
-            </div>
+            @endforelse
         </div>
     </section>
 
     <!-- ========================================== JENDELA MODAL BOX DATA ========================================== -->
 
-    <!-- MODAL 0: RESEP KOMPOS -->
-    <div id="modalKompos" class="fixed inset-0 z-50 hidden bg-black/40 backdrop-blur-xs flex items-center justify-center p-4">
-        <div class="bg-white rounded-xl shadow-lg max-w-lg w-full overflow-hidden max-h-[90vh] flex flex-col">
-            <div class="p-5 border-b border-gray-100 flex justify-between items-center bg-emerald-800 text-white">
-                <h4 class="font-bold text-sm tracking-tight inline-flex items-center"><i class="fas fa-mortar-pestle mr-2"></i> Resep Membuat Pupuk Kompos</h4>
-                <button onclick="closeModal('modalKompos')" class="text-white/70 hover:text-white cursor-pointer"><i class="fas fa-times"></i></button>
-            </div>
-            <div class="p-6 overflow-y-auto space-y-4 text-xs text-gray-600 leading-relaxed">
-                <div>
-                    <h5 class="font-bold text-gray-900 mb-1">Bahan & Alat Pokok:</h5>
-                    <p>Sampah basah (sisa sayur, buah, kopi), sampah kering (daun gugur, serbuk kayu), wadah ember berlubang bawah, tanah, dan cairan bio-aktivator EM4.</p>
+    @foreach($edukasis as $edukasi)
+        <div id="modalEdukasi{{ $edukasi->id }}" class="fixed inset-0 z-50 hidden bg-black/40 backdrop-blur-xs flex items-center justify-center p-4">
+            <div class="bg-white rounded-xl shadow-lg max-w-lg w-full overflow-hidden max-h-[90vh] flex flex-col">
+                <div class="p-5 border-b border-gray-100 flex justify-between items-center bg-emerald-800 text-white">
+                    <h4 class="font-bold text-sm tracking-tight inline-flex items-center"><i class="fas {{ $edukasi->icon ?? 'fa-book' }} mr-2"></i> {{ $edukasi->category }}</h4>
+                    <button onclick="closeModal('modalEdukasi{{ $edukasi->id }}')" class="text-white/70 hover:text-white cursor-pointer"><i class="fas fa-times"></i></button>
                 </div>
-                <div class="space-y-2">
-                    <h5 class="font-bold text-gray-900">Alur Eksekusi:</h5>
-                    <p><strong>1.</strong> Lubangi dasar ember komposter untuk jalur pembuangan sisa rembesan air lindi agar tidak membusuk anaerob.</p>
-                    <p><strong>2.</strong> Cacah sampah hijau berukuran kecil (1-2 cm) guna mempercepat luas bidang kontak mikroorganisme pengurai.</p>
-                    <p><strong>3.</strong> Tumpuk berlapis: sampah kering paling dasar, sampah basah di tengah, dan lapisan tanah penutup di atas setebal 3cm.</p>
-                    <p><strong>4.</strong> Siram berkala dengan larutan EM4 untuk kelembaban ideal. Aduk merata seminggu sekali. Kompos matang siap panen dalam 4-6 minggu.</p>
-                </div>
-            </div>
-        </div>
-    </div>
+                <div class="p-6 overflow-y-auto space-y-4 text-xs text-gray-600 leading-relaxed">
+                    <h3 class="font-bold text-lg text-gray-900 mb-2">{{ $edukasi->title }}</h3>
+                    
+                    @if($edukasi->image_path && file_exists(public_path($edukasi->image_path)))
+                        <img src="{{ asset($edukasi->image_path) }}" alt="{{ $edukasi->title }}" class="w-full h-auto rounded-lg mb-4 border border-gray-100">
+                    @endif
 
-    <!-- MODAL 1: HEMAT ENERGI -->
-    <div id="modalEnergi" class="fixed inset-0 z-50 hidden bg-black/40 backdrop-blur-xs flex items-center justify-center p-4">
-        <div class="bg-white rounded-xl shadow-lg max-w-lg w-full overflow-hidden max-h-[90vh] flex flex-col">
-            <div class="p-5 border-b border-gray-100 flex justify-between items-center bg-amber-700 text-white">
-                <h4 class="font-bold text-sm tracking-tight inline-flex items-center"><i class="fas fa-lightbulb mr-2"></i> Edukasi Hemat Energi</h4>
-                <button onclick="closeModal('modalEnergi')" class="text-white/70 hover:text-white cursor-pointer"><i class="fas fa-times"></i></button>
-            </div>
-            <div class="p-6 overflow-y-auto space-y-4 text-xs text-gray-600 leading-relaxed">
-                <div class="border-l-2 border-amber-500 pl-3">
-                    <h5 class="font-bold text-gray-900">Tahap 1: Kesadaran Dasar (Awareness)</h5>
-                    <p class="mt-1 text-gray-500">Memahami konversi daya listrik yang dominan bersumber dari fosil batu bara. Galakkan gerakan disiplin mencabut kepala stopkontak elektronik dari saklar saat kondisi standby.</p>
-                </div>
-                <div class="border-l-2 border-amber-500 pl-3">
-                    <h5 class="font-bold text-gray-900">Tahap 2: Pembiasaan Perilaku (Action)</h5>
-                    <p class="mt-1 text-gray-500">Maksimalkan bukaan jendela untuk pencahayaan alami siang hari, konversi ke lampu berbasis LED hemat daya, dan setel pendingin ruangan ruangan (AC) konstan pada suhu optimal 24–25°C.</p>
-                </div>
-                <div class="border-l-2 border-amber-500 pl-3">
-                    <h5 class="font-bold text-gray-900">Tahap 3: Investasi Hijau (Sustaining)</h5>
-                    <p class="mt-1 text-gray-500">Prioritaskan pembelian perangkat bersertifikasi bintang hemat energi, beralih ke moda transportasi publik, serta pelopori efisiensi lampu fasilitas komunal masyarakat luar.</p>
+                    <div class="whitespace-pre-line text-sm text-gray-700 leading-relaxed">
+                        {{ $edukasi->content }}
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-
-    <!-- MODAL 2: PELESTARIAN ALAM -->
-    <div id="modalAlam" class="fixed inset-0 z-50 hidden bg-black/40 backdrop-blur-xs flex items-center justify-center p-4">
-        <div class="bg-white rounded-xl shadow-lg max-w-lg w-full overflow-hidden max-h-[90vh] flex flex-col">
-            <div class="p-5 border-b border-gray-100 flex justify-between items-center bg-blue-700 text-white">
-                <h4 class="font-bold text-sm tracking-tight inline-flex items-center"><i class="fas fa-tree mr-2"></i> Pelestarian Ekosistem Alam</h4>
-                <button onclick="closeModal('modalAlam')" class="text-white/70 hover:text-white cursor-pointer"><i class="fas fa-times"></i></button>
-            </div>
-            <div class="p-6 overflow-y-auto space-y-4 text-xs text-gray-600 leading-relaxed">
-                <div class="border-l-2 border-blue-500 pl-3">
-                    <h5 class="font-bold text-gray-900">Tahap 1: Pengenalan & Empati</h5>
-                    <p class="mt-1 text-gray-500">Membangun kepekaan sosial terhadap biodiversitas fauna-flora lokal di sekeliling wilayah pemukiman warga serta melarang keras tindakan perburuan satwa liar dilindungi.</p>
-                </div>
-                <div class="border-l-2 border-blue-500 pl-3">
-                    <h5 class="font-bold text-gray-900">Tahap 2: Penghidupan Rumahtangga</h5>
-                    <p class="mt-1 text-gray-500">Pemanfaatan pekarangan terbatas via taman vertikal hidroponik dan menanam jenis vegetasi bunga lokal penarik agen polinator alami seperti lebah dan kupu-kupu.</p>
-                </div>
-                <div class="border-l-2 border-blue-500 pl-3">
-                    <h5 class="font-bold text-gray-900">Tahap 3: Konservasi Aktif</h5>
-                    <p class="mt-1 text-gray-500">Turut berkontribusi langsung dalam program penanaman bibit pohon penghijauan, restorasi kawasan bakau (mangrove), serta menolak keras komoditas perdagangan satwa eksotis.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- MODAL 3: BIJAK PLASTIK -->
-    <div id="modalPlastik" class="fixed inset-0 z-50 hidden bg-black/40 backdrop-blur-xs flex items-center justify-center p-4">
-        <div class="bg-white rounded-xl shadow-lg max-w-lg w-full overflow-hidden max-h-[90vh] flex flex-col">
-            <div class="p-5 border-b border-gray-100 flex justify-between items-center bg-purple-700 text-white">
-                <h4 class="font-bold text-sm tracking-tight inline-flex items-center"><i class="fas fa-recycle mr-2"></i> Pengelolaan Sampah & Zero Waste</h4>
-                <button onclick="closeModal('modalPlastik')" class="text-white/70 hover:text-white cursor-pointer"><i class="fas fa-times"></i></button>
-            </div>
-            <div class="p-6 overflow-y-auto space-y-4 text-xs text-gray-600 leading-relaxed">
-                <div class="border-l-2 border-purple-500 pl-3">
-                    <h5 class="font-bold text-gray-900">Tahap 1: Reduksi Sumber (Reduce)</h5>
-                    <p class="mt-1 text-gray-500">Membudayakan penggunaan kantong belanja kain mandiri, wadah makan guna ulang, serta membawa tumbler pribadi demi menekan akumulasi wadah kemasan plastik sekali pakai.</p>
-                </div>
-                <div class="border-l-2 border-purple-500 pl-3">
-                    <h5 class="font-bold text-gray-900">Tahap 2: Pemilahan Terstruktur</h5>
-                    <p class="mt-1 text-gray-500">Klasifikasikan limbah minimal ke dalam dua wadah penampung primer terpisah: Sampah Organik (sisa konsumsi) dan Sampah Anorganik (plastik, kertas, kaca, alumunium).</p>
-                </div>
-                <div class="border-l-2 border-purple-500 pl-3">
-                    <h5 class="font-bold text-gray-900">Tahap 3: Sirkular Ekonomi</h5>
-                    <p class="mt-1 text-gray-500">Kembangkan kreativitas pengolahan limbah minyak jelantah sisa dapur menjadi lilin penerangan, pembuatan larutan pembersih alami eco-enzyme, atau penyetoran berkala ke unit Bank Sampah.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- MODAL 4: KONSERVASI AIR -->
-    <div id="modalAir" class="fixed inset-0 z-50 hidden bg-black/40 backdrop-blur-xs flex items-center justify-center p-4">
-        <div class="bg-white rounded-xl shadow-lg max-w-lg w-full overflow-hidden max-h-[90vh] flex flex-col">
-            <div class="p-5 border-b border-gray-100 flex justify-between items-center bg-cyan-700 text-white">
-                <h4 class="font-bold text-sm tracking-tight inline-flex items-center"><i class="fas fa-droplet mr-2"></i> Konservasi Keberlanjutan Air</h4>
-                <button onclick="closeModal('modalAir')" class="text-white/70 hover:text-white cursor-pointer"><i class="fas fa-times"></i></button>
-            </div>
-            <div class="p-6 overflow-y-auto space-y-4 text-xs text-gray-600 leading-relaxed">
-                <div class="border-l-2 border-cyan-500 pl-3">
-                    <h5 class="font-bold text-gray-900">Tahap 1: Efisiensi Keran Kontrol</h5>
-                    <p class="mt-1 text-gray-500">Disiplin menutup laju air keran saat membersihkan sikat gigi atau pengaplikasian sabun cuci tangan, serta menyegerakan rekonstruksi teknis pipa instalasi air yang terindikasi bocor.</p>
-                </div>
-                <div class="border-l-2 border-cyan-500 pl-3">
-                    <h5 class="font-bold text-gray-900">Tahap 2: Daur Ulang Domestik (Greywater)</h5>
-                    <p class="mt-1 text-gray-500">Manfaatkan limbah air bilasan sisa cucian beras atau sayur-mayur untuk irigasi tanaman pot, dan alokasikan air bilasan akhir cucian pakaian guna membersihkan lantai garasi atau toilet.</p>
-                </div>
-                <div class="border-l-2 border-cyan-500 pl-3">
-                    <h5 class="font-bold text-gray-900">Tahap 3: Retensi Air Tanah</h5>
-                    <p class="mt-1 text-gray-500">Aktif mengimplementasikan cetakan silinder lubang biopori bioretensi atau instalasi sumur resapan dangkal di area pekarangan rumah demi menjaga pasokan cadangan air tanah lokal.</p>
-                </div>
-            </div>
-        </div>
-    </div>
+    @endforeach
 
     <!-- FOOTER -->
     <footer class="bg-gray-900 text-gray-400 py-8 text-center text-xs border-t border-gray-800">
