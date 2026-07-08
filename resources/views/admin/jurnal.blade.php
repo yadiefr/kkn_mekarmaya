@@ -173,78 +173,35 @@
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-100">
-                            <!-- Baris 1 -->
-                            <tr class="hover:bg-gray-50/50 transition">
-                                <td class="p-4 text-gray-500">
-                                    <span class="block font-medium text-gray-800">08 Jul 2026</span>
-                                    <span class="text-[10px]">14:30 WIB</span>
-                                </td>
-                                <td class="p-4">
-                                    <p class="font-bold text-gray-900">Pencairan Dana Warga (Budi Setiawan)</p>
-                                    <p class="text-[10px] text-gray-400 mt-0.5">Penarikan tabungan periode Idul Adha</p>
-                                </td>
-                                <td class="p-4 text-right text-gray-400">-</td>
-                                <td class="p-4 text-right font-bold text-red-600">Rp 1.500.000</td>
-                                <td class="p-4 text-right font-bold text-emerald-700">Rp 8.250.000</td>
-                            </tr>
-                            
-                            <!-- Baris 2 -->
-                            <tr class="hover:bg-gray-50/50 transition">
-                                <td class="p-4 text-gray-500">
-                                    <span class="block font-medium text-gray-800">06 Jul 2026</span>
-                                    <span class="text-[10px]">09:15 WIB</span>
-                                </td>
-                                <td class="p-4">
-                                    <p class="font-bold text-gray-900">Penjualan Sampah ke Pengepul (UD. Sukses)</p>
-                                    <p class="text-[10px] text-gray-400 mt-0.5">Penjualan 150kg Botol Kaca dan Plastik</p>
-                                </td>
-                                <td class="p-4 text-right font-bold text-green-600">Rp 750.000</td>
-                                <td class="p-4 text-right text-gray-400">-</td>
-                                <td class="p-4 text-right font-bold text-emerald-700">Rp 9.750.000</td>
-                            </tr>
-
-                            <!-- Baris 3 -->
-                            <tr class="hover:bg-gray-50/50 transition">
-                                <td class="p-4 text-gray-500">
-                                    <span class="block font-medium text-gray-800">01 Jul 2026</span>
-                                    <span class="text-[10px]">10:00 WIB</span>
-                                </td>
-                                <td class="p-4">
-                                    <p class="font-bold text-gray-900">Penjualan Sampah ke Pengepul (Bapak Anton)</p>
-                                    <p class="text-[10px] text-gray-400 mt-0.5">Penjualan 200kg Kertas Bekas</p>
-                                </td>
-                                <td class="p-4 text-right font-bold text-green-600">Rp 600.000</td>
-                                <td class="p-4 text-right text-gray-400">-</td>
-                                <td class="p-4 text-right font-bold text-emerald-700">Rp 9.000.000</td>
-                            </tr>
-                            
-                            <!-- Baris 4 -->
-                            <tr class="hover:bg-gray-50/50 transition">
-                                <td class="p-4 text-gray-500">
-                                    <span class="block font-medium text-gray-800">28 Jun 2026</span>
-                                    <span class="text-[10px]">16:45 WIB</span>
-                                </td>
-                                <td class="p-4">
-                                    <p class="font-bold text-gray-900">Pencairan Dana Warga (Siti Aminah)</p>
-                                    <p class="text-[10px] text-gray-400 mt-0.5">Keperluan pendidikan</p>
-                                </td>
-                                <td class="p-4 text-right text-gray-400">-</td>
-                                <td class="p-4 text-right font-bold text-red-600">Rp 800.000</td>
-                                <td class="p-4 text-right font-bold text-emerald-700">Rp 8.400.000</td>
-                            </tr>
+                            @forelse($transactions as $trx)
+                                <tr class="hover:bg-gray-50/50 transition">
+                                    <td class="p-4 text-gray-500">
+                                        <span class="block font-medium text-gray-800">{{ \Carbon\Carbon::parse($trx['date'])->translatedFormat('d M Y') }}</span>
+                                        <span class="text-[10px]">{{ \Carbon\Carbon::parse($trx['date'])->translatedFormat('H:i') }} WIB</span>
+                                    </td>
+                                    <td class="p-4">
+                                        <p class="font-bold text-gray-900">{{ $trx['title'] }}</p>
+                                        <p class="text-[10px] text-gray-400 mt-0.5">{{ $trx['subtitle'] }}</p>
+                                    </td>
+                                    <td class="p-4 text-right {{ $trx['debit'] > 0 ? 'font-bold text-green-600' : 'text-gray-400' }}">
+                                        {{ $trx['debit'] > 0 ? 'Rp ' . number_format($trx['debit'], 0, ',', '.') : '-' }}
+                                    </td>
+                                    <td class="p-4 text-right {{ $trx['kredit'] > 0 ? 'font-bold text-red-600' : 'text-gray-400' }}">
+                                        {{ $trx['kredit'] > 0 ? 'Rp ' . number_format($trx['kredit'], 0, ',', '.') : '-' }}
+                                    </td>
+                                    <td class="p-4 text-right font-bold text-emerald-700">Rp {{ number_format($trx['saldo'], 0, ',', '.') }}</td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="5" class="text-center py-10 text-gray-400">Belum ada riwayat transaksi jurnal tercatat.</td>
+                                </tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>
-                <!-- Pagination Mockup -->
+                <!-- Pagination Info -->
                 <div class="p-4 border-t border-gray-100 flex items-center justify-between text-[11px] text-gray-500">
-                    <span>Menampilkan 4 dari 124 transaksi</span>
-                    <div class="flex space-x-1">
-                        <button class="px-2 py-1 border border-gray-200 rounded hover:bg-gray-50">Sebelumnnya</button>
-                        <button class="px-2 py-1 border border-emerald-600 bg-emerald-50 text-emerald-700 rounded font-bold">1</button>
-                        <button class="px-2 py-1 border border-gray-200 rounded hover:bg-gray-50">2</button>
-                        <button class="px-2 py-1 border border-gray-200 rounded hover:bg-gray-50">3</button>
-                        <button class="px-2 py-1 border border-gray-200 rounded hover:bg-gray-50">Selanjutnya</button>
-                    </div>
+                    <span>Menampilkan {{ $transactions->count() }} transaksi terakhir</span>
                 </div>
             </div>
 
