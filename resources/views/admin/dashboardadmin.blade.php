@@ -113,7 +113,7 @@
                 <div class="bg-white p-5 rounded-xl border border-gray-100 shadow-sm flex items-center justify-between">
                     <div>
                         <p class="text-[11px] font-bold text-gray-400 uppercase tracking-wider">Total Kas Masuk</p>
-                        <h3 class="text-lg font-bold text-gray-900 mt-1">Rp 12.450.000</h3>
+                        <h3 class="text-lg font-bold text-gray-900 mt-1">Rp {{ number_format($kasMasuk, 0, ',', '.') }}</h3>
                     </div>
                     <div class="w-10 h-10 rounded-lg bg-green-50 text-green-600 flex items-center justify-center text-base"><i class="fas fa-arrow-trend-up"></i></div>
                 </div>
@@ -121,7 +121,7 @@
                 <div class="bg-white p-5 rounded-xl border border-gray-100 shadow-sm flex items-center justify-between">
                     <div>
                         <p class="text-[11px] font-bold text-gray-400 uppercase tracking-wider">Total Kas Keluar</p>
-                        <h3 class="text-lg font-bold text-gray-900 mt-1">Rp 4.200.000</h3>
+                        <h3 class="text-lg font-bold text-gray-900 mt-1">Rp {{ number_format($kasKeluar, 0, ',', '.') }}</h3>
                     </div>
                     <div class="w-10 h-10 rounded-lg bg-red-50 text-red-600 flex items-center justify-center text-base"><i class="fas fa-arrow-trend-down"></i></div>
                 </div>
@@ -129,7 +129,7 @@
                 <div class="bg-white p-5 rounded-xl border border-gray-100 shadow-sm flex items-center justify-between">
                     <div>
                         <p class="text-[11px] font-bold text-gray-400 uppercase tracking-wider">Saldo Kas Desa</p>
-                        <h3 class="text-lg font-bold text-gray-900 mt-1 text-emerald-700">Rp 8.250.000</h3>
+                        <h3 class="text-lg font-bold text-gray-900 mt-1 text-emerald-700">Rp {{ number_format($saldoKas, 0, ',', '.') }}</h3>
                     </div>
                     <div class="w-10 h-10 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center text-base"><i class="fas fa-wallet"></i></div>
                 </div>
@@ -137,7 +137,7 @@
                 <div class="bg-white p-5 rounded-xl border border-gray-100 shadow-sm flex items-center justify-between">
                     <div>
                         <p class="text-[11px] font-bold text-gray-400 uppercase tracking-wider">Menunggu Aktivasi</p>
-                        <h3 class="text-lg font-bold text-gray-900 mt-1 text-amber-600">3 Warga</h3>
+                        <h3 class="text-lg font-bold text-gray-900 mt-1 text-amber-600">{{ $menungguAktivasiCount }} Warga</h3>
                     </div>
                     <div class="w-10 h-10 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center text-base"><i class="fas fa-user-clock"></i></div>
                 </div>
@@ -163,26 +163,25 @@
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-gray-100">
+                                @forelse($wargaOff as $warga)
                                 <tr>
-                                    <td class="p-4 font-medium text-gray-900">Budi Setiawan</td>
-                                    <td class="p-4 text-gray-500">3214XXXXXXXX0002</td>
-                                    <td class="p-4 text-gray-500">08123456789</td>
+                                    <td class="p-4 font-medium text-gray-900">{{ $warga->name }}</td>
+                                    <td class="p-4 text-gray-500">{{ Str::mask($warga->nik, 'X', 4, 8) }}</td>
+                                    <td class="p-4 text-gray-500">{{ $warga->whatsapp ?? '-' }}</td>
                                     <td class="p-4 text-center">
-                                        <button class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1 rounded-md font-medium tracking-wide transition duration-150 cursor-pointer">
-                                            Aktifkan (ON)
-                                        </button>
+                                        <form action="{{ route('admin.aktivasi.toggle', $warga->id) }}" method="POST">
+                                            @csrf
+                                            <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1 rounded-md font-medium tracking-wide transition duration-150 cursor-pointer">
+                                                Aktifkan (ON)
+                                            </button>
+                                        </form>
                                     </td>
                                 </tr>
+                                @empty
                                 <tr>
-                                    <td class="p-4 font-medium text-gray-900">Siti Aminah</td>
-                                    <td class="p-4 text-gray-500">3214XXXXXXXX0005</td>
-                                    <td class="p-4 text-gray-500">08571234567</td>
-                                    <td class="p-4 text-center">
-                                        <button class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1 rounded-md font-medium tracking-wide transition duration-150 cursor-pointer">
-                                            Aktifkan (ON)
-                                        </button>
-                                    </td>
+                                    <td colspan="4" class="p-8 text-center text-gray-400">Tidak ada warga yang menunggu aktivasi.</td>
                                 </tr>
+                                @endforelse
                             </tbody>
                         </table>
                     </div>
@@ -194,30 +193,17 @@
                         <h4 class="text-xs font-bold text-gray-700 uppercase tracking-wider">Pantau & Set Harga Sampah</h4>
                     </div>
                     <div class="p-5 space-y-4">
-                        <!-- Item 1 -->
+                        @forelse($hargaSampah as $harga)
                         <div class="flex items-center justify-between border-b border-gray-50 pb-3 text-xs">
                             <div>
-                                <h5 class="font-bold text-gray-800">Tutup Botol</h5>
-                                <p class="text-[10px] text-gray-400">Beli: <span class="text-emerald-600">Rp 2.000</span> | Jual: <span class="text-blue-600">Rp 3.000</span></p>
+                                <h5 class="font-bold text-gray-800">{{ $harga->item_name }}</h5>
+                                <p class="text-[10px] text-gray-400">Beli: <span class="text-emerald-600">Rp {{ number_format($harga->buy_price, 0, ',', '.') }}</span> | Jual: <span class="text-blue-600">Rp {{ number_format($harga->sell_price, 0, ',', '.') }}</span></p>
                             </div>
-                            <button class="text-emerald-700 hover:text-emerald-800 font-semibold transition duration-150"><i class="fas fa-edit mr-1"></i>Ubah</button>
+                            <a href="{{ route('admin.harga.index') }}" class="text-emerald-700 hover:text-emerald-800 font-semibold transition duration-150"><i class="fas fa-edit mr-1"></i>Ubah</a>
                         </div>
-                        <!-- Item 2 -->
-                        <div class="flex items-center justify-between border-b border-gray-50 pb-3 text-xs">
-                            <div>
-                                <h5 class="font-bold text-gray-800">Botol Bening</h5>
-                                <p class="text-[10px] text-gray-400">Beli: <span class="text-emerald-600">Rp 2.000</span> | Jual: <span class="text-blue-600">Rp 3.000</span></p>
-                            </div>
-                            <button class="text-emerald-700 hover:text-emerald-800 font-semibold transition duration-150"><i class="fas fa-edit mr-1"></i>Ubah</button>
-                        </div>
-                        <!-- Item 3 -->
-                        <div class="flex items-center justify-between text-xs">
-                            <div>
-                                <h5 class="font-bold text-gray-800">Gelas Plastik</h5>
-                                <p class="text-[10px] text-gray-400">Beli: <span class="text-emerald-600">Rp 3.000</span> | Jual: <span class="text-blue-600">Rp 5.000</span></p>
-                            </div>
-                            <button class="text-emerald-700 hover:text-emerald-800 font-semibold transition duration-150"><i class="fas fa-edit mr-1"></i>Ubah</button>
-                        </div>
+                        @empty
+                        <div class="text-center text-gray-400 text-xs py-4">Belum ada harga sampah aktif.</div>
+                        @endforelse
                     </div>
                 </div>
 

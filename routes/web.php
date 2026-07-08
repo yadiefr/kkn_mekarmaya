@@ -14,9 +14,7 @@ use App\Http\Controllers\AdminPembayaranController;
 use App\Http\Controllers\AdminHargaController;
 use App\Http\Controllers\AdminJurnalController;
 use App\Http\Controllers\AdminEdukasiController;
-
-
-Route::get('/', function () {
+use App\Http\Controllers\AdminDashboardController;Route::get('/', function () {
     return view('beranda');
 });
 // Jalur untuk Halaman Edukasi
@@ -40,9 +38,7 @@ Route::get('/login', function () {
 Route::get('/register', function () {
     return view('banksampahwarga.register');
 })->name('register');
-Route::get('/admin/dashboard', function () {
-    return view('admin.dashboardadmin');
-})->name('admin.dashboard');
+Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
 
 // Rute untuk Halaman Dashboard Warga setelah Login
 Route::get('/warga/dashboard', function () {
