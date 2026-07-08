@@ -13,6 +13,7 @@ use App\Http\Controllers\AdminSetorController;
 use App\Http\Controllers\AdminPembayaranController;
 use App\Http\Controllers\AdminHargaController;
 use App\Http\Controllers\AdminJurnalController;
+use App\Http\Controllers\AdminEdukasiController;
 
 
 Route::get('/', function () {
@@ -104,6 +105,9 @@ Route::middleware(['auth'])->group(function () {
     
     // Jurnal & Kas
     Route::get('/admin/jurnal-kas', [AdminJurnalController::class, 'index'])->name('admin.jurnal');
+    
+    // Kelola Edukasi
+    Route::get('/admin/edukasi', [AdminEdukasiController::class, 'index'])->name('admin.edukasi');
     
     Route::get('/admin/setting-harga', [AdminHargaController::class, 'index'])->name('admin.harga.index');
     Route::post('/admin/setting-harga/simpan', [AdminHargaController::class, 'store'])->name('admin.harga.store');
