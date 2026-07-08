@@ -5,13 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aktivasi Akun Warga - Sobat Sampah</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>body { font-family: 'Inter', sans-serif; }</style>
 </head>
-<body class="bg-gray-100 text-gray-800 antialiased min-h-screen flex">
+<body x-data="{ sidebarOpen: false }" class="bg-gray-100 text-gray-800 antialiased min-h-screen flex">
 
-    <aside class="w-64 bg-emerald-900 text-white flex flex-col justify-between shrink-0 hidden md:flex shadow-xl">
+    <!-- Overlay Mobile -->
+    <div x-show="sidebarOpen" @click="sidebarOpen = false" x-transition.opacity class="fixed inset-0 z-20 bg-black/50 md:hidden"></div>
+
+    <aside :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'" class="fixed inset-y-0 left-0 z-30 w-64 bg-emerald-900 text-white flex flex-col justify-between shrink-0 transition-transform duration-300 md:relative md:translate-x-0 md:flex shadow-xl">
         <div>
             <div class="p-6 border-b border-emerald-800">
                 <h1 class="font-bold text-base leading-tight uppercase tracking-wider">Sobat Sampah<br><span class="text-emerald-300 text-xs font-medium normal-case">Panel Admin Mekarmaya</span></h1>
@@ -45,7 +49,12 @@
 
     <div class="flex-grow flex flex-col min-w-0">
         <header class="bg-white h-16 shadow-sm border-b border-gray-100 flex items-center justify-between px-6 z-10">
-            <h2 class="text-sm font-bold text-gray-700 uppercase tracking-wider">Manajemen Akses Akun Warga</h2>
+            <div class="flex items-center space-x-4">
+                <button @click="sidebarOpen = true" class="md:hidden text-gray-600 focus:outline-none text-lg cursor-pointer hover:text-emerald-600">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h2 class="text-sm font-bold text-gray-700 uppercase tracking-wider hidden sm:block">Manajemen Akses Akun Warga</h2>
+            </div>
             <div class="flex items-center space-x-3">
                 <div class="text-right">
                     <p class="text-xs font-semibold text-gray-800">{{ Auth::user()->name }}</p>
