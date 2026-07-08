@@ -113,7 +113,7 @@
                 <div class="bg-white p-5 rounded-xl border border-gray-100 shadow-sm flex items-center justify-between">
                     <div>
                         <p class="text-[11px] font-bold text-gray-400 uppercase tracking-wider">Total Kas Masuk</p>
-                        <h3 class="text-lg font-bold text-gray-900 mt-1">Rp 12.450.000</h3>
+                        <h3 class="text-lg font-bold text-gray-900 mt-1">Rp {{ number_format($kasMasuk, 0, ',', '.') }}</h3>
                         <p class="text-[10px] text-green-500 mt-1"><i class="fas fa-arrow-up mr-1"></i>Penjualan ke Pengepul</p>
                     </div>
                     <div class="w-12 h-12 rounded-full bg-green-50 text-green-600 flex items-center justify-center text-lg"><i class="fas fa-arrow-trend-up"></i></div>
@@ -122,7 +122,7 @@
                 <div class="bg-white p-5 rounded-xl border border-gray-100 shadow-sm flex items-center justify-between">
                     <div>
                         <p class="text-[11px] font-bold text-gray-400 uppercase tracking-wider">Total Kas Keluar</p>
-                        <h3 class="text-lg font-bold text-gray-900 mt-1">Rp 4.200.000</h3>
+                        <h3 class="text-lg font-bold text-gray-900 mt-1">Rp {{ number_format($kasKeluar, 0, ',', '.') }}</h3>
                         <p class="text-[10px] text-red-500 mt-1"><i class="fas fa-arrow-down mr-1"></i>Pembayaran ke Warga</p>
                     </div>
                     <div class="w-12 h-12 rounded-full bg-red-50 text-red-600 flex items-center justify-center text-lg"><i class="fas fa-arrow-trend-down"></i></div>
@@ -131,7 +131,7 @@
                 <div class="bg-white p-5 rounded-xl border border-gray-100 shadow-sm flex items-center justify-between">
                     <div>
                         <p class="text-[11px] font-bold text-gray-400 uppercase tracking-wider">Saldo Kas Aktif</p>
-                        <h3 class="text-xl font-bold text-emerald-700 mt-1">Rp 8.250.000</h3>
+                        <h3 class="text-xl font-bold text-emerald-700 mt-1">Rp {{ number_format($saldoKas, 0, ',', '.') }}</h3>
                         <p class="text-[10px] text-gray-400 mt-1">Posisi Kas Saat Ini</p>
                     </div>
                     <div class="w-12 h-12 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center text-lg"><i class="fas fa-wallet"></i></div>

@@ -144,11 +144,11 @@
                                     @forelse($recentDeposits as $deposit)
                                         <tr class="hover:bg-gray-50/40 transition">
                                             <td class="p-4">
-                                                <p class="font-bold text-gray-900">{{ $deposit->user->name }}</p>
+                                                <p class="font-bold text-gray-900">{{ $deposit->user->name ?? 'Warga (Terhapus)' }}</p>
                                                 <p class="text-[10px] text-gray-400 mt-0.5">{{ \Carbon\Carbon::parse($deposit->created_at)->diffForHumans() }}</p>
                                             </td>
                                             <td class="p-4">
-                                                <p class="font-medium text-gray-800 capitalize">{{ $deposit->trashPrice->item_name }}</p>
+                                                <p class="font-medium text-gray-800 capitalize">{{ $deposit->trashPrice->item_name ?? 'Barang (Terhapus)' }}</p>
                                                 <p class="text-[10px] text-gray-400">@ Rp {{ number_format($deposit->price_per_kg, 0, ',', '.') }}/kg</p>
                                             </td>
                                             <td class="p-4 text-center font-bold text-gray-800">{{ number_format($deposit->weight, 2, ',', '.') }} Kg</td>

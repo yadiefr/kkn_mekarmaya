@@ -147,8 +147,8 @@
                             @forelse($requestsPending as $req)
                                 <tr class="hover:bg-gray-50/50 transition">
                                     <td class="p-4">
-                                        <p class="font-bold text-gray-900">{{ $req->user->name }}</p>
-                                        <p class="text-[10px] text-gray-400 mt-0.5">NIK: {{ $req->user->nik }}</p>
+                                        <p class="font-bold text-gray-900">{{ $req->user->name ?? 'Warga (Terhapus)' }}</p>
+                                        <p class="text-[10px] text-gray-400 mt-0.5">NIK: {{ $req->user->nik ?? '-' }}</p>
                                     </td>
                                     <td class="p-4 text-gray-500 font-medium">{{ \Carbon\Carbon::parse($req->created_at)->translatedFormat('d M Y, H:i') }} WIB</td>
                                     <td class="p-4 text-right font-bold text-emerald-700 text-sm">Rp {{ number_format($req->total_amount, 0, ',', '.') }}</td>
@@ -193,8 +193,8 @@
                             @forelse($requestsHistory as $history)
                                 <tr class="hover:bg-gray-50/30 transition">
                                     <td class="p-4">
-                                        <p class="font-bold text-gray-900">{{ $history->user->name }}</p>
-                                        <p class="text-[10px] text-gray-400">NIK: {{ $history->user->nik }}</p>
+                                        <p class="font-bold text-gray-900">{{ $history->user->name ?? 'Warga (Terhapus)' }}</p>
+                                        <p class="text-[10px] text-gray-400">NIK: {{ $history->user->nik ?? '-' }}</p>
                                     </td>
                                     <td class="p-4 font-bold text-gray-800">Rp {{ number_format($history->total_amount, 0, ',', '.') }}</td>
                                     <td class="p-4">

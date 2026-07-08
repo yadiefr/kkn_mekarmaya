@@ -11,9 +11,21 @@ class AdminJurnalController extends Controller
      */
     public function index()
     {
-        // For now, we will return a view with a mockup design.
-        // Once the database tables for tracking 'Kas Masuk' and 'Kas Keluar' are ready,
-        // we can fetch the real data here and pass it to the view.
-        return view('admin.jurnal');
+        // Hitung estimasi Kas Masuk berdasarkan total berat sampah ditarik dikali harga jual (ke pengepul)
+        $kasMasuk = 0;
+        $deposits = \App\Models\TrashDeposit::with('trashPrice')->get();
+        foreach ($deposits as $deposit) {
+            if ($deposit->trashPrice) {
+                $kasMasuk += $deposit->weight * $deposit->trashPrice->sell_price;
+            }
+        }
+
+        // Hitung Kas Keluar berdasarkan penarikan saldo warga yang telah disetujui
+        $kasKeluar = \App\Models\WithdrawalRequest::where('status', 'approved')->sum('total_amount');
+        
+        // Sisa Saldo Kas
+        $saldoKas = $kasMasuk - $kasKeluar;
+
+        return view('admin.jurnal', compact('kasMasuk', 'kasKeluar', 'saldoKas'));
     }
 }
