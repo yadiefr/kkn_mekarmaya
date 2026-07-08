@@ -13,7 +13,7 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('users')->insert([
+        $users = [
             // 1. DATA AKUN ADMIN DESA
             [
                 'name' => 'Admin Desa Mekarmaya',
@@ -26,8 +26,6 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('admin123'), // Password untuk login admin
                 'role' => 'admin',
                 'status_akses' => 'on', // Admin otomatis aktif ('on')
-                'created_at' => now(),
-                'updated_at' => now(),
             ],
             // 2. DATA AKUN WARGA (CONTOH)
             [
@@ -41,9 +39,14 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('warga123'), // Password untuk login warga
                 'role' => 'warga',
                 'status_akses' => 'on', // Kita set 'on' dulu agar bisa langsung ditransfer ke dashboard warga saat diuji coba
-                'created_at' => now(),
-                'updated_at' => now(),
             ]
-        ]);
+        ];
+
+        foreach ($users as $userData) {
+            \App\Models\User::updateOrCreate(
+                ['nik' => $userData['nik']], // Kunci unik
+                $userData // Data yang diupdate/dibuat
+            );
+        }
     }
 }

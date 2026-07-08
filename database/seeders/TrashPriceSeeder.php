@@ -61,6 +61,11 @@ class TrashPriceSeeder extends Seeder
         ];
 
         // Memasukkan data list barang ke dalam tabel trash_prices
-        DB::table('trash_prices')->insert($data);
+        foreach ($data as $item) {
+            \App\Models\TrashPrice::updateOrCreate(
+                ['item_name' => $item['item_name']],
+                $item
+            );
+        }
     }
 }

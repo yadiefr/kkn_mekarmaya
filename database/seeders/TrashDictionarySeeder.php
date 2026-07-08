@@ -13,37 +13,49 @@ class TrashDictionarySeeder extends Seeder
     public function run(): void
     {
         // 1. Pastikan Kategori Tersedia & Ambil ID-nya atau Buat Baru
-        $organikId = DB::table('categories')->insertGetId([
-            'name' => 'Organik',
-            'slug' => 'organik',
-            'description' => 'Sampah alami yang mudah membusuk dan terurai oleh alam.',
-            'color_code' => 'bg-green-50 text-green-700 border-green-100',
-            'created_at' => now(), 'updated_at' => now()
-        ]);
+        DB::table('categories')->updateOrInsert(
+            ['slug' => 'organik'],
+            [
+                'name' => 'Organik',
+                'description' => 'Sampah alami yang mudah membusuk dan terurai oleh alam.',
+                'color_code' => 'bg-green-50 text-green-700 border-green-100',
+                'updated_at' => now(),
+            ]
+        );
+        $organikId = DB::table('categories')->where('slug', 'organik')->value('id');
 
-        $anorganikId = DB::table('categories')->insertGetId([
-            'name' => 'Anorganik',
-            'slug' => 'anorganik',
-            'description' => 'Sampah buatan manusia yang sulit terurai secara alami.',
-            'color_code' => 'bg-emerald-50 text-emerald-700 border-emerald-100',
-            'created_at' => now(), 'updated_at' => now()
-        ]);
+        DB::table('categories')->updateOrInsert(
+            ['slug' => 'anorganik'],
+            [
+                'name' => 'Anorganik',
+                'description' => 'Sampah buatan manusia yang sulit terurai secara alami.',
+                'color_code' => 'bg-emerald-50 text-emerald-700 border-emerald-100',
+                'updated_at' => now(),
+            ]
+        );
+        $anorganikId = DB::table('categories')->where('slug', 'anorganik')->value('id');
 
-        $b3Id = DB::table('categories')->insertGetId([
-            'name' => 'Limbah B3',
-            'slug' => 'b3',
-            'description' => 'Bahan Berbahaya dan Beracun yang memerlukan penanganan khusus.',
-            'color_code' => 'bg-yellow-50 text-yellow-700 border-yellow-100',
-            'created_at' => now(), 'updated_at' => now()
-        ]);
+        DB::table('categories')->updateOrInsert(
+            ['slug' => 'b3'],
+            [
+                'name' => 'Limbah B3',
+                'description' => 'Bahan Berbahaya dan Beracun yang memerlukan penanganan khusus.',
+                'color_code' => 'bg-yellow-50 text-yellow-700 border-yellow-100',
+                'updated_at' => now(),
+            ]
+        );
+        $b3Id = DB::table('categories')->where('slug', 'b3')->value('id');
 
-        $residuId = DB::table('categories')->insertGetId([
-            'name' => 'Residu',
-            'slug' => 'residu',
-            'description' => 'Sampah yang tidak bisa didaur ulang maupun dikomposkan.',
-            'color_code' => 'bg-red-50 text-red-700 border-red-100',
-            'created_at' => now(), 'updated_at' => now()
-        ]);
+        DB::table('categories')->updateOrInsert(
+            ['slug' => 'residu'],
+            [
+                'name' => 'Residu',
+                'description' => 'Sampah yang tidak bisa didaur ulang maupun dikomposkan.',
+                'color_code' => 'bg-red-50 text-red-700 border-red-100',
+                'updated_at' => now(),
+            ]
+        );
+        $residuId = DB::table('categories')->where('slug', 'residu')->value('id');
 
         // 2. Dataset Kamus Sampah Beragam & Valid Berdasarkan Ilmu Lingkungan
         $items = [
@@ -163,15 +175,14 @@ class TrashDictionarySeeder extends Seeder
 
         // 3. Masukkan Massal ke Database
         foreach ($items as $item) {
-            DB::table('trash_dictionaries')->insert([
-                'category_id' => $item['category_id'],
-                'item_name' => $item['item_name'],
-                'image_path' => $item['image_path'],
-                'action_note' => $item['action_note'],
-                'is_countable_for_bank' => $item['is_countable_for_bank'],
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
+            $item['updated_at'] = now();
+            if (!isset($item['created_at'])) {
+                $item['created_at'] = now();
+            }
+            DB::table('trash_dictionaries')->updateOrInsert(
+                ['item_name' => $item['item_name']],
+                $item
+            );
         }
     }
 }
