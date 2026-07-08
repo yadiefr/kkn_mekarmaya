@@ -56,7 +56,7 @@
                     <i class="fas fa-tags text-emerald-300 w-5 text-center"></i>
                     <span>Setting Harga Sampah</span>
                 </a>
-                <a href="#" class="flex items-center space-x-3 text-emerald-100 hover:bg-emerald-800 hover:text-white px-4 py-2.5 rounded-lg text-sm font-medium transition duration-200">
+                <a href="{{ route('admin.jurnal') }}" class="flex items-center space-x-3 text-emerald-100 hover:bg-emerald-800 hover:text-white px-4 py-2.5 rounded-lg text-sm font-medium transition duration-200">
                     <i class="fas fa-book text-emerald-300 w-5 text-center"></i>
                     <span>Jurnal & Kas</span>
                 </a>

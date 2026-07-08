@@ -27,6 +27,14 @@
                 <a href="{{ route('admin.setor') }}" class="flex items-center space-x-3 text-emerald-100 hover:bg-emerald-800 hover:text-white px-4 py-2.5 rounded-lg text-sm font-medium transition duration-200"><i class="fas fa-hand-holding-heart text-emerald-300 w-5 text-center"></i><span>Setor Sampah</span></a>
                 <a href="{{ route('admin.pembayaran') }}" class="flex items-center space-x-3 text-emerald-100 hover:bg-emerald-800 hover:text-white px-4 py-2.5 rounded-lg text-sm font-medium transition duration-200"><i class="fas fa-file-invoice-dollar text-emerald-300 w-5 text-center"></i><span>Pembayaran Dana Nasabah</span></a>
                 <a href="{{ route('admin.harga.index') }}" class="flex items-center space-x-3 bg-emerald-800 text-white px-4 py-2.5 rounded-lg text-sm font-medium transition duration-200"><i class="fas fa-tags text-emerald-300 w-5 text-center"></i><span>Setting Harga Sampah</span></a>
+                <a href="{{ route('admin.jurnal') }}" class="flex items-center space-x-3 text-emerald-100 hover:bg-emerald-800 hover:text-white px-4 py-2.5 rounded-lg text-sm font-medium transition duration-200">
+                    <i class="fas fa-book text-emerald-300 w-5 text-center"></i>
+                    <span>Jurnal & Kas</span>
+                </a>
+                <a href="#" class="flex items-center space-x-3 text-emerald-100 hover:bg-emerald-800 hover:text-white px-4 py-2.5 rounded-lg text-sm font-medium transition duration-200">
+                    <i class="fas fa-graduation-cap text-emerald-300 w-5 text-center"></i>
+                    <span>Kelola Edukasi</span>
+                </a>
             </nav>
         </div>
         <div class="p-4 border-t border-emerald-800">

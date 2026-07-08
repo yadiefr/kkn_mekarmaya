@@ -12,6 +12,7 @@ use App\Http\Controllers\AdminAktivasiController;
 use App\Http\Controllers\AdminSetorController;
 use App\Http\Controllers\AdminPembayaranController;
 use App\Http\Controllers\AdminHargaController;
+use App\Http\Controllers\AdminJurnalController;
 
 
 Route::get('/', function () {
@@ -100,6 +101,9 @@ Route::middleware(['auth'])->group(function () {
     
     // Aksi Persetujuan/Penolakan Pengajuan Warga
     Route::post('/admin/setting-pembayaran/proses/{id}', [AdminPembayaranController::class, 'processRequest'])->name('admin.pembayaran.proses');
+    
+    // Jurnal & Kas
+    Route::get('/admin/jurnal-kas', [AdminJurnalController::class, 'index'])->name('admin.jurnal');
     
     Route::get('/admin/setting-harga', [AdminHargaController::class, 'index'])->name('admin.harga.index');
     Route::post('/admin/setting-harga/simpan', [AdminHargaController::class, 'store'])->name('admin.harga.store');
