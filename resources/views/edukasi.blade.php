@@ -18,7 +18,7 @@
         .modal-active { overflow: hidden; }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800 antialiased selection:bg-emerald-100 selection:text-emerald-900">
+<body class="bg-gray-50 text-gray-800 antialiased selection:bg-emerald-100 selection:text-emerald-900 flex flex-col min-h-screen">
 
     <!-- NAVBAR -->
     <nav class="bg-emerald-800 text-white shadow-sm sticky top-0 z-50 border-b border-emerald-900/20 backdrop-blur-md bg-opacity-95">
@@ -66,6 +66,7 @@
 
 
 
+    <main class="flex-grow">
     <!-- GRID PROGRAM EDUKASI UTAMA -->
     <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
         <div class="text-center mb-10 mt-10">
@@ -124,6 +125,7 @@
             </div>
         </div>
     @endforeach
+    </main>
 
     <!-- FOOTER -->
     <footer class="bg-gray-900 text-gray-400 py-8 text-center text-xs border-t border-gray-800">

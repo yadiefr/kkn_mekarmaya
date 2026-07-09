@@ -17,7 +17,7 @@
         body { font-family: 'Inter', sans-serif; }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800 antialiased selection:bg-emerald-100 selection:text-emerald-900">
+<body class="bg-gray-50 text-gray-800 antialiased selection:bg-emerald-100 selection:text-emerald-900 flex flex-col min-h-screen">
 
     <!-- NAVBAR -->
     <nav class="bg-emerald-800 text-white shadow-sm sticky top-0 z-50 border-b border-emerald-900/20 backdrop-blur-md bg-opacity-95">
@@ -64,6 +64,7 @@
         </div>
     </nav>
 
+    <main class="flex-grow">
     <!-- HEADER / HERO DENGAN KATA PEMIKAT PENDAFTARAN -->
     <header class="bg-gradient-to-r from-emerald-800 to-teal-950 text-white py-16 px-4">
         <div class="max-w-3xl mx-auto text-center">
@@ -169,6 +170,7 @@
             </div>
         </div>
     </section>
+    </main>
 
     <!-- FOOTER -->
     <footer class="bg-gray-900 text-gray-400 py-8 text-center text-xs border-t border-gray-800">
