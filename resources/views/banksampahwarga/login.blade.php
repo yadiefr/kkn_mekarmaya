@@ -91,16 +91,7 @@
                 img.parentNode.appendChild(placeholder);
             };
 
-            // Meminta Izin Notifikasi Browser untuk Jadwal Penarikan
-            if ("Notification" in window) {
-                if (Notification.permission !== "granted" && Notification.permission !== "denied") {
-                    Notification.requestPermission().then(function (permission) {
-                        if (permission === "granted") {
-                            console.log("Izin notifikasi diberikan oleh pengguna.");
-                        }
-                    });
-                }
-            }
+
         });
     </script>
     
