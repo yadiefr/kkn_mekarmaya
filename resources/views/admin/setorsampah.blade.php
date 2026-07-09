@@ -137,7 +137,9 @@
                                         <th class="p-4">Warga</th>
                                         <th class="p-4">Jenis Sampah</th>
                                         <th class="p-4 text-center">Timbangan</th>
-                                        <th class="p-4 text-right">Tabungan Masuk</th>
+                                        <th class="p-4 text-right">Tabungan Warga</th>
+                                        <th class="p-4 text-right">Kas Masuk (Desa)</th>
+                                        <th class="p-4 text-right">Total Kas Masuk</th>
                                         <th class="p-4 text-center">Aksi</th>
                                     </tr>
                                 </thead>
@@ -154,6 +156,8 @@
                                             </td>
                                             <td class="p-4 text-center font-bold text-gray-800">{{ number_format($deposit->weight, 2, ',', '.') }} Kg</td>
                                             <td class="p-4 text-right font-bold text-emerald-600">+ Rp {{ number_format($deposit->earning, 0, ',', '.') }}</td>
+                                            <td class="p-4 text-right font-bold text-blue-600">+ Rp {{ number_format($deposit->weight * (($deposit->trashPrice->sell_price ?? 0) - $deposit->price_per_kg), 0, ',', '.') }}</td>
+                                            <td class="p-4 text-right font-bold text-gray-900">+ Rp {{ number_format($deposit->weight * ($deposit->trashPrice->sell_price ?? 0), 0, ',', '.') }}</td>
                                             <td class="p-4 text-center">
                                                 <button @click="editData = { id: {{ $deposit->id }}, user_id: {{ $deposit->user_id }}, trash_price_id: {{ $deposit->trash_price_id }}, weight: {{ $deposit->weight }}, note: '{{ addslashes($deposit->note ?? '') }}' }; editModalOpen = true" class="text-blue-500 hover:text-blue-700 mx-1" title="Edit">
                                                     <i class="fas fa-edit"></i>
@@ -169,7 +173,7 @@
                                         </tr>
                                     @empty
                                         <tr>
-                                            <td colspan="4" class="text-center py-12 text-gray-400">
+                                            <td colspan="6" class="text-center py-12 text-gray-400">
                                                 <i class="fas fa-boxes-stacked text-xl mb-2 text-gray-300 block"></i>
                                                 Belum ada catatan aktivitas timbangan masuk untuk hari ini.
                                             </td>
