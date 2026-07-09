@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>body { font-family: 'Inter', sans-serif; }</style>
 </head>
-<body x-data="{ sidebarOpen: false }" class="bg-gray-100 text-gray-800 antialiased min-h-screen flex">
+<body x-data="{ sidebarOpen: false, editModalOpen: false, editData: {} }" class="bg-gray-100 text-gray-800 antialiased min-h-screen flex">
 
     <!-- Overlay Mobile -->
     <div x-show="sidebarOpen" @click="sidebarOpen = false" x-transition.opacity class="fixed inset-0 z-20 bg-black/50 md:hidden"></div>
@@ -100,6 +100,7 @@
                                     <th class="p-4">Nama Event Pencairan</th>
                                     <th class="p-4">Rentang Waktu Akses</th>
                                     <th class="p-4 text-center">Status Gerbang</th>
+                                    <th class="p-4 text-center">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-gray-100 text-gray-600">
@@ -113,6 +114,18 @@
                                             @else
                                                 <span class="px-2.5 py-1 text-[10px] font-bold text-gray-400 bg-gray-100 rounded-full">Selesai/Tutup</span>
                                             @endif
+                                        </td>
+                                        <td class="p-4 text-center">
+                                            <button @click="editData = { id: {{ $sett->id }}, event_name: '{{ addslashes($sett->event_name) }}', start_date: '{{ \Carbon\Carbon::parse($sett->start_date)->format('Y-m-d') }}', end_date: '{{ \Carbon\Carbon::parse($sett->end_date)->format('Y-m-d') }}' }; editModalOpen = true" class="text-blue-500 hover:text-blue-700 mx-1 cursor-pointer" title="Edit">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <form action="{{ route('admin.pembayaran.jadwal.destroy', $sett->id) }}" method="POST" class="inline-block" onsubmit="return confirm('Yakin ingin menghapus jadwal pembayaran ini?');">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="text-red-500 hover:text-red-700 mx-1 cursor-pointer" title="Hapus">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </button>
+                                            </form>
                                         </td>
                                     </tr>
                                 @empty
@@ -216,6 +229,58 @@
 
         </main>
         <footer class="bg-white h-12 border-t border-gray-100 flex items-center justify-center text-[11px] text-gray-400">&copy; 2026 Admin Sobat Sampah Desa Mekarmaya. All Rights Reserved.</footer>
+    </div>
+
+    <!-- Modal Edit Jadwal -->
+    <div x-show="editModalOpen" style="display: none;" class="fixed inset-0 z-[100] overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <!-- Flex Container -->
+        <div class="flex min-h-screen items-center justify-center p-4 text-center sm:p-0">
+            <!-- Backdrop -->
+            <div x-show="editModalOpen" x-transition.opacity class="fixed inset-0 bg-black/40 backdrop-blur-xs transition-opacity" @click="editModalOpen = false" aria-hidden="true"></div>
+
+            <!-- Modal Panel -->
+            <div x-show="editModalOpen" x-transition class="relative bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-lg w-full">
+                <form :action="'{{ url('admin/setting-pembayaran/jadwal/update') }}/' + editData.id" method="POST" class="text-sm">
+                    @csrf
+                    <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                        <div class="sm:flex sm:items-start">
+                            <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-blue-100 sm:mx-0 sm:h-10 sm:w-10">
+                                <i class="fas fa-edit text-blue-600"></i>
+                            </div>
+                            <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
+                                <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
+                                    Edit Jadwal Pembayaran
+                                </h3>
+                                <div class="mt-4 space-y-4">
+                                    <div>
+                                        <label class="block font-bold text-gray-700 text-xs mb-1">Nama Event / Periode Klaim</label>
+                                        <input type="text" name="event_name" x-model="editData.event_name" required class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-1 focus:ring-emerald-600 focus:outline-none">
+                                    </div>
+                                    <div class="grid grid-cols-2 gap-3">
+                                        <div>
+                                            <label class="block font-bold text-gray-700 text-xs mb-1">Tanggal Mulai</label>
+                                            <input type="date" name="start_date" x-model="editData.start_date" required class="w-full p-2 border border-gray-200 rounded-lg focus:ring-1 focus:ring-emerald-600 focus:outline-none bg-white">
+                                        </div>
+                                        <div>
+                                            <label class="block font-bold text-gray-700 text-xs mb-1">Tanggal Selesai</label>
+                                            <input type="date" name="end_date" x-model="editData.end_date" required class="w-full p-2 border border-gray-200 rounded-lg focus:ring-1 focus:ring-emerald-600 focus:outline-none bg-white">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse border-t border-gray-100">
+                        <button type="submit" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm cursor-pointer">
+                            Simpan Perubahan
+                        </button>
+                        <button type="button" @click="editModalOpen = false" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm cursor-pointer">
+                            Batal
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 
 </body>

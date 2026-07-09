@@ -79,4 +79,63 @@ class AdminPembayaranController extends Controller
         
         return back()->with('success_request', "Pengajuan tarik saldo warga berhasil diproses dengan status: {$statusTeks}");
     }
+
+    public function updateSetting(Request $request, $id)
+    {
+        $setting = WithdrawalSetting::findOrFail($id);
+
+        $request->validate([
+            'event_name' => 'required|string|max:255',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after_or_equal:start_date',
+        ]);
+
+        $setting->update([
+            'event_name' => $request->event_name,
+            'start_date' => $request->start_date,
+            'end_date' => $request->end_date,
+        ]);
+
+        return back()->with('success_setting', 'Jadwal rentang tanggal berhasil diperbarui!');
+    }
+
+    public function destroySetting($id)
+    {
+        $setting = WithdrawalSetting::findOrFail($id);
+        $setting->delete();
+
+        return back()->with('success_setting', 'Jadwal rentang tanggal berhasil dihapus!');
+    }
+
+    public function updateRequest(Request $request, $id)
+    {
+        $withdrawal = WithdrawalRequest::findOrFail($id);
+        
+        $request->validate([
+            'admin_note' => 'nullable|string|max:255',
+        ]);
+
+        $withdrawal->update([
+            'admin_note' => $request->admin_note,
+        ]);
+
+        return back()->with('success_request', 'Catatan penarikan berhasil diperbarui.');
+    }
+
+    public function destroyRequest($id)
+    {
+        $withdrawal = WithdrawalRequest::findOrFail($id);
+
+        // Jika statusnya approved, kita kembalikan status deposit warga ke belum_ditarik
+        if ($withdrawal->status === 'approved') {
+            DB::table('trash_deposits')
+                ->where('user_id', $withdrawal->user_id)
+                ->where('withdrawal_status', 'sudah_ditarik')
+                ->update(['withdrawal_status' => 'belum_ditarik']);
+        }
+
+        $withdrawal->delete();
+
+        return back()->with('success_request', 'Data penarikan berhasil dihapus dan saldo dikembalikan.');
+    }
 }

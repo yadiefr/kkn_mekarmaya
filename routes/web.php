@@ -92,14 +92,20 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/setor-sampah', [AdminSetorController::class, 'index'])->name('admin.setor');
     // Eksekusi Simpan Nota Setoran
     Route::post('/admin/setor-sampah/simpan', [AdminSetorController::class, 'store'])->name('admin.setor.simpan');
+    Route::post('/admin/setor-sampah/update/{id}', [AdminSetorController::class, 'update'])->name('admin.setor.update');
+    Route::delete('/admin/setor-sampah/hapus/{id}', [AdminSetorController::class, 'destroy'])->name('admin.setor.destroy');
     // Tampilan Utama Manajemen Pembayaran
     Route::get('/admin/setting-pembayaran', [AdminPembayaranController::class, 'index'])->name('admin.pembayaran');
         
     // Simpan Rentang Tanggal Pembayaran baru
     Route::post('/admin/setting-pembayaran/jadwal', [AdminPembayaranController::class, 'storeSetting'])->name('admin.pembayaran.jadwal');
+    Route::post('/admin/setting-pembayaran/jadwal/update/{id}', [AdminPembayaranController::class, 'updateSetting'])->name('admin.pembayaran.jadwal.update');
+    Route::delete('/admin/setting-pembayaran/jadwal/hapus/{id}', [AdminPembayaranController::class, 'destroySetting'])->name('admin.pembayaran.jadwal.destroy');
     
     // Aksi Persetujuan/Penolakan Pengajuan Warga
     Route::post('/admin/setting-pembayaran/proses/{id}', [AdminPembayaranController::class, 'processRequest'])->name('admin.pembayaran.proses');
+    Route::post('/admin/setting-pembayaran/request/update/{id}', [AdminPembayaranController::class, 'updateRequest'])->name('admin.pembayaran.request.update');
+    Route::delete('/admin/setting-pembayaran/request/hapus/{id}', [AdminPembayaranController::class, 'destroyRequest'])->name('admin.pembayaran.request.destroy');
     
     // Jurnal & Kas
     Route::get('/admin/jurnal-kas', [AdminJurnalController::class, 'index'])->name('admin.jurnal');

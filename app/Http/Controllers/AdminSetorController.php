@@ -18,11 +18,10 @@ class AdminSetorController extends Controller
         // Ambil jenis sampah yang aktif
         $sampahList = TrashPrice::where('is_active', true)->orderBy('item_name', 'asc')->get();
 
-        // Ambil 10 riwayat transaksi setoran terakhir di desa
+        // Ambil riwayat transaksi setoran di desa
         $recentDeposits = TrashDeposit::with(['user', 'trashPrice'])
             ->latest()
-            ->take(10)
-            ->get();
+            ->paginate(10);
 
         return view('admin.setorsampah', compact('wargaList', 'sampahList', 'recentDeposits'));
     }
@@ -56,5 +55,47 @@ class AdminSetorController extends Controller
         ]);
 
         return back()->with('success', 'Transaksi berhasil! Saldo sebesar Rp ' . number_format($earning, 0, ',', '.') . ' telah didepositokan ke akun warga.');
+    }
+
+    public function update(Request $request, $id)
+    {
+        $deposit = TrashDeposit::findOrFail($id);
+
+        $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'trash_price_id' => 'required|exists:trash_prices,id',
+            'weight' => 'required|numeric|min:0.01',
+            'note' => 'nullable|string|max:255',
+        ]);
+
+        $trashPrice = TrashPrice::findOrFail($request->trash_price_id);
+        $weight = $request->weight;
+        $pricePerKg = $trashPrice->buy_price;
+        $earning = $weight * $pricePerKg;
+
+        $deposit->update([
+            'user_id' => $request->user_id,
+            'trash_price_id' => $request->trash_price_id,
+            'weight' => $weight,
+            'price_per_kg' => $pricePerKg,
+            'earning' => $earning,
+            'note' => $request->note,
+        ]);
+
+        return back()->with('success', 'Data setoran berhasil diperbarui.');
+    }
+
+    public function destroy($id)
+    {
+        $deposit = TrashDeposit::findOrFail($id);
+        
+        // Cek jika statusnya sudah ditarik atau diproses, bisa saja ditambahkan validasi
+        // if ($deposit->withdrawal_status !== 'belum_ditarik') {
+        //     return back()->with('error', 'Setoran yang sudah ditarik tidak dapat dihapus.');
+        // }
+
+        $deposit->delete();
+
+        return back()->with('success', 'Data setoran berhasil dihapus.');
     }
 }
