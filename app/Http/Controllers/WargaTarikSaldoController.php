@@ -49,7 +49,7 @@ class WargaTarikSaldoController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
-        return view('banksampahwarga.tariksaldo', compact('user', 'activeSetting', 'upcomingSetting', 'totalSaldo', 'pendingRequest', 'requestHistory'));
+        return view('warga.tariksaldo', compact('user', 'activeSetting', 'upcomingSetting', 'totalSaldo', 'pendingRequest', 'requestHistory'));
     }
 
     public function store(Request $request)

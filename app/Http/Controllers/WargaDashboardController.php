@@ -39,6 +39,6 @@ class WargaDashboardController extends Controller
             ->sum('earning');
 
         // Kirim semua data dinamis ini ke halaman Blade
-        return view('banksampahwarga.dashboardwarga', compact('user', 'deposits', 'totalSaldo', 'totalBerat', 'totalDicairkan'));
+        return view('warga.dashboardwarga', compact('user', 'deposits', 'totalSaldo', 'totalBerat', 'totalDicairkan'));
     }
 }

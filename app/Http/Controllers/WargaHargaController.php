@@ -16,6 +16,6 @@ class WargaHargaController extends Controller
             ->get();
 
         // Mengirim data ke file view hargasampah.blade.php
-        return view('banksampahwarga.hargasampah', compact('trashPrices'));
+        return view('warga.hargasampah', compact('trashPrices'));
     }
 }

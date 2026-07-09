@@ -30,6 +30,6 @@ class WargaTransaksiController extends Controller
             ->orderBy('trash_deposits.updated_at', 'desc') // Menggunakan updated_at karena itu waktu saat status berubah jadi 'sudah_ditarik'
             ->get();
 
-        return view('banksampahwarga.riwayat', compact('user', 'setorHistory', 'tarikHistory'));
+        return view('warga.riwayat', compact('user', 'setorHistory', 'tarikHistory'));
     }
 }

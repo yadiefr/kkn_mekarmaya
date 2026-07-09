@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bank Sampah - Desa Mekarmaya</title>
+    <title>Bank Sampah - Sobat Peduli Sampah Desa Mekarmaya</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4" crossorigin="anonymous"></script>
     <!-- FontAwesome untuk Icon -->
@@ -26,7 +26,7 @@
                 <div class="flex-shrink-0">
                     <a href="{{ route('beranda') }}">
                         <h1 class="font-bold text-sm leading-tight uppercase tracking-wider">
-                            SOBAT SAMPAH<br>
+                            SOBAT PEDULI SAMPAH<br>
                             <span class="text-emerald-300 text-xs font-normal normal-case tracking-normal">Desa Mekarmaya</span>
                         </h1>
                     </a>
@@ -40,6 +40,25 @@
                             <a href="{{ route('login') }}" class="bg-white text-emerald-800 hover:bg-emerald-50 px-4 py-2 rounded-lg transition duration-200 font-bold normal-case shadow-sm inline-block">Masuk / Daftar</a>
                         </div>
                     </div>
+                </div>
+
+                <!-- Hamburger Button (Mobile) -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobileMenuBtn" class="text-emerald-100 hover:text-white focus:outline-none p-2 cursor-pointer">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu (Hidden by default) -->
+        <div id="mobileMenu" class="hidden md:hidden border-t border-emerald-900 bg-emerald-800 absolute w-full left-0 shadow-lg">
+            <div class="px-4 pt-2 pb-4 flex flex-col space-y-2 text-sm font-semibold tracking-wide uppercase">
+                <a href="{{ route('beranda') }}" class="text-emerald-100 hover:bg-emerald-700 hover:text-white px-4 py-3 rounded-lg block transition duration-200">Beranda</a>
+                <a href="{{ route('edukasi') }}" class="text-emerald-100 hover:bg-emerald-700 hover:text-white px-4 py-3 rounded-lg block transition duration-200">Edukasi</a>
+                <a href="#" class="bg-emerald-900 text-emerald-200 px-4 py-3 rounded-lg block">Bank Sampah</a>
+                <div class="pt-2 mt-2 border-t border-emerald-700">
+                    <a href="{{ route('login') }}" class="bg-white text-emerald-800 hover:bg-emerald-50 px-4 py-3 rounded-lg transition duration-200 font-bold normal-case shadow-sm block text-center mt-2">Masuk / Daftar</a>
                 </div>
             </div>
         </div>
@@ -61,11 +80,11 @@
                 <p class="text-xs text-yellow-200 font-medium mb-3">
                     <i class="fas fa-gift mr-1 text-[10px]"></i> Pendaftaran Gratis! Akun Anda akan langsung diaktivasi oleh Admin Desa.
                 </p>
-                <div class="flex flex-col sm:flex-row justify-center gap-3">
-                    <a href="{{ route('register') }}" class="bg-yellow-400 hover:bg-yellow-500 text-emerald-950 font-bold px-5 py-2.5 rounded-lg shadow-sm transition duration-200 text-xs uppercase tracking-wide">
+                <div class="flex flex-col sm:flex-row justify-center space-y-3 sm:space-y-0 sm:space-x-3">
+                    <a href="{{ route('register') }}" class="bg-yellow-400 hover:bg-yellow-500 text-emerald-950 font-bold px-5 py-3 sm:py-2.5 rounded-lg shadow-sm transition duration-200 text-xs uppercase tracking-wide block sm:inline-block">
                         <i class="fas fa-user-plus mr-1.5 text-[11px]"></i> Daftar Akun Warga
                     </a>
-                    <a href="{{ route('login') }}" class="bg-transparent hover:bg-white/5 text-white border border-white/20 font-medium px-5 py-2.5 rounded-lg transition duration-200 text-xs">
+                    <a href="{{ route('login') }}" class="bg-transparent hover:bg-white/5 text-white border border-white/20 font-medium px-5 py-3 sm:py-2.5 rounded-lg transition duration-200 text-xs block sm:inline-block">
                         Sudah Punya Akun? Masuk
                     </a>
                 </div>
@@ -153,8 +172,26 @@
 
     <!-- FOOTER -->
     <footer class="bg-gray-900 text-gray-400 py-8 text-center text-xs border-t border-gray-800">
-        <p>&copy; 2026 Sobat Sampah Desa Mekarmaya. All Rights Reserved.</p>
+        <p>&copy; 2026 Sobat Peduli Sampah Desa Mekarmaya. All Rights Reserved.</p>
     </footer>
 
+    <!-- INTERACTIVE SCRIPTS -->
+    <script>
+        // Toggle mobile menu
+        document.getElementById('mobileMenuBtn').addEventListener('click', function() {
+            var menu = document.getElementById('mobileMenu');
+            var icon = this.querySelector('i');
+            
+            if (menu.classList.contains('hidden')) {
+                menu.classList.remove('hidden');
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            } else {
+                menu.classList.add('hidden');
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        });
+    </script>
 </body>
 </html>

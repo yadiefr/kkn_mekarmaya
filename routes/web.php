@@ -32,17 +32,17 @@ Route::get('/bank-sampah', function () {
 })->name('banksampah');
 
 Route::get('/login', function () {
-    return view('banksampahwarga.login');
+    return view('warga.login');
 })->name('login');
 
 Route::get('/register', function () {
-    return view('banksampahwarga.register');
+    return view('warga.register');
 })->name('register');
 Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
 
 // Rute untuk Halaman Dashboard Warga setelah Login
 Route::get('/warga/dashboard', function () {
-    return view('banksampahwarga.dashboardwarga');
+    return view('warga.dashboardwarga');
 })->name('warga.dashboard');
 
 

@@ -12,7 +12,7 @@ class AuthController extends Controller
     // 1. MENAMPILKAN HALAMAN LOGIN
     public function showLogin()
     {
-        return view('banksampahwarga.login');
+        return view('warga.login');
     }
 
     // 2. PROSES LOGIN
@@ -60,7 +60,7 @@ class AuthController extends Controller
     // 3. MENAMPILKAN HALAMAN REGISTER
     public function showRegister()
     {
-        return view('banksampahwarga.register');
+        return view('warga.register');
     }
 
     // 4. PROSES REGISTER

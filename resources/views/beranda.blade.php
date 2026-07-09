@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sobat Sampah Desa Mekarmaya</title>
+    <title>Sobat Peduli Sampah Desa Mekarmaya</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4" crossorigin="anonymous"></script>
     <!-- FontAwesome untuk Icon -->
@@ -26,7 +26,7 @@
                 <!-- Judul / Logo Website -->
                 <div class="flex-shrink-0">
                     <h1 class="font-bold text-sm leading-tight uppercase tracking-wider">
-                        SOBAT SAMPAH<br>
+                        SOBAT PEDULI SAMPAH<br>
                         <span class="text-emerald-300 text-xs font-normal normal-case tracking-normal">Desa Mekarmaya</span>
                     </h1>
                 </div>
@@ -75,7 +75,7 @@
                 <span class="text-emerald-600">Untuk Lingkungan Desa Kita</span>
             </h2>
             <p class="mt-4 text-sm text-gray-500 max-w-xl mx-auto leading-relaxed">
-                Selamat datang di platform digital Sobat Sampah Desa Mekarmaya. Mari bersama-sama belajar mengelola lingkungan dan tabung sampahmu menjadi investasi masa depan.
+                Selamat datang di platform digital Sobat Peduli Sampah Desa Mekarmaya. Mari bersama-sama belajar mengelola lingkungan dan tabung sampahmu menjadi investasi masa depan.
             </p>
             <div class="mt-8 flex flex-col sm:flex-row justify-center space-y-3 sm:space-y-0 sm:space-x-3 max-w-xs sm:max-w-none mx-auto">
                 <a href="{{ route('register') }}" class="bg-emerald-700 hover:bg-emerald-800 text-white font-medium text-sm py-3 sm:py-2.5 px-5 rounded-lg shadow-sm transition duration-200 block sm:inline-block w-full sm:w-auto text-center">
@@ -138,7 +138,7 @@
     <section class="bg-gray-100/60 py-16 px-4 border-t border-b border-gray-200/30">
         <div class="max-w-4xl mx-auto">
             <div class="text-center mb-12">
-                <h3 class="text-2xl font-bold text-gray-900 tracking-tight">Cara Bergabung Jadi Sobat Sampah</h3>
+                <h3 class="text-2xl font-bold text-gray-900 tracking-tight">Cara Bergabung Jadi Sobat Peduli Sampah</h3>
                 <p class="text-xs text-gray-400 mt-1.5">Ikuti 3 langkah mudah berikut untuk mulai berkontribusi</p>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 relative text-center">
@@ -163,7 +163,7 @@
 
     <!-- FOOTER -->
     <footer class="bg-gray-900 text-gray-400 py-8 text-center text-xs border-t border-gray-800">
-        <p>&copy; 2026 Sobat Sampah Desa Mekarmaya. All Rights Reserved.</p>
+        <p>&copy; 2026 Sobat Peduli Sampah Desa Mekarmaya. All Rights Reserved.</p>
         <p class="mt-1 text-[11px] text-gray-500 px-4">Dibuat demi kelestarian lingkungan dan transparansi tata kelola desa.</p>
     </footer>
 
