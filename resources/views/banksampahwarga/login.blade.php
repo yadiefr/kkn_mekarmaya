@@ -90,6 +90,17 @@
                 placeholder.innerHTML = "<i class='fas fa-image text-xl block mb-1 text-emerald-600'></i> Logo Bank Sampah<br><span class='text-[10px] font-normal text-gray-400'>(Simpan di: public/images/logo-login.png)</span>";
                 img.parentNode.appendChild(placeholder);
             };
+
+            // Meminta Izin Notifikasi Browser untuk Jadwal Penarikan
+            if ("Notification" in window) {
+                if (Notification.permission !== "granted" && Notification.permission !== "denied") {
+                    Notification.requestPermission().then(function (permission) {
+                        if (permission === "granted") {
+                            console.log("Izin notifikasi diberikan oleh pengguna.");
+                        }
+                    });
+                }
+            }
         });
     </script>
     
