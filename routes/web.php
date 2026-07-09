@@ -104,8 +104,6 @@ Route::middleware(['auth'])->group(function () {
     
     // Aksi Persetujuan/Penolakan Pengajuan Warga
     Route::post('/admin/setting-pembayaran/proses/{id}', [AdminPembayaranController::class, 'processRequest'])->name('admin.pembayaran.proses');
-    Route::post('/admin/setting-pembayaran/request/update/{id}', [AdminPembayaranController::class, 'updateRequest'])->name('admin.pembayaran.request.update');
-    Route::delete('/admin/setting-pembayaran/request/hapus/{id}', [AdminPembayaranController::class, 'destroyRequest'])->name('admin.pembayaran.request.destroy');
     
     // Jurnal & Kas
     Route::get('/admin/jurnal-kas', [AdminJurnalController::class, 'index'])->name('admin.jurnal');

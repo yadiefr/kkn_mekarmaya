@@ -106,36 +106,4 @@ class AdminPembayaranController extends Controller
 
         return back()->with('success_setting', 'Jadwal rentang tanggal berhasil dihapus!');
     }
-
-    public function updateRequest(Request $request, $id)
-    {
-        $withdrawal = WithdrawalRequest::findOrFail($id);
-        
-        $request->validate([
-            'admin_note' => 'nullable|string|max:255',
-        ]);
-
-        $withdrawal->update([
-            'admin_note' => $request->admin_note,
-        ]);
-
-        return back()->with('success_request', 'Catatan penarikan berhasil diperbarui.');
-    }
-
-    public function destroyRequest($id)
-    {
-        $withdrawal = WithdrawalRequest::findOrFail($id);
-
-        // Jika statusnya approved, kita kembalikan status deposit warga ke belum_ditarik
-        if ($withdrawal->status === 'approved') {
-            DB::table('trash_deposits')
-                ->where('user_id', $withdrawal->user_id)
-                ->where('withdrawal_status', 'sudah_ditarik')
-                ->update(['withdrawal_status' => 'belum_ditarik']);
-        }
-
-        $withdrawal->delete();
-
-        return back()->with('success_request', 'Data penarikan berhasil dihapus dan saldo dikembalikan.');
-    }
 }

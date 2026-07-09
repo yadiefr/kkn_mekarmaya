@@ -35,12 +35,6 @@ class AdminJurnalController extends Controller
             if ($deposit->trashPrice) {
                 $amount = $deposit->weight * $deposit->trashPrice->sell_price;
                 $transactions[] = [
-                    'id' => $deposit->id,
-                    'source' => 'deposit',
-                    'user_id' => $deposit->user_id,
-                    'trash_price_id' => $deposit->trash_price_id,
-                    'weight' => $deposit->weight,
-                    'note' => $deposit->note,
                     'date' => $deposit->created_at,
                     'type' => 'masuk',
                     'title' => 'Penjualan Sampah ke Pengepul',
@@ -56,9 +50,6 @@ class AdminJurnalController extends Controller
         foreach ($withdrawalsList as $withdrawal) {
             $userName = $withdrawal->user ? $withdrawal->user->name : 'Warga (Terhapus)';
             $transactions[] = [
-                'id' => $withdrawal->id,
-                'source' => 'withdrawal',
-                'admin_note' => $withdrawal->admin_note,
                 'date' => $withdrawal->updated_at, // Menggunakan waktu persetujuan
                 'type' => 'keluar',
                 'title' => 'Pencairan Dana Warga (' . $userName . ')',
@@ -89,9 +80,6 @@ class AdminJurnalController extends Controller
         // Di sini kita ubah menjadi collection
         $transactions = collect($transactions);
 
-        $wargaList = \App\Models\User::where('role', 'warga')->get();
-        $sampahList = \App\Models\TrashPrice::where('is_active', true)->get();
-
-        return view('admin.jurnal', compact('kasMasuk', 'kasKeluar', 'saldoKas', 'transactions', 'wargaList', 'sampahList'));
+        return view('admin.jurnal', compact('kasMasuk', 'kasKeluar', 'saldoKas', 'transactions'));
     }
 }
