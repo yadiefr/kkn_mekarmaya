@@ -20,7 +20,6 @@ class DatabaseSeeder extends Seeder
         $this->call([
             UserSeeder::class,
             TrashPriceSeeder::class,
-            TrashDictionarySeeder::class, // <-- Tambahkan baris ini
             WithdrawalSettingSeeder::class,
         ]);
 

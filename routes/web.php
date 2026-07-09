@@ -12,7 +12,7 @@ use App\Http\Controllers\AdminAktivasiController;
 use App\Http\Controllers\AdminSetorController;
 use App\Http\Controllers\AdminPembayaranController;
 use App\Http\Controllers\AdminHargaController;
-use App\Http\Controllers\AdminJurnalController;
+use App\Http\Controllers\AdminKasController;
 use App\Http\Controllers\AdminEdukasiController;
 use App\Http\Controllers\AdminDashboardController;Route::get('/', function () {
     return view('beranda');
@@ -105,8 +105,9 @@ Route::middleware(['auth'])->group(function () {
     // Aksi Persetujuan/Penolakan Pengajuan Warga
     Route::post('/admin/setting-pembayaran/proses/{id}', [AdminPembayaranController::class, 'processRequest'])->name('admin.pembayaran.proses');
     
-    // Jurnal & Kas
-    Route::get('/admin/jurnal-kas', [AdminJurnalController::class, 'index'])->name('admin.jurnal');
+    // Kas Desa
+    Route::get('/admin/kas', [AdminKasController::class, 'index'])->name('admin.kas');
+    Route::get('/admin/kas/export', [AdminKasController::class, 'export'])->name('admin.kas.export');
     
     // Kelola Edukasi
     Route::get('/admin/edukasi', [AdminEdukasiController::class, 'index'])->name('admin.edukasi');

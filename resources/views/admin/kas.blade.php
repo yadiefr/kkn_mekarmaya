@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jurnal & Kas - Panel Admin</title>
+    <title>Kas Desa - Panel Admin</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4" crossorigin="anonymous"></script>
     <!-- Alpine.js -->
@@ -56,9 +56,9 @@
                     <i class="fas fa-tags text-emerald-300 w-5 text-center"></i>
                     <span>Setting Harga Sampah</span>
                 </a>
-                <a href="{{ route('admin.jurnal') }}" class="flex items-center space-x-3 bg-emerald-800 text-white px-4 py-2.5 rounded-lg text-sm font-medium transition duration-200">
+                <a href="{{ route('admin.kas') }}" class="flex items-center space-x-3 bg-emerald-800 text-white px-4 py-2.5 rounded-lg text-sm font-medium transition duration-200">
                     <i class="fas fa-book text-emerald-300 w-5 text-center"></i>
-                    <span>Jurnal & Kas</span>
+                    <span>Kas Desa</span>
                 </a>
                 <a href="{{ route('admin.edukasi') }}" class="flex items-center space-x-3 text-emerald-100 hover:bg-emerald-800 hover:text-white px-4 py-2.5 rounded-lg text-sm font-medium transition duration-200">
                     <i class="fas fa-graduation-cap text-emerald-300 w-5 text-center"></i>
@@ -88,7 +88,7 @@
                 <button @click="sidebarOpen = true" class="md:hidden text-gray-600 focus:outline-none text-lg cursor-pointer hover:text-emerald-600">
                     <i class="fas fa-bars"></i>
                 </button>
-                <h2 class="text-sm font-bold text-gray-700 uppercase tracking-wider hidden sm:block">Buku Jurnal & Kas Bank Sampah</h2>
+                <h2 class="text-sm font-bold text-gray-700 uppercase tracking-wider hidden sm:block">Buku Kas Desa Bank Sampah</h2>
             </div>
             <!-- Profil Singkat Admin Dinamis -->
             <div class="flex items-center space-x-3">
@@ -138,13 +138,13 @@
                 </div>
             </div>
 
-            <!-- ROW 2: TABEL JURNAL TRANSAKSI -->
+            <!-- ROW 2: TABEL KAS TRANSAKSI -->
             <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
                 <div class="p-5 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
-                    <h4 class="text-xs font-bold text-gray-700 uppercase tracking-wider"><i class="fas fa-list-ol mr-2 text-emerald-600"></i>Riwayat Jurnal Transaksi</h4>
-                    <button class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg text-[11px] font-bold shadow-sm transition flex items-center">
+                    <h4 class="text-xs font-bold text-gray-700 uppercase tracking-wider"><i class="fas fa-list-ol mr-2 text-emerald-600"></i>Riwayat Kas Transaksi</h4>
+                    <a href="{{ route('admin.kas.export') }}" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg text-[11px] font-bold shadow-sm transition flex items-center">
                         <i class="fas fa-download mr-2"></i> Ekspor Laporan
-                    </button>
+                    </a>
                 </div>
                 
                 <!-- Filter Section (Mockup) -->
@@ -193,7 +193,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="5" class="text-center py-10 text-gray-400">Belum ada riwayat transaksi jurnal tercatat.</td>
+                                    <td colspan="5" class="text-center py-10 text-gray-400">Belum ada riwayat transaksi kas tercatat.</td>
                                 </tr>
                             @endforelse
                         </tbody>
