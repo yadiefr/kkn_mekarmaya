@@ -8,7 +8,15 @@
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>body { font-family: 'Inter', sans-serif; }</style>
+    <!-- Tom Select for Searchable Dropdown -->
+    <link href="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/css/tom-select.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        /* Tom Select Custom Styling to match Tailwind */
+        .ts-control { border-radius: 0.75rem !important; padding: 0.625rem !important; border-color: #e5e7eb !important; }
+        .ts-control.focus { border-color: #059669 !important; box-shadow: 0 0 0 1px #059669 !important; }
+    </style>
 </head>
 <body x-data="{ sidebarOpen: false, editModalOpen: false, editData: {} }" class="bg-gray-100 text-gray-800 antialiased min-h-screen flex">
 
@@ -86,8 +94,8 @@
                         
                         <div class="space-y-1.5">
                             <label class="block font-bold text-gray-700">Nama Warga Penabung</label>
-                            <select name="user_id" required class="w-full p-2.5 border border-gray-200 bg-white rounded-xl focus:ring-1 focus:ring-emerald-600 focus:outline-none">
-                                <option value="" disabled selected>-- Pilih Warga Mekarmaya --</option>
+                            <select name="user_id" id="user_select" required class="w-full" placeholder="Cari atau Pilih Warga...">
+                                <option value="" disabled selected>-- Cari/Pilih Warga --</option>
                                 @foreach($wargaList as $warga)
                                     <option value="{{ $warga->id }}">{{ $warga->name }} (NIK: {{ $warga->nik }})</option>
                                 @endforeach
@@ -260,5 +268,16 @@
         </div>
     </div>
 
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            new TomSelect("#user_select",{
+                create: false,
+                sortField: {
+                    field: "text",
+                    direction: "asc"
+                }
+            });
+        });
+    </script>
 </body>
 </html>
