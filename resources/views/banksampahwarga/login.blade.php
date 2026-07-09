@@ -37,12 +37,7 @@
                 <img src="{{ asset('images/logo-login.png') }}" alt="Logo Bank Sampah Desa Mekarmaya" class="w-48 h-auto object-contain fallback-image">
             </div>
 
-            <!-- TAMPILAN NOTIFIKASI ERROR / SUKSES -->
-            @if(session('success'))
-                <div class="mb-4 text-xs font-medium text-emerald-700 bg-emerald-50 border border-emerald-100 p-3 rounded-xl text-left">
-                    {{ session('success') }}
-                </div>
-            @endif
+
 
             @if($errors->has('auth_error'))
                 <div class="mb-4 text-xs font-medium text-red-700 bg-red-50 border border-red-100 p-3 rounded-xl text-left">
@@ -84,6 +79,7 @@
     </div>
 
     <!-- SCRIPT TAMBAHAN -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const img = document.querySelector('.fallback-image');
@@ -96,6 +92,25 @@
             };
         });
     </script>
+    
+    @if(session('success'))
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            Swal.fire({
+                title: 'Pendaftaran Berhasil!',
+                text: "{{ session('success') }}",
+                icon: 'success',
+                confirmButtonText: 'Siap Menunggu',
+                confirmButtonColor: '#059669', // Emerald 600
+                customClass: {
+                    popup: 'rounded-2xl shadow-xl',
+                    title: 'text-lg font-bold text-gray-900',
+                    confirmButton: 'rounded-full font-semibold px-6 py-2 shadow-sm text-sm'
+                }
+            });
+        });
+    </script>
+    @endif
 
 </body>
 </html>
