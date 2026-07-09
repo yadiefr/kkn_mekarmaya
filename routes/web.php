@@ -88,9 +88,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/admin/aktivasi-warga/{id}/toggle', [AdminAktivasiController::class, 'toggleAkses'])->name('admin.aktivasi.toggle');
     // Rute menghapus warga
     Route::delete('/admin/aktivasi-warga/{id}', [AdminAktivasiController::class, 'destroy'])->name('admin.aktivasi.destroy');
-    // Tampilan Form & List Setor Sampah
+    // Tampilan Form    // Transaksi Setor Sampah
     Route::get('/admin/setor-sampah', [AdminSetorController::class, 'index'])->name('admin.setor');
-    // Eksekusi Simpan Nota Setoran
+    Route::get('/admin/setor-sampah/rekap', [AdminSetorController::class, 'rekap'])->name('admin.setor.rekap');
     Route::post('/admin/setor-sampah/simpan', [AdminSetorController::class, 'store'])->name('admin.setor.simpan');
     Route::post('/admin/setor-sampah/update/{id}', [AdminSetorController::class, 'update'])->name('admin.setor.update');
     Route::delete('/admin/setor-sampah/hapus/{id}', [AdminSetorController::class, 'destroy'])->name('admin.setor.destroy');

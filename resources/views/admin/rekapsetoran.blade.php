@@ -27,10 +27,10 @@
                 <a href="{{ route('admin.aktivasi') }}" class="flex items-center space-x-3 text-emerald-100 hover:bg-emerald-800 hover:text-white px-4 py-2.5 rounded-lg text-sm font-medium transition duration-200">
                     <i class="fas fa-user-check text-emerald-300 w-5 text-center"></i><span>Aktivasi Warga</span>
                 </a>
-                <a href="{{ route('admin.setor') }}" class="flex items-center space-x-3 bg-emerald-800 text-white px-4 py-2.5 rounded-lg text-sm font-medium transition duration-200">
+                <a href="{{ route('admin.setor') }}" class="flex items-center space-x-3 text-emerald-100 hover:bg-emerald-800 hover:text-white px-4 py-2.5 rounded-lg text-sm font-medium transition duration-200">
                     <i class="fas fa-hand-holding-heart text-emerald-300 w-5 text-center"></i><span>Setor Sampah</span>
                 </a>
-                <a href="{{ route('admin.setor.rekap') }}" class="flex items-center space-x-3 text-emerald-100 hover:bg-emerald-800 hover:text-white px-4 py-2.5 rounded-lg text-sm font-medium transition duration-200">
+                <a href="{{ route('admin.setor.rekap') }}" class="flex items-center space-x-3 bg-emerald-800 text-white px-4 py-2.5 rounded-lg text-sm font-medium transition duration-200">
                     <i class="fas fa-list-check text-emerald-300 w-5 text-center"></i><span>Rekap Setoran</span>
                 </a>
                 <a href="{{ route('admin.pembayaran') }}" class="flex items-center space-x-3 text-emerald-100 hover:bg-emerald-800 hover:text-white px-4 py-2.5 rounded-lg text-sm font-medium transition duration-200">
@@ -74,71 +74,17 @@
                 <div class="p-4 bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs rounded-xl font-medium shadow-xs"><i class="fas fa-circle-check mr-2"></i>{{ session('success') }}</div>
             @endif
 
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                
-                <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-5 space-y-4 h-fit">
-                    <div class="border-b border-gray-100 pb-2">
-                        <h3 class="text-xs font-bold text-gray-700 uppercase tracking-wider">Form Nota Setoran</h3>
-                    </div>
-
-                    <form action="{{ route('admin.setor.simpan') }}" method="POST" class="space-y-4 text-xs">
-                        @csrf
-                        
-                        <div class="space-y-1.5">
-                            <label class="block font-bold text-gray-700">Nama Warga Penabung</label>
-                            <select name="user_id" required class="w-full p-2.5 border border-gray-200 bg-white rounded-xl focus:ring-1 focus:ring-emerald-600 focus:outline-none">
-                                <option value="" disabled selected>-- Pilih Warga Mekarmaya --</option>
-                                @foreach($wargaList as $warga)
-                                    <option value="{{ $warga->id }}">{{ $warga->name }} (NIK: {{ $warga->nik }})</option>
-                                @endforeach
-                            </select>
-                        </div>
-
-                        <div class="space-y-1.5">
-                            <label class="block font-bold text-gray-700">Jenis Sampah Anorganik</label>
-                            <select name="trash_price_id" id="trash_price_id" required class="w-full p-2.5 border border-gray-200 bg-white rounded-xl focus:ring-1 focus:ring-emerald-600 focus:outline-none">
-                                <option value="" disabled selected>-- Kategori & Harga Beli --</option>
-                                @foreach($sampahList as $sampah)
-                                    <option value="{{ $sampah->id }}">
-                                        {{ $sampah->item_name }} (Rp {{ number_format($sampah->buy_price, 0, ',', '.') }}/Kg)
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
-
-                        <div class="space-y-1.5">
-                            <label class="block font-bold text-gray-700">Berat Hasil Timbangan (Kg)</label>
-                            <div class="relative">
-                                <input type="number" step="0.01" min="0.01" name="weight" required placeholder="0.00" 
-                                    class="w-full pl-4 pr-12 py-2.5 border border-gray-200 rounded-xl focus:ring-1 focus:ring-emerald-600 focus:outline-none font-semibold text-gray-900">
-                                <span class="absolute right-4 top-3 text-gray-400 font-bold text-[11px]">KG</span>
-                            </div>
-                        </div>
-
-                        <div class="space-y-1.5">
-                            <label class="block font-bold text-gray-700">Catatan Kondisi (Opsional)</label>
-                            <input type="text" name="note" placeholder="Misal: Sudah bersih dari label kemasan" 
-                                class="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-1 focus:ring-emerald-600 focus:outline-none">
-                        </div>
-
-                        <button type="submit" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-3 rounded-xl shadow-md transition duration-150 mt-2 cursor-pointer">
-                            <i class="fas fa-file-invoice mr-2"></i>Cetak & Bukukan Setoran
-                        </button>
-                    </form>
-                </div>
-
-                <div class="bg-white rounded-xl border border-gray-100 shadow-sm lg:col-span-2 overflow-hidden flex flex-col justify-between">
+            <div class="w-full">
+                <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col justify-between">
                     <div>
                         <div class="p-5 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
-                            <h3 class="text-xs font-bold text-gray-700 uppercase tracking-wider">Total Transaksi Hari Ini</h3>
-                            <a href="{{ route('admin.setor.rekap') }}" class="text-xs font-semibold text-emerald-600 hover:text-emerald-800 flex items-center bg-emerald-50 px-3 py-1.5 rounded-lg border border-emerald-100">
-                                <i class="fas fa-folder-open mr-1.5"></i> Rekap Semua Data
-                            </a>
+                            <h3 class="text-xs font-bold text-gray-700 uppercase tracking-wider">Rekap Seluruh Data Setoran</h3>
                         </div>
                         <div class="overflow-x-auto">
                             <table class="w-full text-left border-collapse text-xs">
                                 <thead>
                                     <tr class="bg-gray-50 text-gray-400 uppercase tracking-wider font-semibold border-b border-gray-100">
+                                        <th class="p-4">Tanggal</th>
                                         <th class="p-4">Warga</th>
                                         <th class="p-4">Jenis Sampah</th>
                                         <th class="p-4 text-center">Timbangan</th>
@@ -149,8 +95,12 @@
                                     </tr>
                                 </thead>
                                 <tbody class="divide-y divide-gray-100 text-gray-600">
-                                    @forelse($recentDeposits as $deposit)
+                                    @forelse($deposits as $deposit)
                                         <tr class="hover:bg-gray-50/40 transition">
+                                            <td class="p-4">
+                                                <p class="font-bold text-gray-900">{{ \Carbon\Carbon::parse($deposit->created_at)->translatedFormat('d M Y') }}</p>
+                                                <p class="text-[10px] text-gray-400 mt-0.5">{{ \Carbon\Carbon::parse($deposit->created_at)->format('H:i') }} WIB</p>
+                                            </td>
                                             <td class="p-4">
                                                 <p class="font-bold text-gray-900">{{ $deposit->user->name ?? 'Warga (Terhapus)' }}</p>
                                                 <p class="text-[10px] text-gray-400 mt-0.5">{{ \Carbon\Carbon::parse($deposit->created_at)->diffForHumans() }}</p>
@@ -178,7 +128,7 @@
                                         </tr>
                                     @empty
                                         <tr>
-                                            <td colspan="6" class="text-center py-12 text-gray-400">
+                                            <td colspan="7" class="text-center py-12 text-gray-400">
                                                 <i class="fas fa-boxes-stacked text-xl mb-2 text-gray-300 block"></i>
                                                 Belum ada catatan aktivitas timbangan masuk untuk hari ini.
                                             </td>
@@ -188,7 +138,7 @@
                             </table>
                         </div>
                         <div class="p-4 border-t border-gray-100">
-                            {{ $recentDeposits->links() }}
+                            {{ $deposits->links() }}
                         </div>
                     </div>
                 </div>

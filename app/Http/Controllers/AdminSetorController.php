@@ -18,12 +18,27 @@ class AdminSetorController extends Controller
         // Ambil jenis sampah yang aktif
         $sampahList = TrashPrice::where('is_active', true)->orderBy('item_name', 'asc')->get();
 
-        // Ambil riwayat transaksi setoran di desa
+        // Ambil riwayat transaksi setoran di desa (HARI INI)
         $recentDeposits = TrashDeposit::with(['user', 'trashPrice'])
+            ->whereDate('created_at', \Carbon\Carbon::today())
             ->latest()
             ->paginate(10);
 
         return view('admin.setorsampah', compact('wargaList', 'sampahList', 'recentDeposits'));
+    }
+
+    public function rekap()
+    {
+        // Ambil semua transaksi setoran
+        $deposits = TrashDeposit::with(['user', 'trashPrice'])
+            ->latest()
+            ->paginate(20);
+            
+        // Ambil warga dan sampah untuk kebutuhan edit di modal
+        $wargaList = User::where('role', 'warga')->orderBy('name', 'asc')->get();
+        $sampahList = TrashPrice::orderBy('item_name', 'asc')->get();
+
+        return view('admin.rekapsetoran', compact('deposits', 'wargaList', 'sampahList'));
     }
 
     public function store(Request $request)

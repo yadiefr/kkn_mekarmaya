@@ -112,7 +112,7 @@
                                 <th class="p-4 text-center">Timbangan (Kg)</th>
                                 <th class="p-4 text-center">Harga / Kg</th>
                                 <th class="p-4 text-center">Status Pencairan</th>
-                                <th class="p-4 text-right">Earning</th>
+                                <th class="p-4 text-right">Pendapatan</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-100 text-gray-600">
