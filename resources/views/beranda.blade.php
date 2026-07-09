@@ -30,7 +30,7 @@
                         <span class="text-emerald-300 text-xs font-normal normal-case tracking-normal">Desa Mekarmaya</span>
                     </h1>
                 </div>
-                <!-- Menu Navigasi -->
+                <!-- Menu Navigasi (Desktop) -->
                 <div class="hidden md:block">
                     <div class="ml-10 flex items-center space-x-1 text-xs font-semibold tracking-wide uppercase">
                         <a href="#" class="bg-emerald-900 text-emerald-200 px-3 py-2 rounded-lg">Beranda</a>
@@ -40,6 +40,25 @@
                             <a href="{{ route('login') }}" class="bg-white text-emerald-800 hover:bg-emerald-50 px-4 py-2 rounded-lg transition duration-200 font-bold normal-case shadow-sm inline-block">Masuk / Daftar</a>
                         </div>
                     </div>
+                </div>
+
+                <!-- Hamburger Button (Mobile) -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobileMenuBtn" class="text-emerald-100 hover:text-white focus:outline-none p-2 cursor-pointer">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu (Hidden by default) -->
+        <div id="mobileMenu" class="hidden md:hidden border-t border-emerald-900 bg-emerald-800 absolute w-full left-0 shadow-lg">
+            <div class="px-4 pt-2 pb-4 flex flex-col space-y-2 text-sm font-semibold tracking-wide uppercase">
+                <a href="#" class="bg-emerald-900 text-emerald-200 px-4 py-3 rounded-lg block">Beranda</a>
+                <a href="{{ route('edukasi') }}" class="text-emerald-100 hover:bg-emerald-700 hover:text-white px-4 py-3 rounded-lg block transition duration-200">Edukasi</a>
+                <a href="{{ route('banksampah') }}" class="text-emerald-100 hover:bg-emerald-700 hover:text-white px-4 py-3 rounded-lg block transition duration-200">Bank Sampah</a>
+                <div class="pt-2 mt-2 border-t border-emerald-700">
+                    <a href="{{ route('login') }}" class="bg-white text-emerald-800 hover:bg-emerald-50 px-4 py-3 rounded-lg transition duration-200 font-bold normal-case shadow-sm block text-center mt-2">Masuk / Daftar</a>
                 </div>
             </div>
         </div>
@@ -58,11 +77,11 @@
             <p class="mt-4 text-sm text-gray-500 max-w-xl mx-auto leading-relaxed">
                 Selamat datang di platform digital Sobat Sampah Desa Mekarmaya. Mari bersama-sama belajar mengelola lingkungan dan tabung sampahmu menjadi investasi masa depan.
             </p>
-            <div class="mt-8 flex justify-center space-x-3">
-                <a href="{{ route('register') }}" class="bg-emerald-700 hover:bg-emerald-800 text-white font-medium text-sm py-2.5 px-5 rounded-lg shadow-sm transition duration-200">
+            <div class="mt-8 flex flex-col sm:flex-row justify-center space-y-3 sm:space-y-0 sm:space-x-3 max-w-xs sm:max-w-none mx-auto">
+                <a href="{{ route('register') }}" class="bg-emerald-700 hover:bg-emerald-800 text-white font-medium text-sm py-3 sm:py-2.5 px-5 rounded-lg shadow-sm transition duration-200 block sm:inline-block w-full sm:w-auto text-center">
                     <i class="fas fa-recycle mr-1.5 text-xs"></i> Mulai Menabung
                 </a>
-                <a href="{{ route('edukasi') }}" class="bg-white hover:bg-gray-50 text-gray-700 font-medium text-sm py-2.5 px-5 rounded-lg shadow-sm border border-gray-200 transition duration-200">
+                <a href="{{ route('edukasi') }}" class="bg-white hover:bg-gray-50 text-gray-700 font-medium text-sm py-3 sm:py-2.5 px-5 rounded-lg shadow-sm border border-gray-200 transition duration-200 block sm:inline-block w-full sm:w-auto text-center">
                     Pelajari Edukasi
                 </a>
             </div>
@@ -145,8 +164,26 @@
     <!-- FOOTER -->
     <footer class="bg-gray-900 text-gray-400 py-8 text-center text-xs border-t border-gray-800">
         <p>&copy; 2026 Sobat Sampah Desa Mekarmaya. All Rights Reserved.</p>
-        <p class="mt-1 text-[11px] text-gray-500">Dibuat demi kelestarian lingkungan dan transparansi tata kelola desa.</p>
+        <p class="mt-1 text-[11px] text-gray-500 px-4">Dibuat demi kelestarian lingkungan dan transparansi tata kelola desa.</p>
     </footer>
 
+    <!-- INTERACTIVE SCRIPTS -->
+    <script>
+        // Toggle mobile menu
+        document.getElementById('mobileMenuBtn').addEventListener('click', function() {
+            var menu = document.getElementById('mobileMenu');
+            var icon = this.querySelector('i');
+            
+            if (menu.classList.contains('hidden')) {
+                menu.classList.remove('hidden');
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            } else {
+                menu.classList.add('hidden');
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        });
+    </script>
 </body>
 </html>

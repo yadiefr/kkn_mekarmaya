@@ -71,7 +71,7 @@
                 <!-- ================= STEP 2 (Referensi Gambar 5.jpg) ================= -->
                 <div id="step2" class="space-y-4 hidden">
                     <div>
-                        <input type="date" name="tanggal_lahir" id="tanggal_lahir" required
+                        <input type="date" name="tanggal_lahir" id="tanggal_lahir" placeholder="Tanggal Lahir" required
                             class="w-full px-5 py-2.5 border border-gray-300 rounded-full text-center text-sm font-medium text-gray-800 bg-white focus:outline-none focus:ring-1 focus:ring-emerald-600 focus:border-emerald-600 transition duration-200">
                     </div>
                     <div>
