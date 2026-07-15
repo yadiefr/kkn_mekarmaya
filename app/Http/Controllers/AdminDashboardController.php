@@ -15,7 +15,7 @@ class AdminDashboardController extends Controller
     {
         // 1. Data Kas (Keseluruhan/Total)
         $kasMasuk = 0;
-        $deposits = TrashDeposit::with('trashPrice')->get();
+        $deposits = TrashDeposit::with('trashPrice')->where('is_reset', false)->get();
         foreach ($deposits as $deposit) {
             if ($deposit->trashPrice) {
                 $kasMasuk += $deposit->weight * $deposit->trashPrice->sell_price;
@@ -23,7 +23,7 @@ class AdminDashboardController extends Controller
         }
 
         // Hitung Kas Keluar berdasarkan penarikan saldo warga yang telah disetujui
-        $kasKeluar = WithdrawalRequest::where('status', 'approved')->sum('total_amount');
+        $kasKeluar = WithdrawalRequest::where('status', 'approved')->where('is_reset', false)->sum('total_amount');
         
         // Sisa Saldo Kas
         $saldoKas = $kasMasuk - $kasKeluar;
@@ -32,7 +32,8 @@ class AdminDashboardController extends Controller
         $topWarga = User::where('role', 'warga')
             ->leftJoin('trash_deposits', function ($join) {
                 $join->on('users.id', '=', 'trash_deposits.user_id')
-                     ->where('trash_deposits.withdrawal_status', '=', 'belum_ditarik');
+                     ->where('trash_deposits.withdrawal_status', '=', 'belum_ditarik')
+                     ->where('trash_deposits.is_reset', '=', false);
             })
             ->select(
                 'users.id',

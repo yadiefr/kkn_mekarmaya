@@ -14,7 +14,8 @@ use App\Http\Controllers\AdminPembayaranController;
 use App\Http\Controllers\AdminHargaController;
 use App\Http\Controllers\AdminKasController;
 use App\Http\Controllers\AdminEdukasiController;
-use App\Http\Controllers\AdminDashboardController;Route::get('/', function () {
+use App\Http\Controllers\AdminDashboardController;
+use App\Http\Controllers\AdminSettingsController;Route::get('/', function () {
     return view('beranda');
 });
 // Jalur untuk Halaman Edukasi
@@ -124,6 +125,10 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/admin/setting-harga/update/{id}', [AdminHargaController::class, 'update'])->name('admin.harga.update');
     Route::post('/admin/setting-harga/toggle/{id}', [AdminHargaController::class, 'toggleStatus'])->name('admin.harga.toggle');
     Route::delete('/admin/setting-harga/hapus/{id}', [AdminHargaController::class, 'destroy'])->name('admin.harga.destroy');
+
+    // Pengaturan Admin
+    Route::get('/admin/pengaturan', [AdminSettingsController::class, 'index'])->name('admin.pengaturan');
+    Route::post('/admin/pengaturan/reset', [AdminSettingsController::class, 'reset'])->name('admin.pengaturan.reset');
 });
 
 

@@ -51,7 +51,7 @@
                 </a>
                 <a href="{{ route('admin.pembayaran') }}" class="flex items-center space-x-3 {{ Route::is('admin.pembayaran') ? 'bg-emerald-800 text-white' : 'text-emerald-100 hover:bg-emerald-800 hover:text-white' }} px-4 py-2.5 rounded-lg text-sm font-medium transition duration-200">
                     <i class="fas fa-file-invoice-dollar text-emerald-300 w-5 text-center"></i>
-                    <span>Pembayaran Dana Nasabah</span>
+                    <span>Pembayaran Dana Warga</span>
                 </a>
                 <a href="{{ route('admin.harga.index') }}" class="flex items-center space-x-3 {{ Route::is('admin.harga.index') ? 'bg-emerald-800 text-white' : 'text-emerald-100 hover:bg-emerald-800 hover:text-white' }} px-4 py-2.5 rounded-lg text-sm font-medium transition duration-200">
                     <i class="fas fa-tags text-emerald-300 w-5 text-center"></i>
@@ -67,9 +67,12 @@
                 </a>
             </nav>
         </div>
-        <div class="p-4 border-t border-emerald-800">
-            <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="text-red-300 hover:text-red-200 text-xs font-semibold px-4 py-2 block">
-                <i class="fas fa-sign-out-alt mr-2"></i>Keluar Sistem
+        <div class="p-4 border-t border-emerald-800 flex justify-between items-center">
+            <a href="{{ route('admin.pengaturan') }}" class="text-emerald-300 hover:text-emerald-100 text-xs font-semibold px-2 py-2 flex items-center">
+                <i class="fas fa-cog mr-1.5"></i>Pengaturan
+            </a>
+            <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="text-red-300 hover:text-red-200 text-xs font-semibold px-2 py-2 flex items-center">
+                <i class="fas fa-sign-out-alt mr-1.5"></i>Keluar
             </a>
             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">@csrf</form>
         </div>

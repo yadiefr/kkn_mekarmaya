@@ -22,12 +22,12 @@ class AdminKasController extends Controller
         // Get list of all available months from deposits and withdrawals for filter options
         $monthsCollection = collect();
 
-        $allDepositsDates = TrashDeposit::select('created_at')->get();
+        $allDepositsDates = TrashDeposit::where('is_reset', false)->select('created_at')->get();
         foreach ($allDepositsDates as $d) {
             $monthsCollection->push($d->created_at->format('Y-m'));
         }
 
-        $allWithdrawalDates = WithdrawalRequest::where('status', 'approved')->select('updated_at')->get();
+        $allWithdrawalDates = WithdrawalRequest::where('status', 'approved')->where('is_reset', false)->select('updated_at')->get();
         foreach ($allWithdrawalDates as $w) {
             $monthsCollection->push($w->updated_at->format('Y-m'));
         }
@@ -47,7 +47,7 @@ class AdminKasController extends Controller
             : 'Semua Waktu';
 
         // Hitung estimasi Kas Masuk
-        $queryDeposits = TrashDeposit::with('trashPrice');
+        $queryDeposits = TrashDeposit::with('trashPrice')->where('is_reset', false);
         if ($selectedMonth) {
             $queryDeposits->whereYear('created_at', substr($selectedMonth, 0, 4))
                           ->whereMonth('created_at', substr($selectedMonth, 5, 2));
@@ -62,7 +62,7 @@ class AdminKasController extends Controller
         }
 
         // Hitung Kas Keluar
-        $queryWithdrawals = WithdrawalRequest::where('status', 'approved');
+        $queryWithdrawals = WithdrawalRequest::where('status', 'approved')->where('is_reset', false);
         if ($selectedMonth) {
             $queryWithdrawals->whereYear('updated_at', substr($selectedMonth, 0, 4))
                             ->whereMonth('updated_at', substr($selectedMonth, 5, 2));
@@ -76,7 +76,7 @@ class AdminKasController extends Controller
         $transactionsAll = [];
 
         // 1. Kas Masuk (Semua)
-        $depositsListAll = TrashDeposit::with('trashPrice')->get();
+        $depositsListAll = TrashDeposit::with('trashPrice')->where('is_reset', false)->get();
         foreach ($depositsListAll as $deposit) {
             if ($deposit->trashPrice) {
                 $amount = $deposit->weight * $deposit->trashPrice->sell_price;
@@ -92,7 +92,7 @@ class AdminKasController extends Controller
         }
 
         // 2. Kas Keluar (Semua)
-        $withdrawalsListAll = WithdrawalRequest::with('user')->where('status', 'approved')->get();
+        $withdrawalsListAll = WithdrawalRequest::with('user')->where('status', 'approved')->where('is_reset', false)->get();
         foreach ($withdrawalsListAll as $withdrawal) {
             $userName = $withdrawal->user ? $withdrawal->user->name : 'Warga (Terhapus)';
             $transactionsAll[] = [
@@ -152,7 +152,7 @@ class AdminKasController extends Controller
         $transactionsAll = [];
 
         // 1. Kas Masuk (Semua)
-        $depositsListAll = TrashDeposit::with(['trashPrice', 'user'])->get();
+        $depositsListAll = TrashDeposit::with(['trashPrice', 'user'])->where('is_reset', false)->get();
         foreach ($depositsListAll as $deposit) {
             if ($deposit->trashPrice) {
                 $amount = $deposit->weight * $deposit->trashPrice->sell_price;
@@ -168,7 +168,7 @@ class AdminKasController extends Controller
         }
 
         // 2. Kas Keluar (Semua)
-        $withdrawalsListAll = WithdrawalRequest::with('user')->where('status', 'approved')->get();
+        $withdrawalsListAll = WithdrawalRequest::with('user')->where('status', 'approved')->where('is_reset', false)->get();
         foreach ($withdrawalsListAll as $withdrawal) {
             $userName = $withdrawal->user ? $withdrawal->user->name : 'Warga (Terhapus)';
             $transactionsAll[] = [
