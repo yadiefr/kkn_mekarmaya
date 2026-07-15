@@ -32,6 +32,12 @@ class WargaDashboardController extends Controller
             ->where('user_id', $user->id)
             ->sum('weight');
 
+        // 4.1 Hitung Total Berat Sampah aktif saat ini (belum ditarik)
+        $totalBeratAktif = DB::table('trash_deposits')
+            ->where('user_id', $user->id)
+            ->where('withdrawal_status', 'belum_ditarik')
+            ->sum('weight');
+
         // 5. Hitung Total Saldo yang sudah sukses ditarik/dicairkan tunai
         $totalDicairkan = DB::table('trash_deposits')
             ->where('user_id', $user->id)
@@ -39,6 +45,6 @@ class WargaDashboardController extends Controller
             ->sum('earning');
 
         // Kirim semua data dinamis ini ke halaman Blade
-        return view('warga.dashboardwarga', compact('user', 'deposits', 'totalSaldo', 'totalBerat', 'totalDicairkan'));
+        return view('warga.dashboardwarga', compact('user', 'deposits', 'totalSaldo', 'totalBerat', 'totalBeratAktif', 'totalDicairkan'));
     }
 }

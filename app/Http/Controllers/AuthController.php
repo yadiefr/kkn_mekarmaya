@@ -68,17 +68,33 @@ class AuthController extends Controller
     {
         $request->validate([
             'nama_lengkap' => 'required|string|max:255',
+            'no_kk' => 'required|string|max:16',
             'nik' => 'required|string|unique:users,nik|max:16',
             'tempat_lahir' => 'required|string|max:100',
             'tanggal_lahir' => 'required|date',
             'jenis_kelamin' => 'required|in:Laki-laki,Perempuan',
             'alamat' => 'required|string',
             'whatsapp' => 'required|string|max:15',
-            'password' => 'required|string|min:6',
+            'password' => 'required|string|min:6|confirmed',
+        ], [
+            'nama_lengkap.required' => 'Nama lengkap wajib diisi.',
+            'no_kk.required' => 'Nomor Kartu Keluarga wajib diisi.',
+            'nik.required' => 'Nomor NIK wajib diisi.',
+            'nik.unique' => 'Nomor NIK sudah terdaftar.',
+            'nik.max' => 'Nomor NIK maksimal 16 karakter.',
+            'tempat_lahir.required' => 'Tempat lahir wajib diisi.',
+            'tanggal_lahir.required' => 'Tanggal lahir wajib diisi.',
+            'jenis_kelamin.required' => 'Jenis kelamin wajib diisi.',
+            'alamat.required' => 'Alamat lengkap wajib diisi.',
+            'whatsapp.required' => 'Nomor WhatsApp wajib diisi.',
+            'password.required' => 'Password wajib diisi.',
+            'password.min' => 'Password minimal harus terdiri dari 6 karakter.',
+            'password.confirmed' => 'Konfirmasi password tidak sesuai.',
         ]);
 
         User::create([
             'name' => $request->nama_lengkap,
+            'no_kk' => $request->no_kk,
             'nik' => $request->nik,
             'tempat_lahir' => $request->tempat_lahir,
             'tanggal_lahir' => $request->tanggal_lahir,

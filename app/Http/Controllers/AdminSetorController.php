@@ -45,31 +45,48 @@ class AdminSetorController extends Controller
     {
         $request->validate([
             'user_id' => 'required|exists:users,id',
-            'trash_price_id' => 'required|exists:trash_prices,id',
-            'weight' => 'required|numeric|min:0.01',
-            'note' => 'nullable|string|max:255',
+            'trash_items' => 'required|array|min:1',
+            'trash_items.*.trash_price_id' => 'required|exists:trash_prices,id',
+            'trash_items.*.weight' => 'required|numeric|min:0.01',
+            'trash_items.*.note' => 'nullable|string|max:255',
+        ], [
+            'user_id.required' => 'Nama warga penabung wajib dipilih.',
+            'user_id.exists' => 'Warga tidak ditemukan.',
+            'trash_items.required' => 'Daftar item sampah wajib diisi.',
+            'trash_items.array' => 'Format daftar item sampah tidak valid.',
+            'trash_items.min' => 'Minimal harus ada 1 item sampah.',
+            'trash_items.*.trash_price_id.required' => 'Kategori sampah wajib dipilih pada setiap baris.',
+            'trash_items.*.trash_price_id.exists' => 'Kategori sampah tidak valid.',
+            'trash_items.*.weight.required' => 'Berat hasil timbangan wajib diisi.',
+            'trash_items.*.weight.numeric' => 'Berat harus berupa angka.',
+            'trash_items.*.weight.min' => 'Berat minimal 0.01 Kg.',
+            'trash_items.*.note.max' => 'Catatan maksimal 255 karakter.',
         ]);
 
-        // Ambil data aturan harga sampah saat ini dari database
-        $trashPrice = TrashPrice::findOrFail($request->trash_price_id);
+        $userId = $request->user_id;
+        $totalEarning = 0;
 
-        // LOGIKA UTAMA MATEMATIKA: Hitung pendapatan warga
-        $weight = $request->weight;
-        $pricePerKg = $trashPrice->buy_price; // Mengambil harga beli warga aktif
-        $earning = $weight * $pricePerKg;
+        DB::transaction(function () use ($request, $userId, &$totalEarning) {
+            foreach ($request->trash_items as $item) {
+                $trashPrice = TrashPrice::findOrFail($item['trash_price_id']);
+                $weight = $item['weight'];
+                $pricePerKg = $trashPrice->buy_price;
+                $earning = $weight * $pricePerKg;
+                $totalEarning += $earning;
 
-        // Simpan nota ke dalam database
-        TrashDeposit::create([
-            'user_id' => $request->user_id,
-            'trash_price_id' => $request->trash_price_id,
-            'weight' => $weight,
-            'price_per_kg' => $pricePerKg, // Mengunci harga saat transaksi dilakukan
-            'earning' => $earning,
-            'withdrawal_status' => 'belum_ditarik',
-            'note' => $request->note,
-        ]);
+                TrashDeposit::create([
+                    'user_id' => $userId,
+                    'trash_price_id' => $item['trash_price_id'],
+                    'weight' => $weight,
+                    'price_per_kg' => $pricePerKg,
+                    'earning' => $earning,
+                    'withdrawal_status' => 'belum_ditarik',
+                    'note' => $item['note'] ?? null,
+                ]);
+            }
+        });
 
-        return back()->with('success', 'Transaksi berhasil! Saldo sebesar Rp ' . number_format($earning, 0, ',', '.') . ' telah didepositokan ke akun warga.');
+        return back()->with('success', 'Transaksi berhasil! Total Saldo sebesar Rp ' . number_format($totalEarning, 0, ',', '.') . ' telah didepositokan ke akun warga.');
     }
 
     public function update(Request $request, $id)

@@ -17,6 +17,7 @@ class UserSeeder extends Seeder
             // 1. DATA AKUN ADMIN DESA
             [
                 'name' => 'Admin Desa Mekarmaya',
+                'no_kk' => '1234567890123456',
                 'nik' => '1234567890123456', // Gunakan NIK ini untuk login admin
                 'tempat_lahir' => 'Mekarmaya',
                 'tanggal_lahir' => '1990-01-01',
@@ -30,6 +31,7 @@ class UserSeeder extends Seeder
             // 2. DATA AKUN WARGA (CONTOH)
             [
                 'name' => 'Budi Setiawan',
+                'no_kk' => '3214010203040001',
                 'nik' => '3214010203040002', // Gunakan NIK ini untuk pancingan login warga
                 'tempat_lahir' => 'Bandung',
                 'tanggal_lahir' => '1995-08-17',

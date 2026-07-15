@@ -17,20 +17,16 @@
         body { font-family: 'Inter', sans-serif; }
     </style>
 </head>
-<body class="bg-gray-50 min-h-screen flex flex-col justify-center items-center px-4">
+<body class="bg-gray-50 min-h-screen flex flex-col justify-center items-center py-8 px-4">
 
     <!-- WRAPPER UTAMA -->
-    <div class="w-full max-w-sm">
+    <div class="w-full max-w-md">
         
         <!-- TOMBOL KEMBALI KE HALAMAN SEBELUMNYA (LOG IN / BERANDA) -->
         <div class="mb-4 flex justify-between items-center px-1">
             <a href="javascript:history.back()" class="inline-flex items-center text-xs font-semibold text-emerald-700 hover:text-emerald-800 tracking-wide uppercase transition duration-200">
                 <i class="fas fa-arrow-left mr-2"></i> Kembali
             </a>
-            <!-- Indikator Langkah (Step Indicator) -->
-            <span id="stepBadge" class="text-[11px] font-bold text-gray-400 bg-gray-200/60 px-2 py-0.5 rounded-md">
-                STEP 1 DARI 3
-            </span>
         </div>
 
         <!-- CONTAINER UTAMA (KARTU REGISTRASI) -->
@@ -41,89 +37,79 @@
                 <img src="{{ asset('images/logo-login.png') }}" alt="Logo Bank Sampah Desa Mekarmaya" class="w-48 h-auto object-contain fallback-image">
             </div>
 
-            <!-- FORM PENDAFTARAN 3 STEP -->
-            <form action="#" method="POST" id="regForm">
+            @if($errors->any())
+                <div class="mb-4 text-xs font-medium text-red-700 bg-red-50 border border-red-100 p-3 rounded-xl text-left">
+                    <ul class="list-disc list-inside space-y-1">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+            <!-- FORM PENDAFTARAN (1 HALAMAN) -->
+            <form action="{{ route('register') }}" method="POST" id="regForm" class="space-y-4">
                 @csrf
                 
-                <!-- ================= STEP 1 (Referensi Gambar 4.jpg) ================= -->
-                <div id="step1" class="space-y-4">
+                <div>
+                    <input type="text" name="nama_lengkap" id="nama_lengkap" value="{{ old('nama_lengkap') }}" placeholder="Nama Lengkap" required
+                        class="w-full px-5 py-2.5 border border-gray-300 rounded-full text-center text-sm font-medium text-gray-800 placeholder-gray-400 bg-white focus:outline-none focus:ring-1 focus:ring-emerald-600 focus:border-emerald-600 transition duration-200">
+                </div>
+                <div>
+                    <input type="text" name="no_kk" id="no_kk" value="{{ old('no_kk') }}" placeholder="Nomor Kartu Keluarga" required
+                        class="w-full px-5 py-2.5 border border-gray-300 rounded-full text-center text-sm font-medium text-gray-800 placeholder-gray-400 bg-white focus:outline-none focus:ring-1 focus:ring-emerald-600 focus:border-emerald-600 transition duration-200">
+                </div>
+                <div>
+                    <input type="text" name="nik" id="nik" value="{{ old('nik') }}" placeholder="Nomor NIK" required
+                        class="w-full px-5 py-2.5 border border-gray-300 rounded-full text-center text-sm font-medium text-gray-800 placeholder-gray-400 bg-white focus:outline-none focus:ring-1 focus:ring-emerald-600 focus:border-emerald-600 transition duration-200">
+                </div>
+                
+                <div class="grid grid-cols-2 gap-3">
                     <div>
-                        <input type="text" name="nama_lengkap" id="nama_lengkap" placeholder="Nama Lengkap" required
-                            class="w-full px-5 py-2.5 border border-gray-300 rounded-full text-center text-sm font-medium text-gray-800 placeholder-gray-400 bg-white focus:outline-none focus:ring-1 focus:ring-emerald-600 focus:border-emerald-600 transition duration-200">
+                        <input type="text" name="tempat_lahir" id="tempat_lahir" value="{{ old('tempat_lahir') }}" placeholder="Tempat Lahir" required
+                            class="w-full px-4 py-2.5 border border-gray-300 rounded-full text-center text-sm font-medium text-gray-800 placeholder-gray-400 bg-white focus:outline-none focus:ring-1 focus:ring-emerald-600 focus:border-emerald-600 transition duration-200">
                     </div>
                     <div>
-                        <input type="text" name="nik" id="nik" placeholder="Masukkan NIK" required
-                            class="w-full px-5 py-2.5 border border-gray-300 rounded-full text-center text-sm font-medium text-gray-800 placeholder-gray-400 bg-white focus:outline-none focus:ring-1 focus:ring-emerald-600 focus:border-emerald-600 transition duration-200">
-                    </div>
-                    <div>
-                        <input type="text" name="tempat_lahir" id="tempat_lahir" placeholder="Tempat Lahir" required
-                            class="w-full px-5 py-2.5 border border-gray-300 rounded-full text-center text-sm font-medium text-gray-800 placeholder-gray-400 bg-white focus:outline-none focus:ring-1 focus:ring-emerald-600 focus:border-emerald-600 transition duration-200">
-                    </div>
-                    
-                    <div class="pt-2">
-                        <button type="button" onclick="nextStep(2)"
-                            class="w-full py-2.5 bg-[#238000] hover:bg-emerald-800 text-white font-semibold text-sm rounded-full tracking-wide shadow-sm uppercase transition duration-200 cursor-pointer">
-                            LANJUT
-                        </button>
+                        <input type="date" name="tanggal_lahir" id="tanggal_lahir" value="{{ old('tanggal_lahir') }}" required
+                            class="w-full px-4 py-2.5 border border-gray-300 rounded-full text-center text-sm font-medium text-gray-800 bg-white focus:outline-none focus:ring-1 focus:ring-emerald-600 focus:border-emerald-600 transition duration-200">
                     </div>
                 </div>
 
-                <!-- ================= STEP 2 (Referensi Gambar 5.jpg) ================= -->
-                <div id="step2" class="space-y-4 hidden">
+                <div>
+                    <select name="jenis_kelamin" id="jenis_kelamin" required
+                        class="w-full px-5 py-2.5 border border-gray-300 rounded-full text-center text-sm font-medium text-gray-400 bg-white focus:outline-none focus:ring-1 focus:ring-emerald-600 focus:border-emerald-600 transition duration-200 appearance-none cursor-pointer">
+                        <option value="" disabled selected class="text-gray-400">Jenis Kelamin</option>
+                        <option value="Laki-laki" {{ old('jenis_kelamin') == 'Laki-laki' ? 'selected' : '' }} class="text-gray-800">Laki-laki</option>
+                        <option value="Perempuan" {{ old('jenis_kelamin') == 'Perempuan' ? 'selected' : '' }} class="text-gray-800">Perempuan</option>
+                    </select>
+                </div>
+
+                <div>
+                    <input type="text" name="alamat" id="alamat" value="{{ old('alamat') }}" placeholder="Alamat Lengkap" required
+                        class="w-full px-5 py-2.5 border border-gray-300 rounded-full text-center text-sm font-medium text-gray-800 placeholder-gray-400 bg-white focus:outline-none focus:ring-1 focus:ring-emerald-600 focus:border-emerald-600 transition duration-200">
+                </div>
+
+                <div>
+                    <input type="text" name="whatsapp" id="whatsapp" value="{{ old('whatsapp') }}" placeholder="Nomor WhatsApp" required
+                        class="w-full px-5 py-2.5 border border-gray-300 rounded-full text-center text-sm font-medium text-gray-800 placeholder-gray-400 bg-white focus:outline-none focus:ring-1 focus:ring-emerald-600 focus:border-emerald-600 transition duration-200">
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
                     <div>
-                        <input type="date" name="tanggal_lahir" id="tanggal_lahir" placeholder="Tanggal Lahir" required
-                            class="w-full px-5 py-2.5 border border-gray-300 rounded-full text-center text-sm font-medium text-gray-800 bg-white focus:outline-none focus:ring-1 focus:ring-emerald-600 focus:border-emerald-600 transition duration-200">
+                        <input type="password" name="password" id="password" placeholder="Password" required
+                            class="w-full px-4 py-2.5 border border-gray-300 rounded-full text-center text-sm font-medium text-gray-800 placeholder-gray-400 bg-white focus:outline-none focus:ring-1 focus:ring-emerald-600 focus:border-emerald-600 transition duration-200">
                     </div>
                     <div>
-                        <select name="jenis_kelamin" id="jenis_kelamin" required
-                            class="w-full px-5 py-2.5 border border-gray-300 rounded-full text-center text-sm font-medium text-gray-400 bg-white focus:outline-none focus:ring-1 focus:ring-emerald-600 focus:border-emerald-600 transition duration-200 appearance-none cursor-pointer">
-                            <option value="" disabled selected class="text-gray-400">Jenis Kelamin</option>
-                            <option value="Laki-laki" class="text-gray-800">Laki-laki</option>
-                            <option value="Perempuan" class="text-gray-800">Perempuan</option>
-                        </select>
-                    </div>
-                    <div>
-                        <input type="text" name="alamat" id="alamat" placeholder="Alamat Lengkap" required
-                            class="w-full px-5 py-2.5 border border-gray-300 rounded-full text-center text-sm font-medium text-gray-800 placeholder-gray-400 bg-white focus:outline-none focus:ring-1 focus:ring-emerald-600 focus:border-emerald-600 transition duration-200">
-                    </div>
-                    
-                    <div class="pt-2 flex gap-3">
-                        <button type="button" onclick="prevStep(1)"
-                            class="w-1/3 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-600 font-semibold text-sm rounded-full tracking-wide transition duration-200 cursor-pointer">
-                            <i class="fas fa-chevron-left"></i>
-                        </button>
-                        <button type="button" onclick="nextStep(3)"
-                            class="w-2/3 py-2.5 bg-[#238000] hover:bg-emerald-800 text-white font-semibold text-sm rounded-full tracking-wide shadow-sm uppercase transition duration-200 cursor-pointer">
-                            LANJUT
-                        </button>
+                        <input type="password" name="password_confirmation" id="password_confirmation" placeholder="Ulangi Password" required
+                            class="w-full px-4 py-2.5 border border-gray-300 rounded-full text-center text-sm font-medium text-gray-800 placeholder-gray-400 bg-white focus:outline-none focus:ring-1 focus:ring-emerald-600 focus:border-emerald-600 transition duration-200">
                     </div>
                 </div>
 
-                <!-- ================= STEP 3 (Referensi Gambar 6.jpg) ================= -->
-                <div id="step3" class="space-y-4 hidden">
-                    <div>
-                        <input type="text" name="whatsapp" id="whatsapp" placeholder="Nomor WhatsApp" required
-                            class="w-full px-5 py-2.5 border border-gray-300 rounded-full text-center text-sm font-medium text-gray-800 placeholder-gray-400 bg-white focus:outline-none focus:ring-1 focus:ring-emerald-600 focus:border-emerald-600 transition duration-200">
-                    </div>
-                    <div>
-                        <input type="password" name="password" id="password" placeholder="Masukkan Password" required
-                            class="w-full px-5 py-2.5 border border-gray-300 rounded-full text-center text-sm font-medium text-gray-800 placeholder-gray-400 bg-white focus:outline-none focus:ring-1 focus:ring-emerald-600 focus:border-emerald-600 transition duration-200">
-                    </div>
-                    <div>
-                        <input type="password" name="password_confirmation" id="password_confirmation" placeholder="Konfirmasi Password" required
-                            class="w-full px-5 py-2.5 border border-gray-300 rounded-full text-center text-sm font-medium text-gray-800 placeholder-gray-400 bg-white focus:outline-none focus:ring-1 focus:ring-emerald-600 focus:border-emerald-600 transition duration-200">
-                    </div>
-                    
-                    <div class="pt-2 flex gap-3">
-                        <button type="button" onclick="prevStep(2)"
-                            class="w-1/3 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-600 font-semibold text-sm rounded-full tracking-wide transition duration-200 cursor-pointer">
-                            <i class="fas fa-chevron-left"></i>
-                        </button>
-                        <button type="submit"
-                            class="w-2/3 py-2.5 bg-[#238000] hover:bg-emerald-800 text-white font-semibold text-sm rounded-full tracking-wide shadow-sm uppercase transition duration-200 cursor-pointer">
-                            DAFTAR
-                        </button>
-                    </div>
+                <div class="pt-2">
+                    <button type="submit"
+                        class="w-full py-2.5 bg-[#238000] hover:bg-emerald-800 text-white font-semibold text-sm rounded-full tracking-wide shadow-sm uppercase transition duration-200 cursor-pointer">
+                        DAFTAR
+                    </button>
                 </div>
             </form>
 
@@ -137,41 +123,12 @@
 
     <!-- JAVASCRIPT LOGIC PENGATUR STEP & FALLBACK IMAGE -->
     <script>
-        function nextStep(step) {
-            // Validasi dasar sebelum pindah ke step berikutnya
-            if (step === 2) {
-                if (!document.getElementById('nama_lengkap').value || !document.getElementById('nik').value || !document.getElementById('tempat_lahir').value) {
-                    alert('Mohon isi semua data di langkah ini.');
-                    return;
-                }
-                document.getElementById('step1').classList.add('hidden');
-                document.getElementById('step2').classList.remove('hidden');
-                document.getElementById('stepBadge').innerText = "STEP 2 DARI 3";
-            } else if (step === 3) {
-                if (!document.getElementById('tanggal_lahir').value || !document.getElementById('jenis_kelamin').value || !document.getElementById('alamat').value) {
-                    alert('Mohon isi semua data di langkah ini.');
-                    return;
-                }
-                document.getElementById('step2').classList.add('hidden');
-                document.getElementById('step3').classList.remove('hidden');
-                document.getElementById('stepBadge').innerText = "STEP 3 DARI 3";
-            }
-        }
-
-        function prevStep(step) {
-            if (step === 1) {
-                document.getElementById('step2').classList.add('hidden');
-                document.getElementById('step1').classList.remove('hidden');
-                document.getElementById('stepBadge').innerText = "STEP 1 DARI 3";
-            } else if (step === 2) {
-                document.getElementById('step3').classList.add('hidden');
-                document.getElementById('step2').classList.remove('hidden');
-                document.getElementById('stepBadge').innerText = "STEP 2 DARI 3";
-            }
-        }
-
         // Penanganan warna teks bawaan untuk tag select (Dropdown)
         const selectEl = document.getElementById('jenis_kelamin');
+        if (selectEl.value !== "") {
+            selectEl.classList.remove('text-gray-400');
+            selectEl.classList.add('text-gray-800');
+        }
         selectEl.addEventListener('change', function() {
             if(this.value !== "") {
                 this.classList.remove('text-gray-400');

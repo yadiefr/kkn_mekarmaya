@@ -82,12 +82,16 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/warga/tarik-saldo', [WargaTarikSaldoController::class, 'index'])->name('warga.tarik');
     Route::post('/warga/tarik-saldo/ajukan', [WargaTarikSaldoController::class, 'store'])->name('warga.tarik.ajukan');
 
-    // Rute halaman manajemen aktivasi warga
-    Route::get('/admin/aktivasi-warga', [AdminAktivasiController::class, 'index'])->name('admin.aktivasi');
+    // Rute halaman manajemen data warga
+    Route::get('/admin/data-warga', [AdminAktivasiController::class, 'index'])->name('admin.datawarga');
+    // Rute simpan warga baru oleh admin
+    Route::post('/admin/data-warga/store', [AdminAktivasiController::class, 'store'])->name('admin.datawarga.store');
+    // Rute update data warga oleh admin
+    Route::post('/admin/data-warga/update/{id}', [AdminAktivasiController::class, 'update'])->name('admin.datawarga.update');
     // Rute aksi mengubah status akses ON/OFF
-    Route::post('/admin/aktivasi-warga/{id}/toggle', [AdminAktivasiController::class, 'toggleAkses'])->name('admin.aktivasi.toggle');
+    Route::post('/admin/data-warga/{id}/toggle', [AdminAktivasiController::class, 'toggleAkses'])->name('admin.datawarga.toggle');
     // Rute menghapus warga
-    Route::delete('/admin/aktivasi-warga/{id}', [AdminAktivasiController::class, 'destroy'])->name('admin.aktivasi.destroy');
+    Route::delete('/admin/data-warga/{id}', [AdminAktivasiController::class, 'destroy'])->name('admin.datawarga.destroy');
     // Tampilan Form    // Transaksi Setor Sampah
     Route::get('/admin/setor-sampah', [AdminSetorController::class, 'index'])->name('admin.setor');
     Route::get('/admin/setor-sampah/rekap', [AdminSetorController::class, 'rekap'])->name('admin.setor.rekap');

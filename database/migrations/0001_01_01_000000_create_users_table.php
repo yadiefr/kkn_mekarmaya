@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             // Data Step 1
             $table->string('name'); // Nama Lengkap
+            $table->string('no_kk'); // Nomor Kartu Keluarga
             $table->string('nik')->unique(); // Nomor Induk Kependudukan (Unik)
             $table->string('tempat_lahir');
 

@@ -1,221 +1,104 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Admin - Sobat Sampah Desa Mekarmaya</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4" crossorigin="anonymous"></script>
-    <!-- Alpine.js -->
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <!-- FontAwesome untuk Icon -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous">
-    <!-- Google Font Inter -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <style>
-        body { font-family: 'Inter', sans-serif; }
-    </style>
-</head>
-<body x-data="{ sidebarOpen: false }" class="bg-gray-100 text-gray-800 antialiased min-h-screen flex">
+@extends('layouts.admin')
 
-    <!-- Overlay Mobile -->
-    <div x-show="sidebarOpen" @click="sidebarOpen = false" x-transition.opacity class="fixed inset-0 z-20 bg-black/50 md:hidden"></div>
+@section('title', 'Dashboard Admin - Sobat Sampah Desa Mekarmaya')
+@section('header_title', 'Ringkasan Utama')
 
-    <!-- SIDEBAR NAVIGASI -->
-    <aside :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'" class="fixed inset-y-0 left-0 z-30 w-64 bg-emerald-900 text-white flex flex-col justify-between shrink-0 transition-transform duration-300 md:relative md:translate-x-0 md:flex shadow-xl">
-        <div>
-            <!-- Header Sidebar -->
-            <div class="p-6 border-b border-emerald-800">
-                <h1 class="font-bold text-base leading-tight uppercase tracking-wider">
-                    Sobat Sampah<br>
-                    <span class="text-emerald-300 text-xs font-medium normal-case">Panel Admin Mekarmaya</span>
-                </h1>
+@section('content')
+    <!-- ROW 1: KARTU STATISTIK & KAS -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+        <!-- Total Kas Masuk -->
+        <div class="bg-white p-4 sm:p-5 rounded-xl border border-gray-100 shadow-sm flex items-center justify-between">
+            <div class="min-w-0">
+                <p class="text-[9px] sm:text-[11px] font-bold text-gray-400 uppercase tracking-wider truncate">Total Kas Masuk</p>
+                <h3 class="text-xs sm:text-lg font-bold text-gray-900 mt-1 truncate">Rp {{ number_format($kasMasuk, 0, ',', '.') }}</h3>
             </div>
-            <!-- Menu Utama -->
-            <nav class="p-4 space-y-1">
-                <a href="#" class="flex items-center space-x-3 bg-emerald-800 text-white px-4 py-2.5 rounded-lg text-sm font-medium transition duration-200">
-                    <i class="fas fa-th-large text-emerald-300 w-5 text-center"></i>
-                    <span>Dashboard</span>
-                </a>
-                <a href="{{ route('admin.aktivasi') }}" class="flex items-center space-x-3 text-emerald-100 hover:bg-emerald-800 hover:text-white px-4 py-2.5 rounded-lg text-sm font-medium transition duration-200">
-                    <i class="fas fa-user-check text-emerald-300 w-5 text-center"></i>
-                    <span>Aktivasi Warga</span>
-                </a>
-                <a href="{{ route('admin.setor') }}" class="flex items-center space-x-3 text-emerald-100 hover:bg-emerald-800 hover:text-white px-4 py-2.5 rounded-lg text-sm font-medium transition duration-200">
-                    <i class="fas fa-hand-holding-heart text-emerald-300 w-5 text-center"></i>
-                    <span>Setor Sampah</span>
-                </a>
-                <a href="{{ route('admin.pembayaran') }}" class="flex items-center space-x-3 text-emerald-100 hover:bg-emerald-800 hover:text-white px-4 py-2.5 rounded-lg text-sm font-medium transition duration-200">
-                    <i class="fas fa-file-invoice-dollar text-emerald-300 w-5 text-center"></i>
-                    <span>Pembayaran Dana Nasabah</span>
-                </a>
-                <a href="{{ route('admin.harga.index') }}" class="flex items-center space-x-3 text-emerald-100 hover:bg-emerald-800 hover:text-white px-4 py-2.5 rounded-lg text-sm font-medium transition duration-200">
-                    <i class="fas fa-tags text-emerald-300 w-5 text-center"></i>
-                    <span>Setting Harga Sampah</span>
-                </a>
-                <a href="{{ route('admin.kas') }}" class="flex items-center space-x-3 text-emerald-100 hover:bg-emerald-800 hover:text-white px-4 py-2.5 rounded-lg text-sm font-medium transition duration-200">
-                    <i class="fas fa-book text-emerald-300 w-5 text-center"></i>
-                    <span>Kas Desa</span>
-                </a>
-                <a href="{{ route('admin.edukasi') }}" class="flex items-center space-x-3 text-emerald-100 hover:bg-emerald-800 hover:text-white px-4 py-2.5 rounded-lg text-sm font-medium transition duration-200">
-                    <i class="fas fa-graduation-cap text-emerald-300 w-5 text-center"></i>
-                    <span>Kelola Edukasi</span>
-                </a>
-            </nav>
+            <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-green-50 text-green-600 flex items-center justify-center text-sm sm:text-base shrink-0 ml-2"><i class="fas fa-arrow-trend-up"></i></div>
         </div>
-        <!-- Footer Sidebar (Logout) -->
-        <div class="p-4 border-t border-emerald-800">
-            <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
-                class="flex items-center space-x-3 text-red-300 hover:bg-red-900/30 hover:text-red-200 px-4 py-2.5 rounded-lg text-sm font-medium transition duration-200">
-                <i class="fas fa-sign-out-alt w-5 text-center"></i>
-                <span>Keluar Sistem</span>
-            </a>
-            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">
-                @csrf
-            </form>
+        <!-- Total Kas Keluar -->
+        <div class="bg-white p-4 sm:p-5 rounded-xl border border-gray-100 shadow-sm flex items-center justify-between">
+            <div class="min-w-0">
+                <p class="text-[9px] sm:text-[11px] font-bold text-gray-400 uppercase tracking-wider truncate">Total Kas Keluar</p>
+                <h3 class="text-xs sm:text-lg font-bold text-gray-900 mt-1 truncate">Rp {{ number_format($kasKeluar, 0, ',', '.') }}</h3>
+            </div>
+            <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-red-50 text-red-600 flex items-center justify-center text-sm sm:text-base shrink-0 ml-2"><i class="fas fa-arrow-trend-down"></i></div>
         </div>
-    </aside>
-
-    <!-- CONTENT AREA -->
-    <div class="flex-grow flex flex-col min-w-0">
-        
-        <!-- TOPBAR -->
-        <header class="bg-white h-16 shadow-sm border-b border-gray-100 flex items-center justify-between px-6 z-10">
-            <div class="flex items-center space-x-4">
-                <button @click="sidebarOpen = true" class="md:hidden text-gray-600 focus:outline-none text-lg cursor-pointer hover:text-emerald-600">
-                    <i class="fas fa-bars"></i>
-                </button>
-                <h2 class="text-sm font-bold text-gray-700 uppercase tracking-wider hidden sm:block">Ringkasan Utama</h2>
+        <!-- Sisa Saldo Kas -->
+        <div class="bg-white p-4 sm:p-5 rounded-xl border border-gray-100 shadow-sm flex items-center justify-between">
+            <div class="min-w-0">
+                <p class="text-[9px] sm:text-[11px] font-bold text-gray-400 uppercase tracking-wider truncate">Saldo Kas Desa</p>
+                <h3 class="text-xs sm:text-lg font-bold text-gray-900 mt-1 text-emerald-700 truncate">Rp {{ number_format($saldoKas, 0, ',', '.') }}</h3>
             </div>
-            <!-- Profil Singkat Admin Dinamis -->
-            <div class="flex items-center space-x-3">
-                <div class="text-right">
-                    <!-- Mengambil nama admin dinamis -->
-                    <p class="text-xs font-semibold text-gray-800">{{ Auth::user()->name }}</p>
-                    <p class="text-[10px] text-gray-400 capitalize">Hak Akses: {{ Auth::user()->role }}</p>
-                </div>
-                <!-- Lingkaran avatar dinamis mengambil huruf pertama nama -->
-                <div class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-sm uppercase">
-                    {{ Str::substr(Auth::user()->name, 0, 1) }}
-                </div>
+            <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center text-sm sm:text-base shrink-0 ml-2"><i class="fas fa-wallet"></i></div>
+        </div>
+        <!-- Total Warga -->
+        <div class="bg-white p-4 sm:p-5 rounded-xl border border-gray-100 shadow-sm flex items-center justify-between">
+            <div class="min-w-0">
+                <p class="text-[9px] sm:text-[11px] font-bold text-gray-400 uppercase tracking-wider truncate">Total Warga</p>
+                <h3 class="text-xs sm:text-lg font-bold text-gray-900 mt-1 text-blue-600 truncate">{{ $totalWargaCount }} Orang</h3>
             </div>
-        </header>
-
-        <!-- MAIN DASHBOARD CONTENT -->
-        <main class="flex-grow p-6 space-y-6 overflow-y-auto">
-            
-            <!-- ROW 1: KARTU STATISTIK & KAS -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                <!-- Total Kas Masuk -->
-                <div class="bg-white p-5 rounded-xl border border-gray-100 shadow-sm flex items-center justify-between">
-                    <div>
-                        <p class="text-[11px] font-bold text-gray-400 uppercase tracking-wider">Total Kas Masuk</p>
-                        <h3 class="text-lg font-bold text-gray-900 mt-1">Rp {{ number_format($kasMasuk, 0, ',', '.') }}</h3>
-                    </div>
-                    <div class="w-10 h-10 rounded-lg bg-green-50 text-green-600 flex items-center justify-center text-base"><i class="fas fa-arrow-trend-up"></i></div>
-                </div>
-                <!-- Total Kas Keluar -->
-                <div class="bg-white p-5 rounded-xl border border-gray-100 shadow-sm flex items-center justify-between">
-                    <div>
-                        <p class="text-[11px] font-bold text-gray-400 uppercase tracking-wider">Total Kas Keluar</p>
-                        <h3 class="text-lg font-bold text-gray-900 mt-1">Rp {{ number_format($kasKeluar, 0, ',', '.') }}</h3>
-                    </div>
-                    <div class="w-10 h-10 rounded-lg bg-red-50 text-red-600 flex items-center justify-center text-base"><i class="fas fa-arrow-trend-down"></i></div>
-                </div>
-                <!-- Sisa Saldo Kas -->
-                <div class="bg-white p-5 rounded-xl border border-gray-100 shadow-sm flex items-center justify-between">
-                    <div>
-                        <p class="text-[11px] font-bold text-gray-400 uppercase tracking-wider">Saldo Kas Desa</p>
-                        <h3 class="text-lg font-bold text-gray-900 mt-1 text-emerald-700">Rp {{ number_format($saldoKas, 0, ',', '.') }}</h3>
-                    </div>
-                    <div class="w-10 h-10 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center text-base"><i class="fas fa-wallet"></i></div>
-                </div>
-                <!-- Menunggu Aktivasi -->
-                <div class="bg-white p-5 rounded-xl border border-gray-100 shadow-sm flex items-center justify-between">
-                    <div>
-                        <p class="text-[11px] font-bold text-gray-400 uppercase tracking-wider">Menunggu Aktivasi</p>
-                        <h3 class="text-lg font-bold text-gray-900 mt-1 text-amber-600">{{ $menungguAktivasiCount }} Warga</h3>
-                    </div>
-                    <div class="w-10 h-10 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center text-base"><i class="fas fa-user-clock"></i></div>
-                </div>
-            </div>
-
-            <!-- ROW 2: DUA KOLOM (KIRI: TABEL AKTIVASI, KANAN: HARGA SAMPAH KILAT) -->
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                
-                <!-- KOLOM AKTIVASI WARGA (2/3 Lebar) -->
-                <div class="bg-white rounded-xl border border-gray-100 shadow-sm lg:col-span-2 overflow-hidden">
-                    <div class="p-5 border-b border-gray-100 flex justify-between items-center">
-                        <h4 class="text-xs font-bold text-gray-700 uppercase tracking-wider">Persetujuan Akun Warga Baru</h4>
-                        <span class="text-[10px] font-medium text-amber-700 bg-amber-50 px-2 py-0.5 rounded">Butuh Tindakan</span>
-                    </div>
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-left border-collapse text-xs">
-                            <thead>
-                                <tr class="bg-gray-50 text-gray-400 uppercase tracking-wider font-semibold border-b border-gray-100">
-                                    <th class="p-4">Nama Lengkap</th>
-                                    <th class="p-4">NIK</th>
-                                    <th class="p-4">WhatsApp</th>
-                                    <th class="p-4 text-center">Aksi Akses</th>
-                                </tr>
-                            </thead>
-                            <tbody class="divide-y divide-gray-100">
-                                @forelse($wargaOff as $warga)
-                                <tr>
-                                    <td class="p-4 font-medium text-gray-900">{{ $warga->name }}</td>
-                                    <td class="p-4 text-gray-500">{{ Str::mask($warga->nik, 'X', 4, 8) }}</td>
-                                    <td class="p-4 text-gray-500">{{ $warga->whatsapp ?? '-' }}</td>
-                                    <td class="p-4 text-center">
-                                        <form action="{{ route('admin.aktivasi.toggle', $warga->id) }}" method="POST">
-                                            @csrf
-                                            <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1 rounded-md font-medium tracking-wide transition duration-150 cursor-pointer">
-                                                Aktifkan (ON)
-                                            </button>
-                                        </form>
-                                    </td>
-                                </tr>
-                                @empty
-                                <tr>
-                                    <td colspan="4" class="p-8 text-center text-gray-400">Tidak ada warga yang menunggu aktivasi.</td>
-                                </tr>
-                                @endforelse
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <!-- KOLOM PENENTUAN HARGA SAMPAH KILAT (1/3 Lebar) -->
-                <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
-                    <div class="p-5 border-b border-gray-100">
-                        <h4 class="text-xs font-bold text-gray-700 uppercase tracking-wider">Pantau & Set Harga Sampah</h4>
-                    </div>
-                    <div class="p-5 space-y-4">
-                        @forelse($hargaSampah as $harga)
-                        <div class="flex items-center justify-between border-b border-gray-50 pb-3 text-xs">
-                            <div>
-                                <h5 class="font-bold text-gray-800">{{ $harga->item_name }}</h5>
-                                <p class="text-[10px] text-gray-400">Beli: <span class="text-emerald-600">Rp {{ number_format($harga->buy_price, 0, ',', '.') }}</span> | Jual: <span class="text-blue-600">Rp {{ number_format($harga->sell_price, 0, ',', '.') }}</span></p>
-                            </div>
-                            <a href="{{ route('admin.harga.index') }}" class="text-emerald-700 hover:text-emerald-800 font-semibold transition duration-150"><i class="fas fa-edit mr-1"></i>Ubah</a>
-                        </div>
-                        @empty
-                        <div class="text-center text-gray-400 text-xs py-4">Belum ada harga sampah aktif.</div>
-                        @endforelse
-                    </div>
-                </div>
-
-            </div>
-
-        </main>
-
-        <!-- FOOTER PANEL -->
-        <footer class="bg-white h-12 border-t border-gray-100 flex items-center justify-center text-[11px] text-gray-400">
-            &copy; 2026 Admin Sobat Sampah Desa Mekarmaya. All Rights Reserved.
-        </footer>
+            <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center text-sm sm:text-base shrink-0 ml-2"><i class="fas fa-users"></i></div>
+        </div>
     </div>
 
-</body>
-</html>
+    <!-- ROW 2: DUA KOLOM (KIRI: TABEL AKTIVASI, KANAN: HARGA SAMPAH KILAT) -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        
+        <!-- KOLOM WARGA DENGAN SAMPAH TERBANYAK (2/3 Lebar) -->
+        <div class="bg-white rounded-xl border border-gray-100 shadow-sm lg:col-span-2 overflow-hidden">
+            <div class="p-5 border-b border-gray-100 flex justify-between items-center">
+                <h4 class="text-xs font-bold text-gray-700 uppercase tracking-wider"><i class="fas fa-trophy mr-2 text-amber-500"></i>5 Warga dengan Sampah/Saldo Terbanyak</h4>
+                <span class="text-[10px] font-medium text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded">Aktif Terkini</span>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse text-xs">
+                    <thead>
+                        <tr class="bg-gray-50 text-gray-400 uppercase tracking-wider font-semibold border-b border-gray-100">
+                            <th class="p-4">Nama Warga / NIK</th>
+                            <th class="p-4">Kontak WhatsApp</th>
+                            <th class="p-4 text-right">Sampah Terolah</th>
+                            <th class="p-4 text-right font-bold">Saldo Aktif</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-100">
+                        @forelse($topWarga as $index => $w)
+                        <tr class="hover:bg-gray-50/50 transition">
+                            <td class="p-4">
+                                <p class="font-bold text-gray-900">{{ $w->name }}</p>
+                                <p class="text-[10px] text-gray-400 mt-0.5">NIK: {{ Str::mask($w->nik, 'X', 4, 8) }}</p>
+                            </td>
+                            <td class="p-4 text-gray-600 font-medium"><i class="fab fa-whatsapp text-emerald-600 mr-1"></i>{{ $w->whatsapp ?? '-' }}</td>
+                            <td class="p-4 text-right font-medium text-gray-700">{{ number_format($w->total_berat, 2, ',', '.') }} kg</td>
+                            <td class="p-4 text-right font-black text-emerald-700">Rp {{ number_format($w->total_saldo, 0, ',', '.') }}</td>
+                        </tr>
+                        @empty
+                        <tr>
+                            <td colspan="5" class="p-8 text-center text-gray-400">Belum ada data kontribusi setoran sampah dari warga.</td>
+                        </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- KOLOM PENENTUAN HARGA SAMPAH KILAT (1/3 Lebar) -->
+        <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
+            <div class="p-5 border-b border-gray-100">
+                <h4 class="text-xs font-bold text-gray-700 uppercase tracking-wider">Pantau & Set Harga Sampah</h4>
+            </div>
+            <div class="p-5 space-y-4">
+                @forelse($hargaSampah as $harga)
+                <div class="flex items-center justify-between border-b border-gray-50 pb-3 text-xs">
+                    <div>
+                        <h5 class="font-bold text-gray-800">{{ $harga->item_name }}</h5>
+                        <p class="text-[10px] text-gray-400">Beli: <span class="text-emerald-600">Rp {{ number_format($harga->buy_price, 0, ',', '.') }}</span> | Jual: <span class="text-blue-600">Rp {{ number_format($harga->sell_price, 0, ',', '.') }}</span></p>
+                    </div>
+                    <a href="{{ route('admin.harga.index') }}" class="text-emerald-700 hover:text-emerald-800 font-semibold transition duration-150"><i class="fas fa-edit mr-1"></i>Ubah</a>
+                </div>
+                @empty
+                <div class="text-center text-gray-400 text-xs py-4">Belum ada harga sampah aktif.</div>
+                @endforelse
+            </div>
+        </div>
+
+    </div>
+@endsection
