@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Panel Admin - Sobat Sampah')</title>
+    <title>@yield('title', 'Panel Admin - Bank Sampah')</title>
     
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4" crossorigin="anonymous"></script>
@@ -17,61 +17,171 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
-        body { font-family: 'Inter', sans-serif; }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #f8fafc;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        /* Custom Premium Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        
+        /* Global UI Premium Upgrades */
+        .bg-white {
+            transition: all 0.25s ease-in-out;
+        }
+        /* Input & Select fields premium design */
+        input[type="text"], input[type="password"], input[type="email"], input[type="number"], input[type="date"], select, textarea {
+            border-radius: 0.75rem !important;
+            border-color: #e2e8f0 !important;
+            padding-top: 0.625rem !important;
+            padding-bottom: 0.625rem !important;
+            font-size: 0.75rem !important;
+            transition: all 0.2s ease-in-out !important;
+        }
+        input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focus, input[type="number"]:focus, input[type="date"]:focus, select:focus, textarea:focus {
+            border-color: #10b981 !important;
+            outline: none !important;
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.12) !important;
+        }
+        /* Premium Table Design */
+        table th {
+            font-family: 'Plus Jakarta Sans', sans-serif !important;
+            font-weight: 700 !important;
+            color: #64748b !important;
+            letter-spacing: 0.05em !important;
+            padding: 0.875rem 1rem !important;
+            background-color: #f8fafc !important;
+            border-bottom: 1px solid #f1f5f9 !important;
+        }
+        table td {
+            padding: 0.875rem 1rem !important;
+            vertical-align: middle !important;
+        }
+        table tbody tr {
+            transition: background-color 0.15s ease-in-out;
+        }
+        table tbody tr:hover {
+            background-color: rgba(241, 245, 249, 0.4) !important;
+        }
+        /* Cards styling consistency */
+        .bg-white.rounded-xl {
+            border-radius: 1rem !important;
+            border-color: #f1f5f9 !important;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.02), 0 1px 2px -1px rgba(0, 0, 0, 0.02) !important;
+        }
+        .bg-white.rounded-2xl {
+            border-color: #f1f5f9 !important;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.02), 0 1px 2px -1px rgba(0, 0, 0, 0.02) !important;
+        }
+        /* Buttons styling consistency */
+        .bg-emerald-600, .bg-emerald-700, .bg-teal-600, .bg-blue-600, .bg-amber-500, .bg-red-650, .bg-red-600 {
+            border-radius: 0.75rem !important;
+            transition: all 0.2s ease-in-out !important;
+        }
+        /* Modals glassmorphic blur backdrop */
+        .fixed.inset-0.bg-black\/40, .fixed.inset-0.bg-black\/50, .fixed.inset-0.bg-slate-900\/60 {
+            backdrop-filter: blur(4px) !important;
+            background-color: rgba(15, 23, 42, 0.4) !important;
+        }
     </style>
     
     @stack('styles')
 </head>
-<body x-data="{ sidebarOpen: false, @yield('x-data-extra') }" class="bg-gray-100 text-gray-800 antialiased min-h-screen flex">
+<body x-data="{ sidebarOpen: false, @yield('x-data-extra') }" class="text-slate-800 antialiased min-h-screen flex bg-[#f8fafc]">
 
     <!-- Overlay Mobile -->
-    <div x-show="sidebarOpen" @click="sidebarOpen = false" x-transition.opacity class="fixed inset-0 z-20 bg-black/50 md:hidden"></div>
+    <div x-show="sidebarOpen" @click="sidebarOpen = false" x-transition.opacity class="fixed inset-0 z-20 bg-slate-900/60 backdrop-blur-xs md:hidden"></div>
 
     <!-- Sidebar -->
-    <aside :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'" class="fixed inset-y-0 left-0 z-30 w-64 bg-emerald-900 text-white flex flex-col justify-between shrink-0 transition-transform duration-300 md:relative md:translate-x-0 md:flex shadow-xl">
-        <div>
-            <div class="p-6 border-b border-emerald-800">
-                <h1 class="font-bold text-base leading-tight uppercase tracking-wider">Bank Sampah<br><span class="text-emerald-300 text-xs font-medium normal-case">Desa Mekarmaya</span></h1>
+    <aside :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'" class="fixed inset-y-0 left-0 z-30 w-64 bg-slate-950 text-white flex flex-col justify-between shrink-0 transition-transform duration-300 md:relative md:translate-x-0 md:flex border-r border-slate-900 shadow-xl">
+        <div class="flex flex-col h-full overflow-y-auto">
+            <!-- Brand Header with soft emerald highlight -->
+            <div class="p-6 border-b border-slate-900 flex items-center space-x-3">
+                <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-emerald-500 to-teal-400 flex items-center justify-center shadow-lg shadow-emerald-500/20">
+                    <i class="fas fa-recycle text-white text-base"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-xs leading-none uppercase tracking-wider text-slate-100">Bank Sampah</h1>
+                    <span class="text-[10px] text-emerald-400 font-semibold tracking-wide normal-case mt-0.5 block">Desa Mekarmaya</span>
+                </div>
             </div>
-            <nav class="p-4 space-y-1">
-                <a href="{{ route('admin.dashboard') }}" class="flex items-center space-x-3 {{ Route::is('admin.dashboard') ? 'bg-emerald-800 text-white' : 'text-emerald-100 hover:bg-emerald-800 hover:text-white' }} px-4 py-2.5 rounded-lg text-sm font-medium transition duration-200">
-                    <i class="fas fa-th-large text-emerald-300 w-5 text-center"></i><span>Dashboard</span>
+            
+            <!-- Menu Navigation -->
+            <nav class="p-4 space-y-1.5 flex-grow">
+                <!-- Dashboard -->
+                <a href="{{ route('admin.dashboard') }}" class="flex items-center space-x-3 {{ Route::is('admin.dashboard') ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-md shadow-emerald-600/10' : 'text-slate-400 hover:bg-slate-900 hover:text-slate-100' }} px-4 py-2.5 rounded-xl text-xs font-semibold tracking-wide transition-all duration-200">
+                    <i class="fas fa-th-large w-5 text-center text-sm"></i>
+                    <span>Dashboard</span>
                 </a>
-                <a href="{{ route('admin.datawarga') }}" class="flex items-center space-x-3 {{ Route::is('admin.datawarga') ? 'bg-emerald-800 text-white' : 'text-emerald-100 hover:bg-emerald-800 hover:text-white' }} px-4 py-2.5 rounded-lg text-sm font-medium transition duration-200">
-                    <i class="fas fa-user-check text-emerald-300 w-5 text-center"></i><span>Data Warga</span>
+                
+                <!-- Data Warga -->
+                <a href="{{ route('admin.datawarga') }}" class="flex items-center space-x-3 {{ Route::is('admin.datawarga') ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-md shadow-emerald-600/10' : 'text-slate-400 hover:bg-slate-900 hover:text-slate-100' }} px-4 py-2.5 rounded-xl text-xs font-semibold tracking-wide transition-all duration-200">
+                    <i class="fas fa-user-check w-5 text-center text-sm"></i>
+                    <span>Data Warga</span>
                 </a>
-                <a href="{{ route('admin.setor') }}" class="flex items-center space-x-3 {{ Route::is('admin.setor') ? 'bg-emerald-800 text-white' : 'text-emerald-100 hover:bg-emerald-800 hover:text-white' }} px-4 py-2.5 rounded-lg text-sm font-medium transition duration-200">
-                    <i class="fas fa-hand-holding-heart text-emerald-300 w-5 text-center"></i><span>Setor Sampah</span>
+                
+                <!-- Setor Sampah -->
+                <a href="{{ route('admin.setor') }}" class="flex items-center space-x-3 {{ Route::is('admin.setor') ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-md shadow-emerald-600/10' : 'text-slate-400 hover:bg-slate-900 hover:text-slate-100' }} px-4 py-2.5 rounded-xl text-xs font-semibold tracking-wide transition-all duration-200">
+                    <i class="fas fa-hand-holding-heart w-5 text-center text-sm"></i>
+                    <span>Setor Sampah</span>
                 </a>
-                <a href="{{ route('admin.setor.rekap') }}" class="flex items-center space-x-3 {{ Route::is('admin.setor.rekap') ? 'bg-emerald-800 text-white' : 'text-emerald-100 hover:bg-emerald-800 hover:text-white' }} px-4 py-2.5 rounded-lg text-sm font-medium transition duration-200">
-                    <i class="fas fa-list-check text-emerald-300 w-5 text-center"></i><span>Rekap Setoran</span>
+                
+                <!-- Rekap Setoran -->
+                <a href="{{ route('admin.setor.rekap') }}" class="flex items-center space-x-3 {{ Route::is('admin.setor.rekap') ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-md shadow-emerald-600/10' : 'text-slate-400 hover:bg-slate-900 hover:text-slate-100' }} px-4 py-2.5 rounded-xl text-xs font-semibold tracking-wide transition-all duration-200">
+                    <i class="fas fa-list-check w-5 text-center text-sm"></i>
+                    <span>Rekap Setoran</span>
                 </a>
-                <a href="{{ route('admin.pembayaran') }}" class="flex items-center space-x-3 {{ Route::is('admin.pembayaran') ? 'bg-emerald-800 text-white' : 'text-emerald-100 hover:bg-emerald-800 hover:text-white' }} px-4 py-2.5 rounded-lg text-sm font-medium transition duration-200">
-                    <i class="fas fa-file-invoice-dollar text-emerald-300 w-5 text-center"></i>
+                
+                <!-- Pembayaran Dana Warga -->
+                <a href="{{ route('admin.pembayaran') }}" class="flex items-center space-x-3 {{ Route::is('admin.pembayaran') ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-md shadow-emerald-600/10' : 'text-slate-400 hover:bg-slate-900 hover:text-slate-100' }} px-4 py-2.5 rounded-xl text-xs font-semibold tracking-wide transition-all duration-200">
+                    <i class="fas fa-file-invoice-dollar w-5 text-center text-sm"></i>
                     <span>Pembayaran Dana Warga</span>
                 </a>
-                <a href="{{ route('admin.harga.index') }}" class="flex items-center space-x-3 {{ Route::is('admin.harga.index') ? 'bg-emerald-800 text-white' : 'text-emerald-100 hover:bg-emerald-800 hover:text-white' }} px-4 py-2.5 rounded-lg text-sm font-medium transition duration-200">
-                    <i class="fas fa-tags text-emerald-300 w-5 text-center"></i>
+                
+                <!-- Setting Harga Sampah -->
+                <a href="{{ route('admin.harga.index') }}" class="flex items-center space-x-3 {{ Route::is('admin.harga.index') ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-md shadow-emerald-600/10' : 'text-slate-400 hover:bg-slate-900 hover:text-slate-100' }} px-4 py-2.5 rounded-xl text-xs font-semibold tracking-wide transition-all duration-200">
+                    <i class="fas fa-tags w-5 text-center text-sm"></i>
                     <span>Setting Harga Sampah</span>
                 </a>
-                <a href="{{ route('admin.kas') }}" class="flex items-center space-x-3 {{ Route::is('admin.kas') ? 'bg-emerald-800 text-white' : 'text-emerald-100 hover:bg-emerald-800 hover:text-white' }} px-4 py-2.5 rounded-lg text-sm font-medium transition duration-200">
-                    <i class="fas fa-book text-emerald-300 w-5 text-center"></i>
+                
+                <!-- Kas Desa -->
+                <a href="{{ route('admin.kas') }}" class="flex items-center space-x-3 {{ Route::is('admin.kas') ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-md shadow-emerald-600/10' : 'text-slate-400 hover:bg-slate-900 hover:text-slate-100' }} px-4 py-2.5 rounded-xl text-xs font-semibold tracking-wide transition-all duration-200">
+                    <i class="fas fa-book w-5 text-center text-sm"></i>
                     <span>Kas Desa</span>
                 </a>
-                <a href="{{ route('admin.edukasi') }}" class="flex items-center space-x-3 {{ Route::is('admin.edukasi') ? 'bg-emerald-800 text-white' : 'text-emerald-100 hover:bg-emerald-800 hover:text-white' }} px-4 py-2.5 rounded-lg text-sm font-medium transition duration-200">
-                    <i class="fas fa-graduation-cap text-emerald-300 w-5 text-center"></i>
-                    <span>Kelola Edukasi</span>
+                
+                <!-- Kelola Edukasi -->
+                <a href="{{ route('admin.edukasi') }}" class="flex items-center space-x-3 {{ Route::is('admin.edukasi') ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-md shadow-emerald-600/10' : 'text-slate-400 hover:bg-slate-900 hover:text-slate-100' }} px-4 py-2.5 rounded-xl text-xs font-semibold tracking-wide transition-all duration-200">
+                    <i class="fas fa-graduation-cap w-5 text-center text-sm"></i>
+                    <span>Kelola Halaman Edukasi</span>
                 </a>
             </nav>
         </div>
-        <div class="p-4 border-t border-emerald-800 flex justify-between items-center">
-            <a href="{{ route('admin.pengaturan') }}" class="text-emerald-300 hover:text-emerald-100 text-xs font-semibold px-2 py-2 flex items-center">
+        
+        <!-- Bottom Panel -->
+        <div class="p-4 border-t border-slate-900 flex justify-between items-center bg-slate-950/50">
+            <a href="{{ route('admin.pengaturan') }}" class="text-slate-400 hover:text-slate-100 text-[11px] font-semibold px-2 py-2 flex items-center transition">
                 <i class="fas fa-cog mr-1.5"></i>Pengaturan
             </a>
-            <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="text-red-300 hover:text-red-200 text-xs font-semibold px-2 py-2 flex items-center">
+            <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="text-red-400 hover:text-red-300 text-[11px] font-semibold px-2 py-2 flex items-center transition">
                 <i class="fas fa-sign-out-alt mr-1.5"></i>Keluar
             </a>
             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">@csrf</form>
@@ -81,19 +191,22 @@
     <!-- Main Content Area -->
     <div class="flex-grow flex flex-col min-w-0">
         <!-- Header -->
-        <header class="bg-white h-16 shadow-sm border-b border-gray-100 flex items-center justify-between px-6 z-10">
+        <header class="bg-white/80 backdrop-blur-md h-16 border-b border-slate-100 flex items-center justify-between px-6 z-10 sticky top-0">
             <div class="flex items-center space-x-4">
-                <button @click="sidebarOpen = true" class="md:hidden text-gray-600 focus:outline-none text-lg cursor-pointer hover:text-emerald-600">
+                <button @click="sidebarOpen = true" class="md:hidden text-slate-500 focus:outline-none text-lg cursor-pointer hover:text-emerald-600 transition">
                     <i class="fas fa-bars"></i>
                 </button>
-                <h2 class="text-sm font-bold text-gray-700 uppercase tracking-wider hidden sm:block">@yield('header_title', 'Loket Timbangan & Pencatatan Digital')</h2>
+                <h2 class="text-xs font-bold text-slate-500 uppercase tracking-wider hidden sm:block">@yield('header_title', 'Loket Timbangan & Pencatatan Digital')</h2>
             </div>
-            <div class="flex items-center space-x-3">
+            
+            <div class="flex items-center space-x-4">
                 <div class="text-right">
-                    <p class="text-xs font-semibold text-gray-800">{{ Auth::user()->name }}</p>
-                    <p class="text-[10px] text-gray-400 capitalize">Role: {{ Auth::user()->role }}</p>
+                    <p class="text-xs font-bold text-slate-800 leading-tight">{{ Auth::user()->name }}</p>
+                    <p class="text-[9px] text-emerald-600 font-semibold tracking-wider uppercase mt-0.5">Admin Desa</p>
                 </div>
-                <div class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-sm uppercase">{{ Str::substr(Auth::user()->name, 0, 1) }}</div>
+                <div class="w-9 h-9 rounded-xl bg-emerald-50 border border-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-xs uppercase shadow-xs">
+                    {{ Str::substr(Auth::user()->name, 0, 1) }}
+                </div>
             </div>
         </header>
 
@@ -102,7 +215,7 @@
             @yield('content')
         </main>
         
-        <footer class="bg-white h-12 border-t border-gray-100 flex items-center justify-center text-[11px] text-gray-400">
+        <footer class="bg-white h-12 border-t border-slate-100 flex items-center justify-center text-[10px] text-slate-400">
             &copy; 2026 Admin Bank Sampah Desa Mekarmaya. All Rights Reserved.
         </footer>
     </div>

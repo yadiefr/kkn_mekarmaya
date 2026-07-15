@@ -46,7 +46,7 @@
             <table class="w-full text-left border-collapse text-xs">
                 <thead>
                     <tr class="bg-gray-50/70 text-gray-400 uppercase tracking-wider font-semibold border-b border-gray-100">
-                        <th class="p-4">Nama Lengkap / NIK</th>
+                        <th class="p-4">Nama Lengkap / NIK / KK</th>
                         <th class="p-4">Kontak WhatsApp</th>
                         <th class="p-4">TTL & Gender</th>
                         <th class="p-4">Alamat Rumah</th>
@@ -56,12 +56,25 @@
                 <tbody class="divide-y divide-gray-100">
                     @forelse($wargaOff as $w)
                         <tr class="hover:bg-gray-50/50 transition">
-                            <td class="p-4">
-                                <p class="font-bold text-gray-900">{{ $w->name }}</p>
-                                <p class="text-[10px] text-gray-400 mt-0.5">NIK: {{ $w->nik }}</p>
-                                <p class="text-[10px] text-gray-400">No. KK: {{ $w->no_kk }}</p>
+                            <td class="p-4 flex items-center space-x-3">
+                                <div class="w-8 h-8 rounded-lg bg-slate-100 text-slate-700 font-bold flex items-center justify-center text-xs uppercase shrink-0">
+                                    {{ Str::substr($w->name, 0, 1) }}
+                                </div>
+                                <div class="min-w-0">
+                                    <p class="font-bold text-slate-800 truncate">{{ $w->name }}</p>
+                                    <p class="text-[10px] text-slate-400 mt-0.5">NIK: {{ $w->nik }}</p>
+                                    <p class="text-[10px] text-slate-400">No. KK: {{ $w->no_kk }}</p>
+                                </div>
                             </td>
-                            <td class="p-4 text-gray-600 font-medium"><i class="fab fa-whatsapp text-emerald-600 mr-1"></i>{{ $w->whatsapp }}</td>
+                            <td class="p-4">
+                                @if($w->whatsapp)
+                                    <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $w->whatsapp) }}" target="_blank" class="inline-flex items-center gap-1 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 px-2.5 py-1 rounded-lg font-semibold transition">
+                                        <i class="fab fa-whatsapp"></i> {{ $w->whatsapp }}
+                                    </a>
+                                @else
+                                    <span class="text-slate-400">-</span>
+                                @endif
+                            </td>
                             <td class="p-4 text-gray-500 leading-relaxed">{{ $w->tempat_lahir }}, {{ \Carbon\Carbon::parse($w->tanggal_lahir)->translatedFormat('d M Y') }}<br><span class="text-[10px] text-gray-400">{{ $w->jenis_kelamin }}</span></td>
                             <td class="p-4 text-gray-500 max-w-xs truncate">{{ $w->alamat }}</td>
                             <td class="p-4 text-center">
@@ -98,7 +111,7 @@
             <table class="w-full text-left border-collapse text-xs">
                 <thead>
                     <tr class="bg-gray-50/70 text-gray-400 uppercase tracking-wider font-semibold border-b border-gray-100">
-                        <th class="p-4">Nama Lengkap / NIK</th>
+                        <th class="p-4">Nama Lengkap / NIK / KK</th>
                         <th class="p-4">Kontak WhatsApp</th>
                         <th class="p-4">TTL & Gender</th>
                         <th class="p-4">Alamat Rumah</th>
@@ -108,12 +121,25 @@
                 <tbody class="divide-y divide-gray-100">
                     @forelse($wargaOn as $w)
                         <tr class="hover:bg-gray-50/50 transition">
-                            <td class="p-4">
-                                <p class="font-bold text-gray-900">{{ $w->name }}</p>
-                                <p class="text-[10px] text-gray-400 mt-0.5">NIK: {{ $w->nik }}</p>
-                                <p class="text-[10px] text-gray-400">No. KK: {{ $w->no_kk }}</p>
+                            <td class="p-4 flex items-center space-x-3">
+                                <div class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-700 font-bold flex items-center justify-center text-xs uppercase shrink-0">
+                                    {{ Str::substr($w->name, 0, 1) }}
+                                </div>
+                                <div class="min-w-0">
+                                    <p class="font-bold text-slate-800 truncate">{{ $w->name }}</p>
+                                    <p class="text-[10px] text-slate-400 mt-0.5">NIK: {{ $w->nik }}</p>
+                                    <p class="text-[10px] text-slate-400">No. KK: {{ $w->no_kk }}</p>
+                                </div>
                             </td>
-                            <td class="p-4 text-gray-600 font-medium"><i class="fab fa-whatsapp text-emerald-600 mr-1"></i>{{ $w->whatsapp }}</td>
+                            <td class="p-4">
+                                @if($w->whatsapp)
+                                    <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $w->whatsapp) }}" target="_blank" class="inline-flex items-center gap-1 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 px-2.5 py-1 rounded-lg font-semibold transition">
+                                        <i class="fab fa-whatsapp"></i> {{ $w->whatsapp }}
+                                    </a>
+                                @else
+                                    <span class="text-slate-400">-</span>
+                                @endif
+                            </td>
                             <td class="p-4 text-gray-500 leading-relaxed">{{ $w->tempat_lahir }}, {{ \Carbon\Carbon::parse($w->tanggal_lahir)->translatedFormat('d M Y') }}<br><span class="text-[10px] text-gray-400">{{ $w->jenis_kelamin }}</span></td>
                             <td class="p-4 text-gray-500 max-w-xs truncate">{{ $w->alamat }}</td>
                             <td class="p-4 text-center">

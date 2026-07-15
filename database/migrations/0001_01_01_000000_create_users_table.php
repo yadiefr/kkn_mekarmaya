@@ -15,17 +15,17 @@ return new class extends Migration
             $table->id();
             // Data Step 1
             $table->string('name'); // Nama Lengkap
-            $table->string('no_kk'); // Nomor Kartu Keluarga
+            $table->string('no_kk')->nullable(); // Nomor Kartu Keluarga
             $table->string('nik')->unique(); // Nomor Induk Kependudukan (Unik)
-            $table->string('tempat_lahir');
+            $table->string('tempat_lahir')->nullable();
 
             // Data Step 2
-            $table->date('tanggal_lahir'); // Menggunakan tipe DATE agar rapi di database
-            $table->enum('jenis_kelamin', ['Laki-laki', 'Perempuan']);
-            $table->text('alamat');
+            $table->date('tanggal_lahir')->nullable(); // Menggunakan tipe DATE agar rapi di database
+            $table->enum('jenis_kelamin', ['Laki-laki', 'Perempuan'])->nullable();
+            $table->text('alamat')->nullable();
 
             // Data Step 3 & Sistem Keamanan
-            $table->string('whatsapp'); // Nomor WhatsApp warga
+            $table->string('whatsapp')->nullable(); // Nomor WhatsApp warga
             $table->string('password');
             
             // Kolom Tambahan Sistem (Role & Akses)
