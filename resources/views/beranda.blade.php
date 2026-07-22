@@ -98,8 +98,14 @@
             <div class="flex items-center justify-between h-20">
                 
                 @php
-                    $existingLogos = glob(public_path('uploads/logo/site_logo.*'));
-                    $currentLogoUrl = (!empty($existingLogos) && file_exists($existingLogos[0])) ? asset('uploads/logo/' . basename($existingLogos[0])) : null;
+                    $currentLogoUrl = null;
+                    $logoExtensions = ['png', 'jpg', 'jpeg', 'webp', 'svg', 'PNG', 'JPG', 'WEBP', 'SVG'];
+                    foreach ($logoExtensions as $ext) {
+                        if (file_exists(public_path('uploads/logo/site_logo.' . $ext)) || file_exists(base_path('../public_html/uploads/logo/site_logo.' . $ext))) {
+                            $currentLogoUrl = asset('uploads/logo/site_logo.' . $ext);
+                            break;
+                        }
+                    }
                 @endphp
                 <!-- Logo & Name -->
                 <a href="{{ route('beranda') }}" class="flex items-center space-x-3 group">

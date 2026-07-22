@@ -70,20 +70,34 @@ class AdminSettingsController extends Controller
         if ($request->hasFile('logo')) {
             $dir = public_path('uploads/logo');
             if (!file_exists($dir)) {
-                mkdir($dir, 0777, true);
+                @mkdir($dir, 0777, true);
             }
 
-            // Hapus logo lama jika ada
-            $existing = glob($dir . '/site_logo.*');
-            foreach ($existing as $file) {
-                if (file_exists($file)) {
-                    unlink($file);
+            $cpanelDir = base_path('../public_html/uploads/logo');
+            if (!file_exists($cpanelDir) && file_exists(base_path('../public_html'))) {
+                @mkdir($cpanelDir, 0777, true);
+            }
+
+            // Hapus logo lama
+            foreach (glob($dir . '/site_logo.*') as $file) {
+                if (file_exists($file)) @unlink($file);
+            }
+            if (file_exists($cpanelDir)) {
+                foreach (glob($cpanelDir . '/site_logo.*') as $file) {
+                    if (file_exists($file)) @unlink($file);
                 }
             }
 
             $file = $request->file('logo');
             $ext = strtolower($file->getClientOriginalExtension());
-            $file->move($dir, 'site_logo.' . $ext);
+            $filename = 'site_logo.' . $ext;
+            
+            $file->move($dir, $filename);
+
+            // Salin juga ke folder public_html jika struktur cPanel terpisah
+            if (file_exists(base_path('../public_html')) && file_exists($dir . '/' . $filename)) {
+                @copy($dir . '/' . $filename, $cpanelDir . '/' . $filename);
+            }
         }
 
         return back()->with('success', 'Logo beranda & website berhasil diperbarui!');
@@ -92,12 +106,17 @@ class AdminSettingsController extends Controller
     public function deleteLogo()
     {
         $dir = public_path('uploads/logo');
-        $existing = glob($dir . '/site_logo.*');
-        foreach ($existing as $file) {
-            if (file_exists($file)) {
-                unlink($file);
+        $cpanelDir = base_path('../public_html/uploads/logo');
+
+        foreach (glob($dir . '/site_logo.*') as $file) {
+            if (file_exists($file)) @unlink($file);
+        }
+        if (file_exists($cpanelDir)) {
+            foreach (glob($cpanelDir . '/site_logo.*') as $file) {
+                if (file_exists($file)) @unlink($file);
             }
         }
+
         return back()->with('success', 'Logo khusus berhasil dihapus, sistem kembali menggunakan logo standar!');
     }
 }
