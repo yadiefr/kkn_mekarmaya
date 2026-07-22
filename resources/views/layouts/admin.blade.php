@@ -111,10 +111,10 @@
     <div x-show="sidebarOpen" @click="sidebarOpen = false" x-transition.opacity class="fixed inset-0 z-20 bg-slate-900/60 backdrop-blur-xs md:hidden"></div>
 
     <!-- Sidebar -->
-    <aside :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'" class="fixed inset-y-0 left-0 z-30 w-64 bg-slate-950 text-white flex flex-col justify-between shrink-0 transition-transform duration-300 md:relative md:translate-x-0 md:flex border-r border-slate-900 shadow-xl">
-        <div class="flex flex-col h-full overflow-y-auto">
+    <aside :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'" class="fixed inset-y-0 left-0 z-30 w-64 h-screen bg-slate-950 text-white flex flex-col justify-between shrink-0 transition-transform duration-300 md:sticky md:top-0 md:translate-x-0 border-r border-slate-900 shadow-xl overflow-hidden">
+        <div class="flex flex-col flex-1 min-h-0 overflow-y-auto">
             <!-- Brand Header with soft emerald highlight -->
-            <div class="p-6 border-b border-slate-900 flex items-center space-x-3">
+            <div class="p-6 border-b border-slate-900 flex items-center space-x-3 shrink-0">
                 <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-emerald-500 to-teal-400 flex items-center justify-center shadow-lg shadow-emerald-500/20">
                     <i class="fas fa-recycle text-white text-base"></i>
                 </div>
@@ -125,51 +125,51 @@
             </div>
             
             <!-- Menu Navigation -->
-            <nav class="p-4 space-y-1.5 flex-grow">
+            <nav class="p-4 space-y-1.5 flex-1">
                 <!-- Dashboard -->
-                <a href="{{ route('admin.dashboard') }}" class="flex items-center space-x-3 {{ Route::is('admin.dashboard') ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-md shadow-emerald-600/10' : 'text-slate-400 hover:bg-slate-900 hover:text-slate-100' }} px-4 py-2.5 rounded-xl text-xs font-semibold tracking-wide transition-all duration-200">
+                <a href="{{ route('admin.dashboard') }}" class="flex items-center space-x-3 {{ Route::is('admin.dashboard') ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-md shadow-emerald-600/10 font-bold' : 'text-slate-400 hover:bg-slate-900 hover:text-slate-100 font-semibold' }} px-4 py-2.5 rounded-xl text-xs tracking-wide transition-all duration-200">
                     <i class="fas fa-th-large w-5 text-center text-sm"></i>
                     <span>Dashboard</span>
                 </a>
                 
                 <!-- Data Warga -->
-                <a href="{{ route('admin.datawarga') }}" class="flex items-center space-x-3 {{ Route::is('admin.datawarga') ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-md shadow-emerald-600/10' : 'text-slate-400 hover:bg-slate-900 hover:text-slate-100' }} px-4 py-2.5 rounded-xl text-xs font-semibold tracking-wide transition-all duration-200">
+                <a href="{{ route('admin.datawarga') }}" class="flex items-center space-x-3 {{ Route::is('admin.datawarga*') ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-md shadow-emerald-600/10 font-bold' : 'text-slate-400 hover:bg-slate-900 hover:text-slate-100 font-semibold' }} px-4 py-2.5 rounded-xl text-xs tracking-wide transition-all duration-200">
                     <i class="fas fa-user-check w-5 text-center text-sm"></i>
                     <span>Data Warga</span>
                 </a>
                 
                 <!-- Setor Sampah -->
-                <a href="{{ route('admin.setor') }}" class="flex items-center space-x-3 {{ Route::is('admin.setor') ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-md shadow-emerald-600/10' : 'text-slate-400 hover:bg-slate-900 hover:text-slate-100' }} px-4 py-2.5 rounded-xl text-xs font-semibold tracking-wide transition-all duration-200">
+                <a href="{{ route('admin.setor') }}" class="flex items-center space-x-3 {{ Route::is('admin.setor') ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-md shadow-emerald-600/10 font-bold' : 'text-slate-400 hover:bg-slate-900 hover:text-slate-100 font-semibold' }} px-4 py-2.5 rounded-xl text-xs tracking-wide transition-all duration-200">
                     <i class="fas fa-hand-holding-heart w-5 text-center text-sm"></i>
                     <span>Setor Sampah</span>
                 </a>
                 
                 <!-- Rekap Setoran -->
-                <a href="{{ route('admin.setor.rekap') }}" class="flex items-center space-x-3 {{ Route::is('admin.setor.rekap') ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-md shadow-emerald-600/10' : 'text-slate-400 hover:bg-slate-900 hover:text-slate-100' }} px-4 py-2.5 rounded-xl text-xs font-semibold tracking-wide transition-all duration-200">
+                <a href="{{ route('admin.setor.rekap') }}" class="flex items-center space-x-3 {{ Route::is('admin.setor.rekap') ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-md shadow-emerald-600/10 font-bold' : 'text-slate-400 hover:bg-slate-900 hover:text-slate-100 font-semibold' }} px-4 py-2.5 rounded-xl text-xs tracking-wide transition-all duration-200">
                     <i class="fas fa-list-check w-5 text-center text-sm"></i>
                     <span>Rekap Setoran</span>
                 </a>
                 
                 <!-- Pembayaran Dana Warga -->
-                <a href="{{ route('admin.pembayaran') }}" class="flex items-center space-x-3 {{ Route::is('admin.pembayaran') ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-md shadow-emerald-600/10' : 'text-slate-400 hover:bg-slate-900 hover:text-slate-100' }} px-4 py-2.5 rounded-xl text-xs font-semibold tracking-wide transition-all duration-200">
+                <a href="{{ route('admin.pembayaran') }}" class="flex items-center space-x-3 {{ Route::is('admin.pembayaran*') ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-md shadow-emerald-600/10 font-bold' : 'text-slate-400 hover:bg-slate-900 hover:text-slate-100 font-semibold' }} px-4 py-2.5 rounded-xl text-xs tracking-wide transition-all duration-200">
                     <i class="fas fa-file-invoice-dollar w-5 text-center text-sm"></i>
                     <span>Pembayaran Dana Warga</span>
                 </a>
                 
                 <!-- Setting Harga Sampah -->
-                <a href="{{ route('admin.harga.index') }}" class="flex items-center space-x-3 {{ Route::is('admin.harga.index') ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-md shadow-emerald-600/10' : 'text-slate-400 hover:bg-slate-900 hover:text-slate-100' }} px-4 py-2.5 rounded-xl text-xs font-semibold tracking-wide transition-all duration-200">
+                <a href="{{ route('admin.harga.index') }}" class="flex items-center space-x-3 {{ Route::is('admin.harga*') ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-md shadow-emerald-600/10 font-bold' : 'text-slate-400 hover:bg-slate-900 hover:text-slate-100 font-semibold' }} px-4 py-2.5 rounded-xl text-xs tracking-wide transition-all duration-200">
                     <i class="fas fa-tags w-5 text-center text-sm"></i>
                     <span>Setting Harga Sampah</span>
                 </a>
                 
                 <!-- Kas Desa -->
-                <a href="{{ route('admin.kas') }}" class="flex items-center space-x-3 {{ Route::is('admin.kas') ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-md shadow-emerald-600/10' : 'text-slate-400 hover:bg-slate-900 hover:text-slate-100' }} px-4 py-2.5 rounded-xl text-xs font-semibold tracking-wide transition-all duration-200">
+                <a href="{{ route('admin.kas') }}" class="flex items-center space-x-3 {{ Route::is('admin.kas*') ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-md shadow-emerald-600/10 font-bold' : 'text-slate-400 hover:bg-slate-900 hover:text-slate-100 font-semibold' }} px-4 py-2.5 rounded-xl text-xs tracking-wide transition-all duration-200">
                     <i class="fas fa-book w-5 text-center text-sm"></i>
                     <span>Kas Desa</span>
                 </a>
                 
                 <!-- Kelola Edukasi -->
-                <a href="{{ route('admin.edukasi') }}" class="flex items-center space-x-3 {{ Route::is('admin.edukasi') ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-md shadow-emerald-600/10' : 'text-slate-400 hover:bg-slate-900 hover:text-slate-100' }} px-4 py-2.5 rounded-xl text-xs font-semibold tracking-wide transition-all duration-200">
+                <a href="{{ route('admin.edukasi') }}" class="flex items-center space-x-3 {{ Route::is('admin.edukasi*') ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-md shadow-emerald-600/10 font-bold' : 'text-slate-400 hover:bg-slate-900 hover:text-slate-100 font-semibold' }} px-4 py-2.5 rounded-xl text-xs tracking-wide transition-all duration-200">
                     <i class="fas fa-graduation-cap w-5 text-center text-sm"></i>
                     <span>Kelola Halaman Edukasi</span>
                 </a>
@@ -177,12 +177,14 @@
         </div>
         
         <!-- Bottom Panel -->
-        <div class="p-4 border-t border-slate-900 flex justify-between items-center bg-slate-950/50">
-            <a href="{{ route('admin.pengaturan') }}" class="text-slate-400 hover:text-slate-100 text-[11px] font-semibold px-2 py-2 flex items-center transition">
-                <i class="fas fa-cog mr-1.5"></i>Pengaturan
+        <div class="p-4 border-t border-slate-900 flex justify-between items-center bg-slate-950 shrink-0">
+            <a href="{{ route('admin.pengaturan') }}" class="flex items-center space-x-1.5 text-xs {{ Route::is('admin.pengaturan*') ? 'text-emerald-400 font-bold' : 'text-slate-400 hover:text-slate-100 font-semibold' }} px-2 py-1.5 rounded-lg transition">
+                <i class="fas fa-cog"></i>
+                <span>Pengaturan</span>
             </a>
-            <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="text-red-400 hover:text-red-300 text-[11px] font-semibold px-2 py-2 flex items-center transition">
-                <i class="fas fa-sign-out-alt mr-1.5"></i>Keluar
+            <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="flex items-center space-x-1.5 text-xs text-red-400 hover:text-red-300 font-semibold px-2 py-1.5 rounded-lg transition">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Keluar</span>
             </a>
             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">@csrf</form>
         </div>

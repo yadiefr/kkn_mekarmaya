@@ -3,61 +3,99 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edukasi - Sobat Peduli Sampah Desa Mekarmaya</title>
+    <title>Edukasi - Bank Sampah Desa Mekarmaya</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4" crossorigin="anonymous"></script>
     <!-- FontAwesome untuk Icon -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous">
-    <!-- Google Font Inter -->
+    <!-- Google Fonts Plus Jakarta Sans & Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
-        body { font-family: 'Inter', sans-serif; }
+        body { font-family: 'Plus Jakarta Sans', 'Inter', sans-serif; }
         .modal-active { overflow: hidden; }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800 antialiased selection:bg-emerald-100 selection:text-emerald-900 flex flex-col min-h-screen">
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-emerald-500 selection:text-white flex flex-col min-h-screen">
 
-    <!-- NAVBAR -->
-    <nav class="bg-emerald-800 text-white shadow-sm sticky top-0 z-50 border-b border-emerald-900/20 backdrop-blur-md bg-opacity-95">
+    <!-- NAVBAR MODERN (GLASSMORPHISM STICKY) -->
+    <nav class="bg-white/90 backdrop-blur-md sticky top-0 z-40 border-b border-slate-200/80 shadow-xs transition-all duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16">
-                <div class="flex-shrink-0">
-                    <h1 class="font-bold text-sm leading-tight uppercase tracking-wider">
-                        SOBAT PEDULI SAMPAH<br>
-                        <span class="text-emerald-300 text-xs font-normal normal-case tracking-normal">Desa Mekarmaya</span>
-                    </h1>
-                </div>
-                <div class="hidden md:block">
-                    <div class="ml-10 flex items-center space-x-1 text-xs font-semibold tracking-wide uppercase">
-                        <a href="{{ route('beranda') }}" class="text-emerald-100 hover:bg-emerald-700 hover:text-white px-3 py-2 rounded-lg transition duration-200">Beranda</a>
-                        <a href="#" class="bg-emerald-900 text-emerald-200 px-3 py-2 rounded-lg">Edukasi</a>
-                        <a href="{{ route('banksampah') }}" class="text-emerald-100 hover:bg-emerald-700 hover:text-white px-3 py-2 rounded-lg transition duration-200">Bank Sampah</a>
-                        <div class="pl-4 ml-2 border-l border-emerald-700">
-                            <a href="{{ route('login') }}" class="bg-white text-emerald-800 hover:bg-emerald-50 px-4 py-2 rounded-lg transition duration-200 font-bold normal-case shadow-sm inline-block">Masuk / Daftar</a>
+            <div class="flex items-center justify-between h-20">
+                
+                @php
+                    $existingLogos = glob(public_path('uploads/logo/site_logo.*'));
+                    $currentLogoUrl = (!empty($existingLogos) && file_exists($existingLogos[0])) ? asset('uploads/logo/' . basename($existingLogos[0])) : null;
+                @endphp
+                <!-- Logo & Name -->
+                <a href="{{ route('beranda') }}" class="flex items-center space-x-3 group">
+                    @if($currentLogoUrl)
+                        <div class="w-11 h-11 rounded-xl bg-white p-1.5 border border-slate-200 shadow-sm flex items-center justify-center overflow-hidden group-hover:scale-105 transition-transform">
+                            <img src="{{ $currentLogoUrl }}?v={{ time() }}" alt="Logo Bank Sampah" class="w-full h-full object-contain">
                         </div>
+                    @else
+                        <div class="w-11 h-11 bg-gradient-to-tr from-emerald-600 to-teal-500 rounded-xl flex items-center justify-center text-white shadow-md shadow-emerald-600/20 group-hover:scale-105 transition-transform">
+                            <i class="fas fa-leaf text-xl text-emerald-100 group-hover:rotate-12 transition-transform"></i>
+                        </div>
+                    @endif
+                    <div>
+                        <span class="font-extrabold text-lg text-slate-900 tracking-tight leading-none block">
+                            BANK SAMPAH
+                        </span>
+                        <span class="text-xs font-semibold text-emerald-600 tracking-wide flex items-center gap-1 mt-0.5">
+                            Desa Mekarmaya <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                        </span>
                     </div>
+                </a>
+
+                <!-- Desktop Navigation Links -->
+                <div class="hidden lg:flex items-center space-x-1">
+                    <a href="{{ route('beranda') }}" class="px-4 py-2 text-sm font-semibold text-slate-600 hover:text-emerald-600 hover:bg-slate-50 rounded-xl transition">Beranda</a>
+                    <a href="{{ route('beranda') }}#simulasi" class="px-4 py-2 text-sm font-semibold text-slate-600 hover:text-emerald-600 hover:bg-slate-50 rounded-xl transition">Simulasi Tabungan</a>
+                    <a href="{{ route('banksampah') }}" class="px-4 py-2 text-sm font-semibold text-slate-600 hover:text-emerald-600 hover:bg-slate-50 rounded-xl transition">Harga Sampah</a>
+                    <a href="{{ route('beranda') }}#cara-kerja" class="px-4 py-2 text-sm font-semibold text-slate-600 hover:text-emerald-600 hover:bg-slate-50 rounded-xl transition">Cara Kerja</a>
+                    <a href="{{ route('edukasi') }}" class="px-4 py-2 text-sm font-semibold text-emerald-700 bg-emerald-50 rounded-xl transition">Edukasi</a>
+                    <a href="{{ route('beranda') }}#faq" class="px-4 py-2 text-sm font-semibold text-slate-600 hover:text-emerald-600 hover:bg-slate-50 rounded-xl transition">FAQ</a>
                 </div>
 
-                <!-- Hamburger Button (Mobile) -->
-                <div class="md:hidden flex items-center">
-                    <button id="mobileMenuBtn" class="text-emerald-100 hover:text-white focus:outline-none p-2 cursor-pointer">
-                        <i class="fas fa-bars text-xl"></i>
+                <!-- Desktop Action Buttons -->
+                <div class="hidden lg:flex items-center space-x-3">
+                    <a href="{{ route('login') }}" class="px-4 py-2.5 rounded-xl text-sm font-bold text-slate-700 hover:text-emerald-600 hover:bg-slate-100 transition duration-200">
+                        <i class="fas fa-sign-in-alt mr-1.5 text-xs text-emerald-600"></i> Masuk
+                    </a>
+                    <a href="{{ route('register') }}" class="px-5 py-2.5 rounded-xl text-sm font-bold text-white bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 shadow-md shadow-emerald-600/25 hover:shadow-lg hover:shadow-emerald-600/35 transition duration-200 transform hover:-translate-y-0.5">
+                        <i class="fas fa-user-plus mr-1.5 text-xs"></i> Daftar Warga
+                    </a>
+                </div>
+
+                <!-- Mobile Hamburger Button -->
+                <div class="lg:hidden flex items-center">
+                    <button id="mobileMenuBtn" aria-label="Menu Mobile" class="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center text-slate-700 hover:text-emerald-600 focus:outline-none cursor-pointer">
+                        <i class="fas fa-bars text-lg"></i>
                     </button>
                 </div>
             </div>
         </div>
 
-        <!-- Mobile Menu (Hidden by default) -->
-        <div id="mobileMenu" class="hidden md:hidden border-t border-emerald-900 bg-emerald-800 absolute w-full left-0 shadow-lg">
-            <div class="px-4 pt-2 pb-4 flex flex-col space-y-2 text-sm font-semibold tracking-wide uppercase">
-                <a href="{{ route('beranda') }}" class="text-emerald-100 hover:bg-emerald-700 hover:text-white px-4 py-3 rounded-lg block transition duration-200">Beranda</a>
-                <a href="#" class="bg-emerald-900 text-emerald-200 px-4 py-3 rounded-lg block">Edukasi</a>
-                <a href="{{ route('banksampah') }}" class="text-emerald-100 hover:bg-emerald-700 hover:text-white px-4 py-3 rounded-lg block transition duration-200">Bank Sampah</a>
-                <div class="pt-2 mt-2 border-t border-emerald-700">
-                    <a href="{{ route('login') }}" class="bg-white text-emerald-800 hover:bg-emerald-50 px-4 py-3 rounded-lg transition duration-200 font-bold normal-case shadow-sm block text-center mt-2">Masuk / Daftar</a>
+        <!-- Mobile Drawer Menu -->
+        <div id="mobileMenu" class="hidden lg:hidden border-t border-slate-200 bg-white/95 backdrop-blur-xl px-4 pt-3 pb-6 shadow-xl">
+            <div class="flex flex-col space-y-2 text-sm font-semibold">
+                <a href="{{ route('beranda') }}" class="px-4 py-3 text-slate-700 hover:bg-slate-50 rounded-xl">Beranda</a>
+                <a href="{{ route('beranda') }}#simulasi" class="px-4 py-3 text-slate-700 hover:bg-slate-50 rounded-xl">Simulasi Tabungan</a>
+                <a href="{{ route('banksampah') }}" class="px-4 py-3 text-slate-700 hover:bg-slate-50 rounded-xl">Harga Sampah</a>
+                <a href="{{ route('beranda') }}#cara-kerja" class="px-4 py-3 text-slate-700 hover:bg-slate-50 rounded-xl">Cara Kerja</a>
+                <a href="{{ route('edukasi') }}" class="px-4 py-3 bg-emerald-50 text-emerald-700 rounded-xl">Edukasi</a>
+                <a href="{{ route('beranda') }}#faq" class="px-4 py-3 text-slate-700 hover:bg-slate-50 rounded-xl">FAQ</a>
+                
+                <div class="pt-4 mt-2 border-t border-slate-100 flex flex-col gap-2">
+                    <a href="{{ route('login') }}" class="w-full text-center py-3 rounded-xl border border-slate-200 font-bold text-slate-800 hover:bg-slate-50">
+                        Masuk Akun
+                    </a>
+                    <a href="{{ route('register') }}" class="w-full text-center py-3 rounded-xl font-bold text-white bg-emerald-600 hover:bg-emerald-700 shadow-md">
+                        Daftar Warga Baru
+                    </a>
                 </div>
             </div>
         </div>

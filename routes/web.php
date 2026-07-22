@@ -16,11 +16,24 @@ use App\Http\Controllers\AdminKasController;
 use App\Http\Controllers\AdminEdukasiController;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\AdminSettingsController;Route::get('/', function () {
-    return view('beranda');
-});
-// Jalur untuk Halaman Edukasi
-Route::get('/', function () {
-    return view('beranda');
+    try {
+        $trashPrices = \App\Models\TrashPrice::where('is_active', true)->get();
+        $edukasis = \App\Models\Edukasi::latest()->take(3)->get();
+        $totalWarga = \App\Models\User::where('role', 'warga')->count();
+        $totalSetor = \App\Models\TrashDeposit::count();
+        $totalKg = \App\Models\TrashDeposit::sum('weight');
+        $totalSaldo = \App\Models\TrashDeposit::sum('earning');
+        $recentDeposits = \App\Models\TrashDeposit::with(['user', 'trashPrice'])->latest()->take(3)->get();
+    } catch (\Exception $e) {
+        $trashPrices = collect();
+        $edukasis = collect();
+        $totalWarga = 0;
+        $totalSetor = 0;
+        $totalKg = 0;
+        $totalSaldo = 0;
+        $recentDeposits = collect();
+    }
+    return view('beranda', compact('trashPrices', 'edukasis', 'totalWarga', 'totalSetor', 'totalKg', 'totalSaldo', 'recentDeposits'));
 })->name('beranda');
 
 // Jalur untuk Halaman Edukasi
@@ -125,10 +138,14 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/admin/setting-harga/update/{id}', [AdminHargaController::class, 'update'])->name('admin.harga.update');
     Route::post('/admin/setting-harga/toggle/{id}', [AdminHargaController::class, 'toggleStatus'])->name('admin.harga.toggle');
     Route::delete('/admin/setting-harga/hapus/{id}', [AdminHargaController::class, 'destroy'])->name('admin.harga.destroy');
+    Route::post('/admin/setting-harga/upload-logo', [AdminHargaController::class, 'uploadLogo'])->name('admin.harga.uploadLogo');
+    Route::post('/admin/setting-harga/delete-logo', [AdminHargaController::class, 'deleteLogo'])->name('admin.harga.deleteLogo');
 
     // Pengaturan Admin
     Route::get('/admin/pengaturan', [AdminSettingsController::class, 'index'])->name('admin.pengaturan');
     Route::post('/admin/pengaturan/reset', [AdminSettingsController::class, 'reset'])->name('admin.pengaturan.reset');
+    Route::post('/admin/pengaturan/upload-logo', [AdminSettingsController::class, 'uploadLogo'])->name('admin.pengaturan.uploadLogo');
+    Route::post('/admin/pengaturan/delete-logo', [AdminSettingsController::class, 'deleteLogo'])->name('admin.pengaturan.deleteLogo');
 });
 
 

@@ -107,4 +107,44 @@ class AdminHargaController extends Controller
 
         return back()->with('success', 'Kategori sampah berhasil dihapus dari sistem!');
     }
+
+    public function uploadLogo(Request $request)
+    {
+        $request->validate([
+            'logo' => 'required|image|mimes:jpeg,png,jpg,webp,svg|max:2048',
+        ]);
+
+        if ($request->hasFile('logo')) {
+            $dir = public_path('uploads/logo');
+            if (!file_exists($dir)) {
+                mkdir($dir, 0777, true);
+            }
+
+            // Hapus logo lama jika ada
+            $existing = glob($dir . '/site_logo.*');
+            foreach ($existing as $file) {
+                if (file_exists($file)) {
+                    unlink($file);
+                }
+            }
+
+            $file = $request->file('logo');
+            $ext = strtolower($file->getClientOriginalExtension());
+            $file->move($dir, 'site_logo.' . $ext);
+        }
+
+        return back()->with('success', 'Logo beranda & website berhasil diperbarui!');
+    }
+
+    public function deleteLogo()
+    {
+        $dir = public_path('uploads/logo');
+        $existing = glob($dir . '/site_logo.*');
+        foreach ($existing as $file) {
+            if (file_exists($file)) {
+                unlink($file);
+            }
+        }
+        return back()->with('success', 'Logo khusus berhasil dihapus, sistem kembali menggunakan logo standar!');
+    }
 }

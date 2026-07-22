@@ -26,6 +26,76 @@
             </div>
         @endif
 
+        @php
+            $existingLogos = glob(public_path('uploads/logo/site_logo.*'));
+            $currentLogoUrl = (!empty($existingLogos) && file_exists($existingLogos[0])) ? asset('uploads/logo/' . basename($existingLogos[0])) : null;
+        @endphp
+
+        <!-- FITUR KELOLA LOGO WEBSITE & BERANDA -->
+        <div class="bg-white rounded-2xl border border-gray-150 shadow-sm overflow-hidden">
+            <div class="p-5 border-b border-gray-100 bg-gray-50/50 flex items-center justify-between">
+                <div class="flex items-center">
+                    <i class="fas fa-image text-emerald-600 mr-2.5 text-sm"></i>
+                    <h3 class="text-xs font-bold text-gray-700 uppercase tracking-wider">Kelola Logo Halaman Beranda & Navbar Website</h3>
+                </div>
+            </div>
+
+            <div class="p-6 text-xs space-y-4">
+                <p class="text-gray-500 leading-relaxed">
+                    Upload logo kustom desa untuk ditampilkan di bagian navbar halaman beranda, edukasi, dan bank sampah.
+                </p>
+
+                <div class="flex flex-col sm:flex-row items-center gap-6 p-4 bg-gray-50/80 rounded-xl border border-gray-200/70">
+                    <!-- Preview Box -->
+                    <div class="flex flex-col items-center justify-center text-center shrink-0">
+                        <span class="text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-2">Preview Logo</span>
+                        @if($currentLogoUrl)
+                            <div class="w-16 h-16 rounded-xl bg-white p-2 border border-gray-200 flex items-center justify-center shadow-xs mb-2">
+                                <img src="{{ $currentLogoUrl }}?v={{ time() }}" alt="Logo Website" class="w-full h-full object-contain">
+                            </div>
+                            <span class="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+                                Logo Kustom
+                            </span>
+                        @else
+                            <div class="w-16 h-16 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-500 text-white flex items-center justify-center shadow-md shadow-emerald-600/20 mb-2">
+                                <i class="fas fa-leaf text-2xl text-emerald-100"></i>
+                            </div>
+                            <span class="text-[10px] font-bold text-gray-500 bg-gray-200/80 px-2 py-0.5 rounded">
+                                Logo Standar
+                            </span>
+                        @endif
+                    </div>
+
+                    <!-- Upload Form & Delete Form -->
+                    <div class="w-full space-y-3">
+                        <form action="{{ route('admin.pengaturan.uploadLogo') }}" method="POST" enctype="multipart/form-data" class="space-y-3">
+                            @csrf
+                            <div>
+                                <label class="block font-bold text-gray-700 mb-1">Pilih File Logo Baru (PNG / JPG / WEBP / SVG)</label>
+                                <input type="file" name="logo" required accept="image/*" class="w-full p-2 border border-gray-200 rounded-xl bg-white focus:outline-none">
+                                <p class="text-[10px] text-gray-400 mt-1">Disarankan gambar transparan (PNG/SVG) rasio 1:1. Maksimal 2 MB.</p>
+                            </div>
+
+                            <div class="flex items-center gap-2 pt-1">
+                                <button type="submit" class="bg-emerald-700 hover:bg-emerald-800 text-white font-bold px-4 py-2.5 rounded-xl shadow-md cursor-pointer inline-flex items-center text-xs">
+                                    <i class="fas fa-upload mr-2"></i>Upload Logo Baru
+                                </button>
+                        </form>
+
+                        @if($currentLogoUrl)
+                            <form action="{{ route('admin.pengaturan.deleteLogo') }}" method="POST" onsubmit="return confirm('Hapus logo khusus dan kembali menggunakan logo standar?')">
+                                @csrf
+                                <button type="submit" class="bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 font-bold px-3 py-2.5 rounded-xl cursor-pointer inline-flex items-center text-xs">
+                                    <i class="fas fa-trash-alt mr-1.5"></i>Hapus Logo
+                                </button>
+                            </form>
+                        @endif
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- DAFTAR WARGA DENGAN SALDO AKTIF -->
         <div class="bg-white rounded-2xl border border-gray-150 shadow-sm overflow-hidden">
             <div class="p-5 border-b border-gray-100 bg-gray-50/50 flex justify-between items-center">

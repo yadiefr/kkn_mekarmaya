@@ -5,7 +5,7 @@
 
 @section('content')
     @if(session('success'))
-        <div class="p-4 bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs rounded-xl font-medium"><i class="fas fa-check-circle mr-2"></i>{{ session('success') }}</div>
+        <div class="p-4 mb-6 bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs rounded-xl font-medium"><i class="fas fa-check-circle mr-2"></i>{{ session('success') }}</div>
     @endif
 
     <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
