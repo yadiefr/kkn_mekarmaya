@@ -11,8 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
+        // 1. Tambahkan kolom username nullable terlebih dahulu
         Schema::table('users', function (Blueprint $table) {
-            $table->string('username')->unique()->after('name');
+            $table->string('username')->nullable()->after('name');
+        });
+
+        // 2. Salin data nik yang sudah ada ke kolom username agar tidak ada yang kosong/duplikat
+        \Illuminate\Support\Facades\DB::table('users')->update(['username' => \Illuminate\Support\Facades\DB::raw('nik')]);
+
+        // 3. Tambahkan unique constraint dan hapus kolom lama
+        Schema::table('users', function (Blueprint $table) {
+            $table->unique('username');
             $table->dropColumn(['nik', 'no_kk']);
         });
     }
@@ -23,9 +32,15 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('username');
             $table->string('no_kk')->nullable();
-            $table->string('nik')->unique();
+            $table->string('nik')->nullable();
+        });
+
+        \Illuminate\Support\Facades\DB::table('users')->update(['nik' => \Illuminate\Support\Facades\DB::raw('username')]);
+
+        Schema::table('users', function (Blueprint $table) {
+            $table->unique('nik');
+            $table->dropColumn('username');
         });
     }
 };
