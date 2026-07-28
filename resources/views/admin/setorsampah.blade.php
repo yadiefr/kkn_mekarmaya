@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Input Setor Sampah - Sobat Sampah')
+@section('title', 'Input Setoran')
 @section('header_title', 'Loket Timbangan & Pencatatan Digital')
 @section('x-data-extra', "editModalOpen: false, editData: {}, trashItems: [{ trash_price_id: '', weight: '', note: '' }]")
 

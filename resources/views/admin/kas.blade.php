@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Kas Desa - Panel Admin')
+@section('title', 'Kas Desa')
 @section('header_title', 'Buku Kas Desa Bank Sampah')
 
 @section('content')

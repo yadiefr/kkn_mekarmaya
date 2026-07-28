@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Kelola Edukasi - Panel Admin')
+@section('title', 'Kelola Edukasi')
 @section('header_title', 'Manajemen Konten Edukasi')
 
 @section('content')

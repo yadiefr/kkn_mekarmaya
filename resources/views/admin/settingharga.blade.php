@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Setting Harga Sampah - Panel Admin')
+@section('title', 'Setting Harga Sampah')
 @section('header_title', 'Pengaturan Katalog Komoditas Sampah')
 
 @section('content')

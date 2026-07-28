@@ -1,6 +1,6 @@
 @extends('layouts.warga')
 
-@section('title', 'Dashboard Warga - Sobat Sampah')
+@section('title', 'Dashboard Warga')
 @section('header_title', 'Sobat Sampah Warga')
 
 @section('header_right')

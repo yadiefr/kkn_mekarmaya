@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Pengaturan Sistem - Panel Admin')
+@section('title', 'Pengaturan Sistem')
 @section('header_title', 'Pengaturan Aplikasi')
 
 @section('content')

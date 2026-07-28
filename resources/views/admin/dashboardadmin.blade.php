@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Dashboard Admin - Bank Sampah Desa Mekarmaya')
+@section('title', 'Dashboard Admin')
 @section('header_title', 'Ringkasan Utama')
 
 @section('content')

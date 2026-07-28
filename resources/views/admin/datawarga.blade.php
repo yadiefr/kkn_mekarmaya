@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
-@section('title', 'Data Warga - Sobat Sampah')
-@section('header_title', 'Manajemen Akses Akun Warga')
+@section('title', 'Data Warga')
+@section('header_title', 'Manajemen Akun Warga')
 @section('x-data-extra', "createModalOpen: false, editModalOpen: false, editData: {}")
 
 @section('content')

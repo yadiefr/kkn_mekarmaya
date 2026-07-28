@@ -1,6 +1,6 @@
 @extends('layouts.warga')
 
-@section('title', 'Daftar Harga Sampah - Sobat Sampah Desa Mekarmaya')
+@section('title', 'Daftar Harga Sampah')
 @section('header_title', 'Katalog Harga Beli')
 
 @section('header_right')

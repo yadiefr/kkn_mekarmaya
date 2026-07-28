@@ -1,6 +1,6 @@
 @extends('layouts.warga')
 
-@section('title', 'Tarik Saldo - Sobat Sampah')
+@section('title', 'Tarik Saldo')
 @section('header_title', 'Tarik Saldo')
 
 @section('header_right')

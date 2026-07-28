@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Setting Pembayaran & Tarik Saldo - Sobat Sampah')
+@section('title', 'Setting Pembayaran')
 @section('header_title', 'Konfigurasi Pembayaran & Kasir Nasabah')
 @section('x-data-extra', "editModalOpen: false, editData: {}")
 
