@@ -35,7 +35,7 @@
                     <select name="user_id" id="user_select" required class="w-full" placeholder="Cari atau Pilih Warga...">
                         <option value="" disabled selected>-- Cari/Pilih Warga --</option>
                         @foreach($wargaList as $warga)
-                            <option value="{{ $warga->id }}">{{ $warga->name }} (NIK: {{ $warga->nik }})</option>
+                            <option value="{{ $warga->id }}">{{ $warga->name }} (Username: {{ $warga->username }})</option>
                         @endforeach
                     </select>
                 </div>

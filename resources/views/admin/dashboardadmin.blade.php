@@ -85,7 +85,7 @@
                                 </div>
                                 <div class="min-w-0">
                                     <p class="font-bold text-slate-800 truncate">{{ $w->name }}</p>
-                                    <p class="text-[10px] text-slate-400 mt-0.5">NIK: {{ Str::mask($w->nik, 'X', 4, 8) }}</p>
+                                    <p class="text-[10px] text-slate-400 mt-0.5">Username: {{ $w->username }}</p>
                                 </div>
                             </td>
                             <td class="p-4">

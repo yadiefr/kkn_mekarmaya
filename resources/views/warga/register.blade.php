@@ -32,9 +32,19 @@
         <!-- CONTAINER UTAMA (KARTU REGISTRASI) -->
         <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 text-center">
             
+            @php
+                $currentLogoUrl = asset('images/logo-login.png');
+                $logoExtensions = ['png', 'jpg', 'jpeg', 'webp', 'svg', 'PNG', 'JPG', 'WEBP', 'SVG'];
+                foreach ($logoExtensions as $ext) {
+                    if (file_exists(public_path('uploads/logo/site_logo.' . $ext)) || file_exists(base_path('../public_html/uploads/logo/site_logo.' . $ext))) {
+                        $currentLogoUrl = asset('uploads/logo/site_logo.' . $ext) . '?v=' . time();
+                        break;
+                    }
+                }
+            @endphp
             <!-- LOGO UTAMA BANK SAMPAH (Sesuai Gambar 4, 5, 6) -->
             <div class="flex justify-center mb-6">
-                <img src="{{ asset('images/logo-login.png') }}" alt="Logo Bank Sampah Desa Mekarmaya" class="w-48 h-auto object-contain fallback-image">
+                <img src="{{ $currentLogoUrl }}" alt="Logo Bank Sampah Desa Mekarmaya" class="w-48 h-auto object-contain fallback-image">
             </div>
 
             @if($errors->any())
@@ -56,11 +66,7 @@
                         class="w-full px-5 py-2.5 border border-gray-300 rounded-full text-center text-sm font-medium text-gray-800 placeholder-gray-400 bg-white focus:outline-none focus:ring-1 focus:ring-emerald-600 focus:border-emerald-600 transition duration-200">
                 </div>
                 <div>
-                    <input type="text" name="no_kk" id="no_kk" value="{{ old('no_kk') }}" placeholder="Nomor Kartu Keluarga" required
-                        class="w-full px-5 py-2.5 border border-gray-300 rounded-full text-center text-sm font-medium text-gray-800 placeholder-gray-400 bg-white focus:outline-none focus:ring-1 focus:ring-emerald-600 focus:border-emerald-600 transition duration-200">
-                </div>
-                <div>
-                    <input type="text" name="nik" id="nik" value="{{ old('nik') }}" placeholder="Nomor NIK" required
+                    <input type="text" name="username" id="username" value="{{ old('username') }}" placeholder="Username" required
                         class="w-full px-5 py-2.5 border border-gray-300 rounded-full text-center text-sm font-medium text-gray-800 placeholder-gray-400 bg-white focus:outline-none focus:ring-1 focus:ring-emerald-600 focus:border-emerald-600 transition duration-200">
                 </div>
                 

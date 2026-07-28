@@ -32,9 +32,19 @@
         <!-- CONTAINER UTAMA LOGIN (KARTU) -->
         <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 text-center">
             
+            @php
+                $currentLogoUrl = asset('images/logo-login.png');
+                $logoExtensions = ['png', 'jpg', 'jpeg', 'webp', 'svg', 'PNG', 'JPG', 'WEBP', 'SVG'];
+                foreach ($logoExtensions as $ext) {
+                    if (file_exists(public_path('uploads/logo/site_logo.' . $ext)) || file_exists(base_path('../public_html/uploads/logo/site_logo.' . $ext))) {
+                        $currentLogoUrl = asset('uploads/logo/site_logo.' . $ext) . '?v=' . time();
+                        break;
+                    }
+                }
+            @endphp
             <!-- TEMPAT UNTUK MEMASUKKAN IMG (LOGO LOG IN) -->
             <div class="flex justify-center mb-6">
-                <img src="{{ asset('images/logo-login.png') }}" alt="Logo Bank Sampah Desa Mekarmaya" class="w-48 h-auto object-contain fallback-image">
+                <img src="{{ $currentLogoUrl }}" alt="Logo Bank Sampah Desa Mekarmaya" class="w-48 h-auto object-contain fallback-image">
             </div>
 
 
@@ -49,9 +59,9 @@
             <form action="{{ route('login') }}" method="POST" class="space-y-4">
                 @csrf
                 
-                <!-- INPUT NIK -->
+                <!-- INPUT USERNAME -->
                 <div>
-                    <input type="text" name="nik" value="{{ old('nik') }}" placeholder="Masukkan NIK" required
+                    <input type="text" name="username" value="{{ old('username') }}" placeholder="Masukkan Username" required
                         class="w-full px-5 py-2.5 border border-gray-300 rounded-full text-center text-sm font-medium text-gray-800 placeholder-gray-400 bg-white focus:outline-none focus:ring-1 focus:ring-emerald-600 focus:border-emerald-600 transition duration-200">
                 </div>
 

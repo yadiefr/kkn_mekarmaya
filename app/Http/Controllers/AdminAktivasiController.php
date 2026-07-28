@@ -19,7 +19,7 @@ class AdminAktivasiController extends Controller
         if (!empty($search)) {
             $queryWarga->where(function ($q) use ($search) {
                 $q->where('name', 'LIKE', "%{$search}%")
-                  ->orWhere('nik', 'LIKE', "%{$search}%");
+                  ->orWhere('username', 'LIKE', "%{$search}%");
             });
         }
 
@@ -34,8 +34,7 @@ class AdminAktivasiController extends Controller
     {
         $request->validate([
             'nama_lengkap' => 'required|string|max:255',
-            'no_kk' => 'required|string|max:16',
-            'nik' => 'required|string|unique:users,nik|max:16',
+            'username' => 'required|string|unique:users,username|max:50',
             'tempat_lahir' => 'required|string|max:100',
             'tanggal_lahir' => 'required|date',
             'jenis_kelamin' => 'required|in:Laki-laki,Perempuan',
@@ -44,10 +43,9 @@ class AdminAktivasiController extends Controller
             'password' => 'required|string|min:6|confirmed',
         ], [
             'nama_lengkap.required' => 'Nama lengkap wajib diisi.',
-            'no_kk.required' => 'Nomor Kartu Keluarga wajib diisi.',
-            'nik.required' => 'Nomor NIK wajib diisi.',
-            'nik.unique' => 'Nomor NIK sudah terdaftar.',
-            'nik.max' => 'Nomor NIK maksimal 16 karakter.',
+            'username.required' => 'Username wajib diisi.',
+            'username.unique' => 'Username sudah terdaftar.',
+            'username.max' => 'Username maksimal 50 karakter.',
             'tempat_lahir.required' => 'Tempat lahir wajib diisi.',
             'tanggal_lahir.required' => 'Tanggal lahir wajib diisi.',
             'jenis_kelamin.required' => 'Jenis kelamin wajib diisi.',
@@ -60,8 +58,7 @@ class AdminAktivasiController extends Controller
 
         User::create([
             'name' => $request->nama_lengkap,
-            'no_kk' => $request->no_kk,
-            'nik' => $request->nik,
+            'username' => $request->username,
             'tempat_lahir' => $request->tempat_lahir,
             'tanggal_lahir' => $request->tanggal_lahir,
             'jenis_kelamin' => $request->jenis_kelamin,
@@ -81,8 +78,7 @@ class AdminAktivasiController extends Controller
 
         $rules = [
             'nama_lengkap' => 'required|string|max:255',
-            'no_kk' => 'required|string|max:16',
-            'nik' => 'required|string|max:16|unique:users,nik,' . $warga->id,
+            'username' => 'required|string|max:50|unique:users,username,' . $warga->id,
             'tempat_lahir' => 'required|string|max:100',
             'tanggal_lahir' => 'required|date',
             'jenis_kelamin' => 'required|in:Laki-laki,Perempuan',
@@ -96,10 +92,9 @@ class AdminAktivasiController extends Controller
 
         $request->validate($rules, [
             'nama_lengkap.required' => 'Nama lengkap wajib diisi.',
-            'no_kk.required' => 'Nomor Kartu Keluarga wajib diisi.',
-            'nik.required' => 'Nomor NIK wajib diisi.',
-            'nik.unique' => 'Nomor NIK sudah terdaftar.',
-            'nik.max' => 'Nomor NIK maksimal 16 karakter.',
+            'username.required' => 'Username wajib diisi.',
+            'username.unique' => 'Username sudah terdaftar.',
+            'username.max' => 'Username maksimal 50 karakter.',
             'tempat_lahir.required' => 'Tempat lahir wajib diisi.',
             'tanggal_lahir.required' => 'Tanggal lahir wajib diisi.',
             'jenis_kelamin.required' => 'Jenis kelamin wajib diisi.',
@@ -111,8 +106,7 @@ class AdminAktivasiController extends Controller
 
         $data = [
             'name' => $request->nama_lengkap,
-            'no_kk' => $request->no_kk,
-            'nik' => $request->nik,
+            'username' => $request->username,
             'tempat_lahir' => $request->tempat_lahir,
             'tanggal_lahir' => $request->tanggal_lahir,
             'jenis_kelamin' => $request->jenis_kelamin,

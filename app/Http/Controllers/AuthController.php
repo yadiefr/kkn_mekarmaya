@@ -20,12 +20,12 @@ class AuthController extends Controller
     {
         // Validasi input dari form login
         $credentials = $request->validate([
-            'nik' => 'required|string',
+            'username' => 'required|string',
             'password' => 'required|string',
         ]);
 
-        // Cari user berdasarkan NIK terlebih dahulu
-        $user = User::where('nik', $credentials['nik'])->first();
+        // Cari user berdasarkan username terlebih dahulu
+        $user = User::where('username', $credentials['username'])->first();
 
         if ($user) {
             // Cek kecocokan password manual karena default Laravel memakai Email
@@ -51,10 +51,10 @@ class AuthController extends Controller
             }
         }
 
-        // Jika password salah atau NIK tidak ditemukan
+        // Jika password salah atau username tidak ditemukan
         return back()->withErrors([
-            'auth_error' => 'NIK atau Password yang Anda masukkan salah.',
-        ])->onlyInput('nik');
+            'auth_error' => 'Username atau Password yang Anda masukkan salah.',
+        ])->onlyInput('username');
     }
 
     // 3. MENAMPILKAN HALAMAN REGISTER
@@ -68,8 +68,7 @@ class AuthController extends Controller
     {
         $request->validate([
             'nama_lengkap' => 'required|string|max:255',
-            'no_kk' => 'required|string|max:16',
-            'nik' => 'required|string|unique:users,nik|max:16',
+            'username' => 'required|string|unique:users,username|max:50',
             'tempat_lahir' => 'required|string|max:100',
             'tanggal_lahir' => 'required|date',
             'jenis_kelamin' => 'required|in:Laki-laki,Perempuan',
@@ -78,10 +77,9 @@ class AuthController extends Controller
             'password' => 'required|string|min:6|confirmed',
         ], [
             'nama_lengkap.required' => 'Nama lengkap wajib diisi.',
-            'no_kk.required' => 'Nomor Kartu Keluarga wajib diisi.',
-            'nik.required' => 'Nomor NIK wajib diisi.',
-            'nik.unique' => 'Nomor NIK sudah terdaftar.',
-            'nik.max' => 'Nomor NIK maksimal 16 karakter.',
+            'username.required' => 'Username wajib diisi.',
+            'username.unique' => 'Username sudah terdaftar.',
+            'username.max' => 'Username maksimal 50 karakter.',
             'tempat_lahir.required' => 'Tempat lahir wajib diisi.',
             'tanggal_lahir.required' => 'Tanggal lahir wajib diisi.',
             'jenis_kelamin.required' => 'Jenis kelamin wajib diisi.',
@@ -89,13 +87,12 @@ class AuthController extends Controller
             'whatsapp.required' => 'Nomor WhatsApp wajib diisi.',
             'password.required' => 'Password wajib diisi.',
             'password.min' => 'Password minimal harus terdiri dari 6 karakter.',
-            'password.confirmed' => 'Konfirmasi password tidak sesuai.',
+            'password.confirmed' => 'Password tidak cocok dengan sebelumnya.',
         ]);
 
         User::create([
             'name' => $request->nama_lengkap,
-            'no_kk' => $request->no_kk,
-            'nik' => $request->nik,
+            'username' => $request->username,
             'tempat_lahir' => $request->tempat_lahir,
             'tanggal_lahir' => $request->tanggal_lahir,
             'jenis_kelamin' => $request->jenis_kelamin,
@@ -106,7 +103,7 @@ class AuthController extends Controller
             'status_akses' => 'off', 
         ]);
 
-        return redirect()->route('login')->with('success', 'Pendaftaran berhasil! Akun Anda sedang menunggu aktivasi dari Admin Desa.');
+        return redirect()->route('login')->with('success', 'Pendaftaran berhasil! Silahkan tunggu aktivasi akun anda oleh Admin Desa.');
     }
 
     // 5. PROSES LOGOUT

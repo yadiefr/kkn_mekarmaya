@@ -62,8 +62,8 @@
                                 </div>
                                 <div class="min-w-0">
                                     <p class="font-bold text-slate-800 truncate">{{ $w->name }}</p>
-                                    <p class="text-[10px] text-slate-400 mt-0.5">NIK: {{ $w->nik }}</p>
-                                    <p class="text-[10px] text-slate-400">No. KK: {{ $w->no_kk }}</p>
+                                    <p class="text-[10px] text-slate-400 mt-0.5">Username: {{ $w->username }}</p>
+                                    <p class="text-[10px] text-slate-400"></p>
                                 </div>
                             </td>
                             <td class="p-4">
@@ -83,7 +83,7 @@
                                         @csrf
                                         <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white text-[11px] font-bold px-4 py-1.5 rounded-lg shadow-sm transition cursor-pointer"><i class="fas fa-user-check mr-1.5"></i>Aktifkan (ON)</button>
                                     </form>
-                                    <button @click="editData = { id: {{ $w->id }}, name: '{{ addslashes($w->name) }}', no_kk: '{{ $w->no_kk }}', nik: '{{ $w->nik }}', whatsapp: '{{ $w->whatsapp }}', tempat_lahir: '{{ addslashes($w->tempat_lahir) }}', tanggal_lahir: '{{ $w->tanggal_lahir }}', jenis_kelamin: '{{ $w->jenis_kelamin }}', alamat: '{{ addslashes($w->alamat) }}' }; editModalOpen = true" class="bg-amber-500 hover:bg-amber-600 text-white text-[11px] font-bold px-3 py-1.5 rounded-lg shadow-sm transition cursor-pointer" title="Edit Data"><i class="fas fa-edit"></i></button>
+                                    <button @click="editData = { id: {{ $w->id }}, name: '{{ addslashes($w->name) }}', username: '{{ $w->username }}', username: '{{ $w->username }}', whatsapp: '{{ $w->whatsapp }}', tempat_lahir: '{{ addslashes($w->tempat_lahir) }}', tanggal_lahir: '{{ $w->tanggal_lahir }}', jenis_kelamin: '{{ $w->jenis_kelamin }}', alamat: '{{ addslashes($w->alamat) }}' }; editModalOpen = true" class="bg-amber-500 hover:bg-amber-600 text-white text-[11px] font-bold px-3 py-1.5 rounded-lg shadow-sm transition cursor-pointer" title="Edit Data"><i class="fas fa-edit"></i></button>
                                     <form action="{{ route('admin.datawarga.destroy', $w->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus akun warga ini?');">
                                         @csrf
                                         @method('DELETE')
@@ -127,8 +127,8 @@
                                 </div>
                                 <div class="min-w-0">
                                     <p class="font-bold text-slate-800 truncate">{{ $w->name }}</p>
-                                    <p class="text-[10px] text-slate-400 mt-0.5">NIK: {{ $w->nik }}</p>
-                                    <p class="text-[10px] text-slate-400">No. KK: {{ $w->no_kk }}</p>
+                                    <p class="text-[10px] text-slate-400 mt-0.5">Username: {{ $w->username }}</p>
+                                    <p class="text-[10px] text-slate-400"></p>
                                 </div>
                             </td>
                             <td class="p-4">
@@ -148,7 +148,7 @@
                                         @csrf
                                         <button type="submit" class="bg-red-50 hover:bg-red-100 text-red-700 text-[11px] font-bold px-3 py-1.5 rounded-lg border border-red-200 transition cursor-pointer"><i class="fas fa-user-slash mr-1.5"></i>(OFF)</button>
                                     </form>
-                                    <button @click="editData = { id: {{ $w->id }}, name: '{{ addslashes($w->name) }}', no_kk: '{{ $w->no_kk }}', nik: '{{ $w->nik }}', whatsapp: '{{ $w->whatsapp }}', tempat_lahir: '{{ addslashes($w->tempat_lahir) }}', tanggal_lahir: '{{ $w->tanggal_lahir }}', jenis_kelamin: '{{ $w->jenis_kelamin }}', alamat: '{{ addslashes($w->alamat) }}' }; editModalOpen = true" class="bg-amber-500 hover:bg-amber-600 text-white text-[11px] font-bold px-3 py-1.5 rounded-lg shadow-sm transition cursor-pointer" title="Edit Data"><i class="fas fa-edit"></i></button>
+                                    <button @click="editData = { id: {{ $w->id }}, name: '{{ addslashes($w->name) }}', username: '{{ $w->username }}', username: '{{ $w->username }}', whatsapp: '{{ $w->whatsapp }}', tempat_lahir: '{{ addslashes($w->tempat_lahir) }}', tanggal_lahir: '{{ $w->tanggal_lahir }}', jenis_kelamin: '{{ $w->jenis_kelamin }}', alamat: '{{ addslashes($w->alamat) }}' }; editModalOpen = true" class="bg-amber-500 hover:bg-amber-600 text-white text-[11px] font-bold px-3 py-1.5 rounded-lg shadow-sm transition cursor-pointer" title="Edit Data"><i class="fas fa-edit"></i></button>
                                     <form action="{{ route('admin.datawarga.destroy', $w->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus akun warga ini secara permanen?');">
                                         @csrf
                                         @method('DELETE')
@@ -193,14 +193,8 @@
                         </div>
 
                         <div class="space-y-1.5">
-                            <label class="block font-bold text-gray-700">Nomor Kartu Keluarga</label>
-                            <input type="text" name="no_kk" required placeholder="Nomor KK (16 digit)..." 
-                                class="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-1 focus:ring-emerald-600 focus:outline-none">
-                        </div>
-
-                        <div class="space-y-1.5">
-                            <label class="block font-bold text-gray-700">Nomor NIK</label>
-                            <input type="text" name="nik" required placeholder="Nomor NIK (16 digit)..." 
+                            <label class="block font-bold text-gray-700">Username</label>
+                            <input type="text" name="username" required placeholder="Username..." 
                                 class="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-1 focus:ring-emerald-600 focus:outline-none">
                         </div>
 
@@ -292,14 +286,8 @@
                         </div>
 
                         <div class="space-y-1.5">
-                            <label class="block font-bold text-gray-700">Nomor Kartu Keluarga</label>
-                            <input type="text" name="no_kk" required x-model="editData.no_kk" placeholder="Nomor KK (16 digit)..." 
-                                class="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-1 focus:ring-emerald-600 focus:outline-none">
-                        </div>
-
-                        <div class="space-y-1.5">
-                            <label class="block font-bold text-gray-700">Nomor NIK</label>
-                            <input type="text" name="nik" required x-model="editData.nik" placeholder="Nomor NIK (16 digit)..." 
+                            <label class="block font-bold text-gray-700">Username</label>
+                            <input type="text" name="username" required x-model="editData.username" placeholder="Username..." 
                                 class="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-1 focus:ring-emerald-600 focus:outline-none">
                         </div>
 

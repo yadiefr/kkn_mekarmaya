@@ -14,7 +14,7 @@
         <div>
             <span class="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded uppercase tracking-wider">Akun Warga Aktif</span>
             <h2 class="text-lg font-bold text-gray-900 mt-2">Selamat Datang, {{ $user->name }}</h2>
-            <p class="text-xs text-gray-500 mt-0.5">NIK: {{ $user->nik }} | Alamat: {{ $user->alamat }}</p>
+            <p class="text-xs text-gray-500 mt-0.5">Username: {{ $user->username }} | Alamat: {{ $user->alamat }}</p>
         </div>
         <div class="bg-emerald-50 border border-emerald-100 px-6 py-4 rounded-xl text-right w-full sm:w-auto">
             <p class="text-[10px] font-bold text-emerald-600 uppercase tracking-wider">Total Saldo Tabungan</p>

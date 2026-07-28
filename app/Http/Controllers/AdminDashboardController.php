@@ -38,12 +38,12 @@ class AdminDashboardController extends Controller
             ->select(
                 'users.id',
                 'users.name',
-                'users.nik',
+                'users.username',
                 'users.whatsapp',
                 DB::raw('COALESCE(SUM(trash_deposits.weight), 0) as total_berat'),
                 DB::raw('COALESCE(SUM(trash_deposits.earning), 0) as total_saldo')
             )
-            ->groupBy('users.id', 'users.name', 'users.nik', 'users.whatsapp')
+            ->groupBy('users.id', 'users.name', 'users.username', 'users.whatsapp')
             ->orderByDesc('total_saldo')
             ->orderByDesc('total_berat')
             ->take(5)

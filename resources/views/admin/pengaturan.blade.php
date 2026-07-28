@@ -141,7 +141,7 @@
                                     <tr class="hover:bg-gray-50/50 transition">
                                         <td class="p-4">
                                             <p class="font-bold text-gray-900">{{ $w->name }}</p>
-                                            <p class="text-[10px] text-gray-400 mt-0.5">NIK: {{ Str::mask($w->nik, 'X', 4, 8) }}</p>
+                                            <p class="text-[10px] text-gray-400 mt-0.5">Username: {{ $w->username }}</p>
                                         </td>
                                         <td class="p-4 text-gray-600 font-medium"><i class="fab fa-whatsapp text-emerald-600 mr-1"></i>{{ $w->whatsapp ?? '-' }}</td>
                                         <td class="p-4 text-right font-medium text-gray-700">{{ number_format($w->total_berat, 2, ',', '.') }} kg</td>

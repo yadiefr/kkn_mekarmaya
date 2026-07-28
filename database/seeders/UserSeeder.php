@@ -17,8 +17,7 @@ class UserSeeder extends Seeder
             // 1. DATA AKUN ADMIN DESA
             [
                 'name' => 'Admin Desa Mekarmaya',
-                'no_kk' => null,
-                'nik' => 'adminmekarmaya', // Gunakan NIK ini untuk login admin
+                'username' => 'adminmekarmaya', // Gunakan Username ini untuk login admin
                 'tempat_lahir' => null,
                 'tanggal_lahir' => null,
                 'jenis_kelamin' => null,
@@ -32,7 +31,7 @@ class UserSeeder extends Seeder
 
         foreach ($users as $userData) {
             \App\Models\User::updateOrCreate(
-                ['nik' => $userData['nik']], // Kunci unik
+                ['username' => $userData['username']], // Kunci unik
                 $userData // Data yang diupdate/dibuat
             );
         }

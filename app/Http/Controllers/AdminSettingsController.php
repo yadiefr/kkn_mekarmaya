@@ -20,12 +20,12 @@ class AdminSettingsController extends Controller
             ->select(
                 'users.id',
                 'users.name',
-                'users.nik',
+                'users.username',
                 'users.whatsapp',
                 DB::raw('SUM(trash_deposits.weight) as total_berat'),
                 DB::raw('SUM(trash_deposits.earning) as total_saldo')
             )
-            ->groupBy('users.id', 'users.name', 'users.nik', 'users.whatsapp')
+            ->groupBy('users.id', 'users.name', 'users.username', 'users.whatsapp')
             ->having('total_saldo', '>', 0)
             ->get();
 
