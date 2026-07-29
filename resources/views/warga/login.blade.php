@@ -61,7 +61,7 @@
                 
                 <!-- INPUT USERNAME -->
                 <div>
-                    <input type="text" name="username" value="{{ old('username') }}" placeholder="Masukkan Username" required
+                    <input type="text" name="username" value="{{ old('username') }}" placeholder="Masukkan Username" required oninput="this.value = this.value.toLowerCase().replace(/\s/g, '')"
                         class="w-full px-5 py-2.5 border border-gray-300 rounded-full text-center text-sm font-medium text-gray-800 placeholder-gray-400 bg-white focus:outline-none focus:ring-1 focus:ring-emerald-600 focus:border-emerald-600 transition duration-200">
                 </div>
 
@@ -108,9 +108,23 @@
     @if(session('success'))
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            let successText = "{{ session('success') }}";
+            let htmlContent = successText;
+            
+            @if(session('registered_username') && session('registered_password'))
+                htmlContent = `
+                    <div class="mb-4">${successText}</div>
+                    <div class="bg-gray-50 p-4 rounded-xl text-left text-sm border border-gray-200 shadow-inner">
+                        <div class="mb-2"><span class="font-semibold text-gray-700">Username:</span> <span class="text-emerald-700 font-medium">{{ session('registered_username') }}</span></div>
+                        <div><span class="font-semibold text-gray-700">Password:</span> <span class="text-emerald-700 font-medium">{{ session('registered_password') }}</span></div>
+                    </div>
+                    <div class="mt-4 text-xs text-red-500 font-medium">*Harap simpan atau screenshot informasi ini!</div>
+                `;
+            @endif
+
             Swal.fire({
                 title: 'Pendaftaran Berhasil!',
-                text: "{{ session('success') }}",
+                html: htmlContent,
                 icon: 'success',
                 confirmButtonText: 'Siap Menunggu',
                 confirmButtonColor: '#059669', // Emerald 600

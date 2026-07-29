@@ -8,6 +8,7 @@ use App\Http\Controllers\WargaDashboardController;
 use App\Http\Controllers\WargaTransaksiController;
 use App\Http\Controllers\WargaHargaController; // <-- Impor Controller baru di sini
 use App\Http\Controllers\WargaTarikSaldoController;
+use App\Http\Controllers\WargaProfilController;
 use App\Http\Controllers\AdminAktivasiController;
 use App\Http\Controllers\AdminSetorController;
 use App\Http\Controllers\AdminPembayaranController;
@@ -89,6 +90,13 @@ Route::get('/bank-sampah', [BankSampahController::class, 'index'])->name('banksa
 
 
 Route::middleware(['auth'])->group(function () {
+
+    // Fitur Ganti Password
+    Route::post('/ganti-password', [AuthController::class, 'updatePassword'])->name('password.update');
+
+    // Profil Warga
+    Route::get('/warga/profil', [WargaProfilController::class, 'index'])->name('warga.profil');
+    Route::post('/warga/profil', [WargaProfilController::class, 'update'])->name('warga.profil.update');
 
     Route::get('/warga/harga-sampah', [WargaHargaController::class, 'index'])
     ->name('warga.harga'); // <-- Menggunakan nama unik 'warga.harga'

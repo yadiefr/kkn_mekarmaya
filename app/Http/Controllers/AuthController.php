@@ -18,6 +18,12 @@ class AuthController extends Controller
     // 2. PROSES LOGIN
     public function login(Request $request)
     {
+        if ($request->filled('username')) {
+            $request->merge([
+                'username' => strtolower($request->input('username')),
+            ]);
+        }
+
         // Validasi input dari form login
         $credentials = $request->validate([
             'username' => 'required|string',
@@ -66,9 +72,15 @@ class AuthController extends Controller
     // 4. PROSES REGISTER
     public function register(Request $request)
     {
+        if ($request->filled('username')) {
+            $request->merge([
+                'username' => strtolower($request->input('username')),
+            ]);
+        }
+
         $request->validate([
             'nama_lengkap' => 'required|string|max:255',
-            'username' => 'required|string|unique:users,username|max:50',
+            'username' => 'required|string|regex:/^\S*$/u|unique:users,username|max:50',
             'tempat_lahir' => 'required|string|max:100',
             'tanggal_lahir' => 'required|date',
             'jenis_kelamin' => 'required|in:Laki-laki,Perempuan',
@@ -78,6 +90,7 @@ class AuthController extends Controller
         ], [
             'nama_lengkap.required' => 'Nama lengkap wajib diisi.',
             'username.required' => 'Username wajib diisi.',
+            'username.regex' => 'Username tidak boleh mengandung spasi.',
             'username.unique' => 'Username sudah terdaftar.',
             'username.max' => 'Username maksimal 50 karakter.',
             'tempat_lahir.required' => 'Tempat lahir wajib diisi.',
@@ -103,10 +116,45 @@ class AuthController extends Controller
             'status_akses' => 'off', 
         ]);
 
-        return redirect()->route('login')->with('success', 'Pendaftaran berhasil! Silahkan tunggu aktivasi akun anda oleh Admin Desa.');
+        return redirect()->route('login')->with([
+            'success' => 'Pendaftaran berhasil! Silahkan tunggu aktivasi akun anda oleh Admin Desa.',
+            'registered_username' => $request->username,
+            'registered_password' => $request->password
+        ]);
     }
 
-    // 5. PROSES LOGOUT
+    // 5. PROSES GANTI PASSWORD
+    public function updatePassword(Request $request)
+    {
+        if (Auth::user()->role !== 'warga') {
+            abort(403, 'Akses khusus untuk Warga.');
+        }
+
+        $request->validate([
+            'current_password' => 'required',
+            'new_password' => 'required|string|min:6|confirmed',
+        ], [
+            'current_password.required' => 'Password saat ini wajib diisi.',
+            'new_password.required' => 'Password baru wajib diisi.',
+            'new_password.min' => 'Password baru minimal 6 karakter.',
+            'new_password.confirmed' => 'Konfirmasi password baru tidak cocok.',
+        ]);
+
+        $user = Auth::user();
+
+        // Cek apakah password saat ini benar
+        if (!Hash::check($request->current_password, $user->password)) {
+            return back()->withErrors(['current_password' => 'Password saat ini tidak sesuai.']);
+        }
+
+        // Simpan password baru
+        $user->password = Hash::make($request->new_password);
+        $user->save();
+
+        return back()->with('password_success', 'Password berhasil diubah!');
+    }
+
+    // 7. PROSES LOGOUT
     public function logout(Request $request)
     {
         Auth::logout();

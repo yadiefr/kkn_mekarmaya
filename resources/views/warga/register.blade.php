@@ -66,7 +66,7 @@
                         class="w-full px-5 py-2.5 border border-gray-300 rounded-full text-center text-sm font-medium text-gray-800 placeholder-gray-400 bg-white focus:outline-none focus:ring-1 focus:ring-emerald-600 focus:border-emerald-600 transition duration-200">
                 </div>
                 <div>
-                    <input type="text" name="username" id="username" value="{{ old('username') }}" placeholder="Username" required
+                    <input type="text" name="username" id="username" value="{{ old('username') }}" placeholder="Username" required oninput="this.value = this.value.toLowerCase().replace(/\s/g, '')"
                         class="w-full px-5 py-2.5 border border-gray-300 rounded-full text-center text-sm font-medium text-gray-800 placeholder-gray-400 bg-white focus:outline-none focus:ring-1 focus:ring-emerald-600 focus:border-emerald-600 transition duration-200">
                 </div>
                 

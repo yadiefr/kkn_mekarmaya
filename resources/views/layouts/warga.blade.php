@@ -47,6 +47,12 @@
                     <span>Dashboard Utama</span>
                 </a>
                 
+                <!-- Profil Saya -->
+                <a href="{{ route('warga.profil') }}" class="flex items-center space-x-3 {{ Route::is('warga.profil') ? 'bg-emerald-900 text-white font-semibold' : 'text-emerald-100 hover:bg-emerald-700 hover:text-white font-medium' }} px-4 py-2.5 rounded-lg transition duration-200">
+                    <i class="fas fa-user-edit text-emerald-300 w-5 text-center text-sm"></i>
+                    <span>Profil Saya</span>
+                </a>
+                
                 <!-- Riwayat Transaksi -->
                 <a href="{{ route('warga.riwayat') }}" class="flex items-center space-x-3 {{ Route::is('warga.riwayat') ? 'bg-emerald-900 text-white font-semibold' : 'text-emerald-100 hover:bg-emerald-700 hover:text-white font-medium' }} px-4 py-2.5 rounded-lg transition duration-200">
                     <i class="fas fa-history text-emerald-300 w-5 text-center text-sm"></i>
