@@ -38,9 +38,19 @@
     </div>
 
     <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
-        <div class="p-4 bg-amber-50/60 border-b border-gray-100 flex justify-between items-center">
-            <h3 class="text-xs font-bold text-amber-900 uppercase tracking-wider flex items-center"><i class="fas fa-user-clock mr-2 text-amber-600 text-sm"></i>Menunggu Aktivasi Akses (OFF)</h3>
-            <span class="text-[10px] font-bold text-amber-700 bg-amber-100 px-2 py-0.5 rounded-full">{{ $wargaOff->count() }} Pendaftar</span>
+        <div class="p-4 bg-amber-50/60 border-b border-gray-100 flex flex-col sm:flex-row justify-between items-center gap-3">
+            <div class="flex items-center gap-3">
+                <h3 class="text-xs font-bold text-amber-900 uppercase tracking-wider flex items-center"><i class="fas fa-user-clock mr-2 text-amber-600 text-sm"></i>Menunggu Aktivasi Akses (OFF)</h3>
+                <span class="text-[10px] font-bold text-amber-700 bg-amber-100 px-2 py-0.5 rounded-full">{{ $wargaOff->count() }} Pendaftar</span>
+            </div>
+            @if($wargaOff->count() > 0)
+            <form action="{{ route('admin.datawarga.batch-activate') }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin mengaktifkan semua akun pendaftar ini?');">
+                @csrf
+                <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white text-[11px] font-bold px-4 py-2 rounded-lg shadow-sm transition cursor-pointer flex items-center">
+                    <i class="fas fa-check-double mr-1.5"></i> Aktifkan Semua Warga
+                </button>
+            </form>
+            @endif
         </div>
         <div class="overflow-x-auto">
             <table class="w-full text-left border-collapse text-xs">

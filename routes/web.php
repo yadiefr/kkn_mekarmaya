@@ -112,6 +112,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/admin/data-warga/update/{id}', [AdminAktivasiController::class, 'update'])->name('admin.datawarga.update');
     // Rute aksi mengubah status akses ON/OFF
     Route::post('/admin/data-warga/{id}/toggle', [AdminAktivasiController::class, 'toggleAkses'])->name('admin.datawarga.toggle');
+    // Rute aksi mengaktifkan semua warga yang masih OFF
+    Route::post('/admin/data-warga/batch-activate', [AdminAktivasiController::class, 'batchActivate'])->name('admin.datawarga.batch-activate');
     // Rute menghapus warga
     Route::delete('/admin/data-warga/{id}', [AdminAktivasiController::class, 'destroy'])->name('admin.datawarga.destroy');
     // Tampilan Form    // Transaksi Setor Sampah

@@ -141,6 +141,15 @@ class AdminAktivasiController extends Controller
         return back()->with('success', $pesan);
     }
 
+    public function batchActivate()
+    {
+        $updated = User::where('role', 'warga')
+            ->where('status_akses', 'off')
+            ->update(['status_akses' => 'on']);
+
+        return back()->with('success', "Sebanyak {$updated} pendaftar berhasil diaktifkan.");
+    }
+
     public function destroy($id)
     {
         $warga = User::where('role', 'warga')->findOrFail($id);
