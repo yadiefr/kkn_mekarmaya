@@ -126,7 +126,7 @@
                 title: 'Pendaftaran Berhasil!',
                 html: htmlContent,
                 icon: 'success',
-                confirmButtonText: 'Siap Menunggu',
+                confirmButtonText: 'Lanjut Login',
                 confirmButtonColor: '#059669', // Emerald 600
                 customClass: {
                     popup: 'rounded-2xl shadow-xl',

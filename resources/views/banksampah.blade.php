@@ -121,7 +121,7 @@
             <!-- Arahan Daftar / Masuk -->
             <div class="mt-6 bg-white/5 backdrop-blur-xs p-5 rounded-xl max-w-lg mx-auto border border-white/10 shadow-sm">
                 <p class="text-xs text-yellow-200 font-medium mb-3">
-                    <i class="fas fa-gift mr-1 text-[10px]"></i> Pendaftaran Gratis! Akun Anda akan langsung diaktivasi oleh Admin Desa.
+                    <i class="fas fa-gift mr-1 text-[10px]"></i> Pendaftaran Gratis! Akun Anda langsung aktif.
                 </p>
                 <div class="flex flex-col sm:flex-row justify-center space-y-3 sm:space-y-0 sm:space-x-3">
                     <a href="{{ route('register') }}" class="bg-yellow-400 hover:bg-yellow-500 text-emerald-950 font-bold px-5 py-3 sm:py-2.5 rounded-lg shadow-sm transition duration-200 text-xs uppercase tracking-wide block sm:inline-block">

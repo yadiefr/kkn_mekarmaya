@@ -38,83 +38,8 @@
     </div>
 
     <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
-        <div class="p-4 bg-amber-50/60 border-b border-gray-100 flex flex-col sm:flex-row justify-between items-center gap-3">
-            <div class="flex items-center gap-3">
-                <h3 class="text-xs font-bold text-amber-900 uppercase tracking-wider flex items-center"><i class="fas fa-user-clock mr-2 text-amber-600 text-sm"></i>Menunggu Aktivasi Akses (OFF)</h3>
-                <span class="text-[10px] font-bold text-amber-700 bg-amber-100 px-2 py-0.5 rounded-full">{{ $wargaOff->count() }} Pendaftar</span>
-            </div>
-            @if($wargaOff->count() > 0)
-            <form action="{{ route('admin.datawarga.batch-activate') }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin mengaktifkan semua akun pendaftar ini?');">
-                @csrf
-                <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white text-[11px] font-bold px-4 py-2 rounded-lg shadow-sm transition cursor-pointer flex items-center">
-                    <i class="fas fa-check-double mr-1.5"></i> Aktifkan Semua Warga
-                </button>
-            </form>
-            @endif
-        </div>
-        <div class="overflow-x-auto">
-            <table class="w-full text-left border-collapse text-xs">
-                <thead>
-                    <tr class="bg-gray-50/70 text-gray-400 uppercase tracking-wider font-semibold border-b border-gray-100">
-                        <th class="p-4">Nama Lengkap / NIK / KK</th>
-                        <th class="p-4">Kontak WhatsApp</th>
-                        <th class="p-4">TTL & Gender</th>
-                        <th class="p-4">Alamat Rumah</th>
-                        <th class="p-4 text-center">Aksi Persetujuan</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-gray-100">
-                    @forelse($wargaOff as $w)
-                        <tr class="hover:bg-gray-50/50 transition">
-                            <td class="p-4 flex items-center space-x-3">
-                                <div class="w-8 h-8 rounded-lg bg-slate-100 text-slate-700 font-bold flex items-center justify-center text-xs uppercase shrink-0">
-                                    {{ Str::substr($w->name, 0, 1) }}
-                                </div>
-                                <div class="min-w-0">
-                                    <p class="font-bold text-slate-800 truncate">{{ $w->name }}</p>
-                                    <p class="text-[10px] text-slate-400 mt-0.5">Username: {{ $w->username }}</p>
-                                    <p class="text-[10px] text-slate-400"></p>
-                                </div>
-                            </td>
-                            <td class="p-4">
-                                @if($w->whatsapp)
-                                    <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $w->whatsapp) }}" target="_blank" class="inline-flex items-center gap-1 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 px-2.5 py-1 rounded-lg font-semibold transition">
-                                        <i class="fab fa-whatsapp"></i> {{ $w->whatsapp }}
-                                    </a>
-                                @else
-                                    <span class="text-slate-400">-</span>
-                                @endif
-                            </td>
-                            <td class="p-4 text-gray-500 leading-relaxed">{{ $w->tempat_lahir }}, {{ \Carbon\Carbon::parse($w->tanggal_lahir)->translatedFormat('d M Y') }}<br><span class="text-[10px] text-gray-400">{{ $w->jenis_kelamin }}</span></td>
-                            <td class="p-4 text-gray-500 max-w-xs truncate">{{ $w->alamat }}</td>
-                            <td class="p-4 text-center">
-                                <div class="flex items-center justify-center space-x-2">
-                                    <form action="{{ route('admin.datawarga.toggle', $w->id) }}" method="POST">
-                                        @csrf
-                                        <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white text-[11px] font-bold px-4 py-1.5 rounded-lg shadow-sm transition cursor-pointer"><i class="fas fa-user-check mr-1.5"></i>Aktifkan (ON)</button>
-                                    </form>
-                                    <button @click="editData = { id: {{ $w->id }}, name: '{{ addslashes($w->name) }}', username: '{{ $w->username }}', whatsapp: '{{ $w->whatsapp }}', tempat_lahir: '{{ addslashes($w->tempat_lahir) }}', tanggal_lahir: '{{ $w->tanggal_lahir ? \Carbon\Carbon::parse($w->tanggal_lahir)->format('Y-m-d') : '' }}', jenis_kelamin: '{{ $w->jenis_kelamin }}', alamat: '{{ addslashes($w->alamat) }}' }; editModalOpen = true" class="bg-amber-500 hover:bg-amber-600 text-white text-[11px] font-bold px-3 py-1.5 rounded-lg shadow-sm transition cursor-pointer" title="Edit Data"><i class="fas fa-edit"></i></button>
-                                    <form action="{{ route('admin.datawarga.destroy', $w->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus akun warga ini?');">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="bg-red-600 hover:bg-red-700 text-white text-[11px] font-bold px-3 py-1.5 rounded-lg shadow-sm transition cursor-pointer" title="Hapus Akun">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </form>
-                                </div>
-                            </td>
-                        </tr>
-                    @empty
-                        <tr><td colspan="5" class="text-center text-gray-400 py-8">Tidak ada warga baru dengan akses nonaktif (OFF).</td></tr>
-                    @endforelse
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
         <div class="p-4 bg-emerald-50/60 border-b border-gray-100 flex justify-between items-center">
-            <h3 class="text-xs font-bold text-emerald-900 uppercase tracking-wider flex items-center"><i class="fas fa-user-shield mr-2 text-emerald-600 text-sm"></i>Akun Warga Aktif (ON)</h3>
+            <h3 class="text-xs font-bold text-emerald-900 uppercase tracking-wider flex items-center"><i class="fas fa-users mr-2 text-emerald-600 text-sm"></i>Daftar Akun Warga</h3>
             <span class="text-[10px] font-bold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded-full">{{ $wargaOn->count() }} Anggota</span>
         </div>
         <div class="overflow-x-auto">
@@ -125,7 +50,7 @@
                         <th class="p-4">Kontak WhatsApp</th>
                         <th class="p-4">TTL & Gender</th>
                         <th class="p-4">Alamat Rumah</th>
-                        <th class="p-4 text-center">Aksi Penangguhan</th>
+                        <th class="p-4 text-center">Aksi</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-100">
@@ -154,10 +79,6 @@
                             <td class="p-4 text-gray-500 max-w-xs truncate">{{ $w->alamat }}</td>
                             <td class="p-4 text-center">
                                 <div class="flex items-center justify-center space-x-2">
-                                    <form action="{{ route('admin.datawarga.toggle', $w->id) }}" method="POST">
-                                        @csrf
-                                        <button type="submit" class="bg-red-50 hover:bg-red-100 text-red-700 text-[11px] font-bold px-3 py-1.5 rounded-lg border border-red-200 transition cursor-pointer"><i class="fas fa-user-slash mr-1.5"></i>(OFF)</button>
-                                    </form>
                                     <button @click="editData = { id: {{ $w->id }}, name: '{{ addslashes($w->name) }}', username: '{{ $w->username }}', whatsapp: '{{ $w->whatsapp }}', tempat_lahir: '{{ addslashes($w->tempat_lahir) }}', tanggal_lahir: '{{ $w->tanggal_lahir ? \Carbon\Carbon::parse($w->tanggal_lahir)->format('Y-m-d') : '' }}', jenis_kelamin: '{{ $w->jenis_kelamin }}', alamat: '{{ addslashes($w->alamat) }}' }; editModalOpen = true" class="bg-amber-500 hover:bg-amber-600 text-white text-[11px] font-bold px-3 py-1.5 rounded-lg shadow-sm transition cursor-pointer" title="Edit Data"><i class="fas fa-edit"></i></button>
                                     <form action="{{ route('admin.datawarga.destroy', $w->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus akun warga ini secara permanen?');">
                                         @csrf

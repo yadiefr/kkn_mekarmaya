@@ -113,11 +113,11 @@ class AuthController extends Controller
             'whatsapp' => $request->whatsapp,
             'password' => Hash::make($request->password), 
             'role' => 'warga',       
-            'status_akses' => 'off', 
+            'status_akses' => 'on', 
         ]);
 
         return redirect()->route('login')->with([
-            'success' => 'Pendaftaran berhasil! Silahkan tunggu aktivasi akun anda oleh Admin Desa.',
+            'success' => 'Pendaftaran berhasil! Silahkan masuk menggunakan akun anda.',
             'registered_username' => $request->username,
             'registered_password' => $request->password
         ]);

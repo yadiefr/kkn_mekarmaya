@@ -23,11 +23,9 @@ class AdminAktivasiController extends Controller
             });
         }
 
-        // Pisahkan data warga berdasarkan status_akses menggunakan clone query
-        $wargaOff = (clone $queryWarga)->where('status_akses', 'off')->latest()->get();
         $wargaOn = (clone $queryWarga)->where('status_akses', 'on')->latest()->get();
 
-        return view('admin.datawarga', compact('wargaOff', 'wargaOn', 'search'));
+        return view('admin.datawarga', compact('wargaOn', 'search'));
     }
 
     public function store(Request $request)
@@ -123,32 +121,7 @@ class AdminAktivasiController extends Controller
         return back()->with('success', "Akun warga bernama {$request->nama_lengkap} berhasil diperbarui.");
     }
 
-    public function toggleAkses($id)
-    {
-        $warga = User::where('role', 'warga')->findOrFail($id);
 
-        // Switch status akses
-        if ($warga->status_akses === 'on') {
-            $warga->status_akses = 'off';
-            $pesan = "Akses warga bernama {$warga->name} berhasil dinonaktifkan (OFF).";
-        } else {
-            $warga->status_akses = 'on';
-            $pesan = "Akun warga bernama {$warga->name} berhasil diaktifkan (ON).";
-        }
-
-        $warga->save();
-
-        return back()->with('success', $pesan);
-    }
-
-    public function batchActivate()
-    {
-        $updated = User::where('role', 'warga')
-            ->where('status_akses', 'off')
-            ->update(['status_akses' => 'on']);
-
-        return back()->with('success', "Sebanyak {$updated} pendaftar berhasil diaktifkan.");
-    }
 
     public function destroy($id)
     {
