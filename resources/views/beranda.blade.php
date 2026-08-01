@@ -701,19 +701,15 @@
                     <ul class="space-y-3.5 text-xs text-emerald-100">
                         <li class="flex items-start gap-3">
                             <span class="text-emerald-400 font-bold text-sm">✓</span>
-                            <span><strong>Botol & Gelas Plastik:</strong> Air mineral, botol kecap/sirup (dilepas sedotannya & dikeringkan).</span>
+                            <span><strong>Botol Plastik PET:</strong> Gelas air mineral, cup minuman.</span>
                         </li>
                         <li class="flex items-start gap-3">
                             <span class="text-emerald-400 font-bold text-sm">✓</span>
-                            <span><strong>Kertas & Kardus:</strong> Kardus kemasan, koran bekas, majalah, kertas HVS putih.</span>
+                            <span><strong>Kertas & Kardus:</strong> HVS, koran, majalah, buku bekas.</span>
                         </li>
                         <li class="flex items-start gap-3">
                             <span class="text-emerald-400 font-bold text-sm">✓</span>
-                            <span><strong>Logam & Kaleng:</strong> Kaleng susu, seng, paku tua, besi siku, tembaga.</span>
-                        </li>
-                        <li class="flex items-start gap-3">
-                            <span class="text-emerald-400 font-bold text-sm">✓</span>
-                            <span><strong>Minyak Jelantah:</strong> Minyak bekas sisa penggorengan dapur (disaring dari ampas).</span>
+                            <span><strong>Kaleng:</strong> Kaleng susu, kaleng makanan/minuman.</span>
                         </li>
                     </ul>
                 </div>
