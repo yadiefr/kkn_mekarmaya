@@ -2,13 +2,16 @@
 
 @section('title', 'Setting Pembayaran')
 @section('header_title', 'Konfigurasi Pembayaran & Kasir Nasabah')
-@section('x-data-extra', "editModalOpen: false, editData: {}")
+@section('x-data-extra', "")
 
 @section('content')
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+        <!-- Form Pengaturan Jadwal Tunggal -->
         <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-5 space-y-4 h-fit">
             <div class="border-b border-gray-100 pb-2">
-                <h3 class="text-xs font-bold text-gray-700 uppercase tracking-wider"><i class="fas fa-calendar-alt mr-2 text-emerald-600"></i>Buka Jadwal Penarikan</h3>
+                <h3 class="text-xs font-bold text-gray-700 uppercase tracking-wider">
+                    <i class="fas fa-calendar-alt mr-2 text-emerald-600"></i>{{ $setting ? 'Update' : 'Buka' }} Jadwal Penarikan
+                </h3>
             </div>
             
             @if(session('success_setting'))
@@ -19,67 +22,66 @@
                 @csrf
                 <div class="space-y-1.5">
                     <label class="block font-bold text-gray-700">Nama Event / Periode Klaim</label>
-                    <input type="text" name="event_name" required placeholder="Contoh: Pencairan Tabungan Idul Adha 2026" 
+                    <input type="text" name="event_name" value="{{ $setting->event_name ?? '' }}" required placeholder="Contoh: Pencairan Akhir Bulan" 
                         class="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-1 focus:ring-emerald-600 focus:outline-none">
                 </div>
                 <div class="grid grid-cols-2 gap-3">
                     <div class="space-y-1.5">
                         <label class="block font-bold text-gray-700">Tanggal Mulai</label>
-                        <input type="date" name="start_date" required class="w-full p-2.5 border border-gray-200 rounded-xl focus:ring-1 focus:ring-emerald-600 focus:outline-none bg-white">
+                        <input type="date" name="start_date" value="{{ $setting ? \Carbon\Carbon::parse($setting->start_date)->format('Y-m-d') : '' }}" required class="w-full p-2.5 border border-gray-200 rounded-xl focus:ring-1 focus:ring-emerald-600 focus:outline-none bg-white">
                     </div>
                     <div class="space-y-1.5">
                         <label class="block font-bold text-gray-700">Tanggal Selesai</label>
-                        <input type="date" name="end_date" required class="w-full p-2.5 border border-gray-200 rounded-xl focus:ring-1 focus:ring-emerald-600 focus:outline-none bg-white">
+                        <input type="date" name="end_date" value="{{ $setting ? \Carbon\Carbon::parse($setting->end_date)->format('Y-m-d') : '' }}" required class="w-full p-2.5 border border-gray-200 rounded-xl focus:ring-1 focus:ring-emerald-600 focus:outline-none bg-white">
                     </div>
                 </div>
                 <button type="submit" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-3 rounded-xl shadow-md transition cursor-pointer">
-                    <i class="fas fa-lock-open mr-1.5"></i>Aktifkan Rentang Tanggal
+                    <i class="fas fa-save mr-1.5"></i>Simpan Konfigurasi
                 </button>
             </form>
+            
+            @if($setting)
+            <form action="{{ route('admin.pembayaran.jadwal.destroy', $setting->id) }}" method="POST" class="mt-2" onsubmit="return confirm('Yakin ingin menutup dan menghapus jadwal penarikan ini? Warga tidak akan bisa mengajukan penarikan lagi.');">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="w-full bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 font-bold py-2.5 rounded-xl transition cursor-pointer text-xs">
+                    <i class="fas fa-times-circle mr-1.5"></i>Tutup & Hapus Jadwal
+                </button>
+            </form>
+            @endif
         </div>
 
-        <div class="bg-white rounded-xl border border-gray-100 shadow-sm lg:col-span-2 overflow-hidden">
-            <div class="p-4 border-b border-gray-100 bg-gray-50/50 text-xs font-bold text-gray-700 uppercase tracking-wider">Riwayat Konfigurasi Jadwal</div>
-            <div class="overflow-x-auto">
-                <table class="w-full text-left border-collapse text-xs">
-                    <thead>
-                        <tr class="bg-gray-50 text-gray-400 uppercase font-semibold border-b border-gray-100">
-                            <th class="p-4">Nama Event Pencairan</th>
-                            <th class="p-4">Rentang Waktu Akses</th>
-                            <th class="p-4 text-center">Status Gerbang</th>
-                            <th class="p-4 text-center">Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-gray-100 text-gray-600">
-                        @forelse($settings as $sett)
-                            <tr class="hover:bg-gray-50/50 transition">
-                                <td class="p-4 font-bold text-gray-900">{{ $sett->event_name }}</td>
-                                <td class="p-4 font-medium">{{ \Carbon\Carbon::parse($sett->start_date)->translatedFormat('d M Y') }} s/d {{ \Carbon\Carbon::parse($sett->end_date)->translatedFormat('d M Y') }}</td>
-                                <td class="p-4 text-center">
-                                    @if($sett->is_active)
-                                        <span class="px-2.5 py-1 text-[10px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 rounded-full"><i class="fas fa-circle-check mr-1"></i>Terbuka (Menerima Klaim)</span>
-                                    @else
-                                        <span class="px-2.5 py-1 text-[10px] font-bold text-gray-400 bg-gray-100 rounded-full">Selesai/Tutup</span>
-                                    @endif
-                                </td>
-                                <td class="p-4 text-center">
-                                    <button @click="editData = { id: {{ $sett->id }}, event_name: '{{ addslashes($sett->event_name) }}', start_date: '{{ \Carbon\Carbon::parse($sett->start_date)->format('Y-m-d') }}', end_date: '{{ \Carbon\Carbon::parse($sett->end_date)->format('Y-m-d') }}' }; editModalOpen = true" class="text-blue-500 hover:text-blue-700 mx-1 cursor-pointer" title="Edit">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
-                                    <form action="{{ route('admin.pembayaran.jadwal.destroy', $sett->id) }}" method="POST" class="inline-block" onsubmit="return confirm('Yakin ingin menghapus jadwal pembayaran ini?');">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="text-red-500 hover:text-red-700 mx-1 cursor-pointer" title="Hapus">
-                                            <i class="fas fa-trash-alt"></i>
-                                        </button>
-                                    </form>
-                                </td>
-                            </tr>
-                        @empty
-                            <tr><td colspan="4" class="text-center text-gray-400 py-6">Belum ada rentang tanggal pembayaran yang di-setting.</td></tr>
-                        @endforelse
-                    </tbody>
-                </table>
+        <!-- Status Card -->
+        <div class="bg-white rounded-xl border border-gray-100 shadow-sm lg:col-span-2 overflow-hidden h-fit">
+            <div class="p-4 border-b border-gray-100 bg-gray-50/50 text-xs font-bold text-gray-700 uppercase tracking-wider">Status Jadwal Penarikan Saat Ini</div>
+            <div class="p-8 flex items-center justify-center">
+                @if($setting)
+                    <div class="w-full max-w-md text-center space-y-4">
+                        <div class="inline-block p-4 rounded-full bg-emerald-50 mb-2 border border-emerald-100">
+                            <i class="fas fa-wallet text-4xl text-emerald-500"></i>
+                        </div>
+                        <h4 class="font-black text-gray-900 text-xl">{{ $setting->event_name }}</h4>
+                        <div class="bg-gray-50 p-3 rounded-lg border border-gray-100 inline-block font-medium text-gray-600 text-sm">
+                            <i class="fas fa-calendar-day mr-2 text-emerald-600"></i>
+                            {{ \Carbon\Carbon::parse($setting->start_date)->translatedFormat('d M Y') }} - {{ \Carbon\Carbon::parse($setting->end_date)->translatedFormat('d M Y') }}
+                        </div>
+                        <div class="mt-3">
+                            <span class="inline-flex items-center px-4 py-1.5 bg-emerald-600 text-white font-bold rounded-full text-xs shadow-sm">
+                                <span class="w-2 h-2 rounded-full bg-white animate-pulse mr-2"></span> SEDANG AKTIF
+                            </span>
+                        </div>
+                        <p class="text-xs text-gray-400 mt-2">Warga dapat mengajukan penarikan saldo selama periode ini.</p>
+                    </div>
+                @else
+                    <div class="w-full max-w-md text-center space-y-3 py-6">
+                        <div class="inline-block p-4 rounded-full bg-gray-50 mb-2 border border-gray-100">
+                            <i class="fas fa-calendar-times text-4xl text-gray-300"></i>
+                        </div>
+                        <h4 class="font-bold text-gray-600 text-lg">Belum Ada Jadwal Aktif</h4>
+                        <p class="text-sm text-gray-400">Saat ini tidak ada jadwal penarikan yang terbuka. Warga tidak dapat melakukan pengajuan penarikan saldo.</p>
+                        <p class="text-xs text-emerald-600 font-semibold mt-4">Gunakan form di sebelah kiri untuk membuka jadwal baru.</p>
+                    </div>
+                @endif
             </div>
         </div>
     </div>
@@ -119,7 +121,7 @@
                                         class="px-3 py-1.5 border border-gray-200 rounded-lg text-[11px] focus:outline-none focus:ring-1 focus:ring-emerald-600 w-44">
                                     
                                     <button type="submit" name="action" value="approved" class="bg-emerald-600 hover:bg-emerald-700 text-white text-[11px] font-bold px-3 py-1.5 rounded-lg transition cursor-pointer">
-                                        Setujui (Cair)
+                                        Setujui (Cairkan)
                                     </button>
                                     <button type="submit" name="action" value="rejected" class="bg-red-50 hover:bg-red-100 text-red-700 text-[11px] font-bold px-3 py-1.5 rounded-lg border border-red-200 transition cursor-pointer">
                                         Tolak
@@ -174,52 +176,4 @@
         </div>
     </div>
 
-    <!-- Modal Edit Jadwal -->
-    <div x-show="editModalOpen" style="display: none;" class="fixed inset-0 z-[100] overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-        <div class="flex min-h-screen items-center justify-center p-4 text-center sm:p-0">
-            <div x-show="editModalOpen" x-transition.opacity class="fixed inset-0 bg-black/40 backdrop-blur-xs transition-opacity" @click="editModalOpen = false" aria-hidden="true"></div>
-
-            <div x-show="editModalOpen" x-transition class="relative bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-lg w-full">
-                <form :action="'{{ url('admin/setting-pembayaran/jadwal/update') }}/' + editData.id" method="POST" class="text-sm">
-                    @csrf
-                    <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                        <div class="sm:flex sm:items-start">
-                            <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-blue-100 sm:mx-0 sm:h-10 sm:w-10">
-                                <i class="fas fa-edit text-blue-600"></i>
-                            </div>
-                            <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
-                                <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
-                                    Edit Jadwal Pembayaran
-                                </h3>
-                                <div class="mt-4 space-y-4">
-                                    <div>
-                                        <label class="block font-bold text-gray-700 text-xs mb-1">Nama Event / Periode Klaim</label>
-                                        <input type="text" name="event_name" x-model="editData.event_name" required class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-1 focus:ring-emerald-600 focus:outline-none">
-                                    </div>
-                                    <div class="grid grid-cols-2 gap-3">
-                                        <div>
-                                            <label class="block font-bold text-gray-700 text-xs mb-1">Tanggal Mulai</label>
-                                            <input type="date" name="start_date" x-model="editData.start_date" required class="w-full p-2 border border-gray-200 rounded-lg focus:ring-1 focus:ring-emerald-600 focus:outline-none bg-white">
-                                        </div>
-                                        <div>
-                                            <label class="block font-bold text-gray-700 text-xs mb-1">Tanggal Selesai</label>
-                                            <input type="date" name="end_date" x-model="editData.end_date" required class="w-full p-2 border border-gray-200 rounded-lg focus:ring-1 focus:ring-emerald-600 focus:outline-none bg-white">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse border-t border-gray-100">
-                        <button type="submit" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm cursor-pointer">
-                            Simpan Perubahan
-                        </button>
-                        <button type="button" @click="editModalOpen = false" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm cursor-pointer">
-                            Batal
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
 @endsection

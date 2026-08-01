@@ -11,17 +11,17 @@ class AdminPembayaranController extends Controller
 {
     public function index()
     {
-        // Ambil semua riwayat jadwal rentang tanggal pembayaran
-        $settings = WithdrawalSetting::latest()->get();
+        // Ambil 1 jadwal pembayaran saja (tanpa riwayat)
+        $setting = WithdrawalSetting::first();
 
         // Pisahkan data pengajuan berdasarkan statusnya
         $requestsPending = WithdrawalRequest::with('user')->where('status', 'pending')->latest()->get();
         $requestsHistory = WithdrawalRequest::with('user')->whereIn('status', ['approved', 'rejected'])->latest()->get();
 
-        return view('admin.pembayaran', compact('settings', 'requestsPending', 'requestsHistory'));
+        return view('admin.pembayaran', compact('setting', 'requestsPending', 'requestsHistory'));
     }
 
-    // 1. Simpan Jadwal Pembayaran Baru
+    // 1. Simpan / Perbarui Jadwal Pembayaran (Hanya 1 Data)
     public function storeSetting(Request $request)
     {
         $request->validate([
@@ -30,8 +30,8 @@ class AdminPembayaranController extends Controller
             'end_date' => 'required|date|after_or_equal:start_date',
         ]);
 
-        // Nonaktifkan jadwal lain terlebih dahulu jika jadwal baru ini diset aktif
-        WithdrawalSetting::where('is_active', true)->update(['is_active' => false]);
+        // Hapus semua data jadwal sebelumnya (agar hanya ada 1 record tunggal)
+        WithdrawalSetting::query()->delete();
 
         WithdrawalSetting::create([
             'event_name' => $request->event_name,
@@ -40,7 +40,7 @@ class AdminPembayaranController extends Controller
             'is_active' => true,
         ]);
 
-        return back()->with('success_setting', 'Jadwal rentang tanggal pencairan dana berhasil dibuka!');
+        return back()->with('success_setting', 'Jadwal pencairan dana berhasil diatur dan diaktifkan!');
     }
 
     // 2. Proses Persetujuan / Penolakan Tarik Saldo + Otomatis Update Status Nota Sampah
@@ -101,9 +101,8 @@ class AdminPembayaranController extends Controller
 
     public function destroySetting($id)
     {
-        $setting = WithdrawalSetting::findOrFail($id);
-        $setting->delete();
+        WithdrawalSetting::query()->delete();
 
-        return back()->with('success_setting', 'Jadwal rentang tanggal berhasil dihapus!');
+        return back()->with('success_setting', 'Jadwal penarikan berhasil ditutup dan dihapus!');
     }
 }
