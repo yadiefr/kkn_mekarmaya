@@ -123,8 +123,9 @@
                 <div onclick="openModal('modalEdukasi{{ $edukasi->id }}')" class="bg-white p-5 rounded-xl border border-gray-100 shadow-xs hover:shadow-md transition duration-200 cursor-pointer flex flex-col justify-between group">
                     <div>
                         <div class="w-full h-32 mb-4 bg-gray-50 rounded-lg flex items-center justify-center overflow-hidden border border-gray-100 relative">
-                            @if($edukasi->image_path && file_exists(public_path($edukasi->image_path)))
-                                <img src="{{ asset($edukasi->image_path) }}" alt="{{ $edukasi->title }}" class="w-full h-full object-cover">
+                            @if($edukasi->image_path)
+                                <img src="{{ asset($edukasi->image_path) }}" alt="{{ $edukasi->title }}" class="w-full h-full object-cover" onerror="this.style.display='none'; this.nextElementSibling.classList.remove('hidden');">
+                                <i class="fas {{ $edukasi->icon ?? 'fa-book' }} text-emerald-300 text-4xl hidden"></i>
                             @else
                                 <i class="fas {{ $edukasi->icon ?? 'fa-book' }} text-emerald-300 text-4xl"></i>
                             @endif
@@ -158,8 +159,8 @@
                 <div class="p-6 overflow-y-auto space-y-4 text-xs text-gray-600 leading-relaxed">
                     <h3 class="font-bold text-lg text-gray-900 mb-2">{{ $edukasi->title }}</h3>
                     
-                    @if($edukasi->image_path && file_exists(public_path($edukasi->image_path)))
-                        <img src="{{ asset($edukasi->image_path) }}" alt="{{ $edukasi->title }}" class="w-full h-auto rounded-lg mb-4 border border-gray-100">
+                    @if($edukasi->image_path)
+                        <img src="{{ asset($edukasi->image_path) }}" alt="{{ $edukasi->title }}" class="w-full h-auto rounded-lg mb-4 border border-gray-100" onerror="this.style.display='none';">
                     @endif
 
                     <div class="whitespace-pre-line text-sm text-gray-700 leading-relaxed">
