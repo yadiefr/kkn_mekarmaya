@@ -76,8 +76,9 @@
                                 <tr x-show="search === '' || '{{ strtolower($item->title) }}'.includes(search.toLowerCase())" class="hover:bg-gray-50/50 transition">
                                     <td class="p-4">
                                         <div class="w-14 h-10 rounded border border-gray-100 bg-emerald-50 flex items-center justify-center overflow-hidden">
-                                            @if($item->image_path && file_exists(public_path($item->image_path)))
-                                                <img src="{{ asset($item->image_path) }}" alt="{{ $item->title }}" class="w-full h-full object-cover">
+                                            @if($item->image_path)
+                                                <img src="{{ asset($item->image_path) }}" alt="{{ $item->title }}" class="w-full h-full object-cover" onerror="this.style.display='none'; this.nextElementSibling.classList.remove('hidden');">
+                                                <i class="fas {{ $item->icon ?? 'fa-book' }} text-emerald-500 text-lg hidden"></i>
                                             @else
                                                 <i class="fas {{ $item->icon ?? 'fa-book' }} text-emerald-500 text-lg"></i>
                                             @endif

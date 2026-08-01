@@ -32,7 +32,10 @@ class AdminEdukasiController extends Controller
 
         $imagePath = null;
         if ($request->hasFile('image')) {
-            $imagePath = 'storage/' . $request->file('image')->store('edukasi', 'public');
+            $image = $request->file('image');
+            $imageName = time() . '_' . \Illuminate\Support\Str::slug(pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME)) . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('uploads/edukasi'), $imageName);
+            $imagePath = 'uploads/edukasi/' . $imageName;
         }
 
         Edukasi::create([
@@ -65,7 +68,10 @@ class AdminEdukasiController extends Controller
             if ($edukasi->image_path && file_exists(public_path($edukasi->image_path))) {
                 unlink(public_path($edukasi->image_path));
             }
-            $edukasi->image_path = 'storage/' . $request->file('image')->store('edukasi', 'public');
+            $image = $request->file('image');
+            $imageName = time() . '_' . \Illuminate\Support\Str::slug(pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME)) . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('uploads/edukasi'), $imageName);
+            $edukasi->image_path = 'uploads/edukasi/' . $imageName;
         }
 
         $edukasi->title = $request->title;
