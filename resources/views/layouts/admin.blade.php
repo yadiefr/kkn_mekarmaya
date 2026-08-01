@@ -111,7 +111,7 @@
     <div x-show="sidebarOpen" @click="sidebarOpen = false" x-transition.opacity class="fixed inset-0 z-20 bg-slate-900/60 backdrop-blur-xs md:hidden"></div>
 
     <!-- Sidebar -->
-    <aside :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'" class="fixed inset-y-0 left-0 z-30 w-64 h-screen bg-slate-950 text-white flex flex-col justify-between shrink-0 transition-transform duration-300 md:sticky md:top-0 md:translate-x-0 border-r border-slate-900 shadow-xl overflow-hidden">
+    <aside :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'" class="fixed inset-y-0 left-0 z-30 w-64 h-[100dvh] bg-slate-950 text-white flex flex-col justify-between shrink-0 transition-transform duration-300 md:sticky md:top-0 md:translate-x-0 border-r border-slate-900 shadow-xl overflow-hidden">
         <div class="flex flex-col flex-1 min-h-0 overflow-y-auto">
             <!-- Brand Header with soft emerald highlight -->
             <div class="p-6 border-b border-slate-900 flex items-center space-x-3 shrink-0">
