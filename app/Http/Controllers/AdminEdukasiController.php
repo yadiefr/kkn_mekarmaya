@@ -80,11 +80,29 @@ class AdminEdukasiController extends Controller
         if ($request->hasFile('image')) {
             // Hapus gambar lama jika ada
             if ($edukasi->image_path && file_exists(public_path($edukasi->image_path))) {
-                unlink(public_path($edukasi->image_path));
+                @unlink(public_path($edukasi->image_path));
             }
+            if ($edukasi->image_path && file_exists(base_path('../public_html/' . $edukasi->image_path))) {
+                @unlink(base_path('../public_html/' . $edukasi->image_path));
+            }
+            
             $image = $request->file('image');
             $imageName = time() . '_' . \Illuminate\Support\Str::slug(pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME)) . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('uploads/edukasi'), $imageName);
+            
+            $dir = public_path('uploads/edukasi');
+            if (!file_exists($dir)) @mkdir($dir, 0777, true);
+            
+            $cpanelDir = base_path('../public_html/uploads/edukasi');
+            if (!file_exists($cpanelDir) && file_exists(base_path('../public_html'))) {
+                @mkdir($cpanelDir, 0777, true);
+            }
+
+            $image->move($dir, $imageName);
+            
+            if (file_exists(base_path('../public_html')) && file_exists($dir . '/' . $imageName)) {
+                @copy($dir . '/' . $imageName, $cpanelDir . '/' . $imageName);
+            }
+            
             $edukasi->image_path = 'uploads/edukasi/' . $imageName;
         }
 
@@ -106,7 +124,10 @@ class AdminEdukasiController extends Controller
         
         // Hapus gambar terkait jika ada
         if ($edukasi->image_path && file_exists(public_path($edukasi->image_path))) {
-            unlink(public_path($edukasi->image_path));
+            @unlink(public_path($edukasi->image_path));
+        }
+        if ($edukasi->image_path && file_exists(base_path('../public_html/' . $edukasi->image_path))) {
+            @unlink(base_path('../public_html/' . $edukasi->image_path));
         }
 
         $edukasi->delete();
