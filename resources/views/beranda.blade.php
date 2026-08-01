@@ -198,7 +198,7 @@
                     </div>
                     
                     <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight lg:leading-tight">
-                        Ubah Sampah Plastik  <span class="bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-700 bg-clip-text text-transparent">Menjadi Saldo Tabungan</span> Desa
+                        Ubah Sampah Plastik  <span class="bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-700 bg-clip-text text-transparent">Menjadi Saldo Tabungan</span>
                     </h1>
                     
                     <p class="mt-5 text-base sm:text-lg text-slate-600 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
