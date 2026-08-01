@@ -34,7 +34,21 @@ class AdminEdukasiController extends Controller
         if ($request->hasFile('image')) {
             $image = $request->file('image');
             $imageName = time() . '_' . \Illuminate\Support\Str::slug(pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME)) . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('uploads/edukasi'), $imageName);
+            
+            $dir = public_path('uploads/edukasi');
+            if (!file_exists($dir)) @mkdir($dir, 0777, true);
+            
+            $cpanelDir = base_path('../public_html/uploads/edukasi');
+            if (!file_exists($cpanelDir) && file_exists(base_path('../public_html'))) {
+                @mkdir($cpanelDir, 0777, true);
+            }
+
+            $image->move($dir, $imageName);
+            
+            if (file_exists(base_path('../public_html')) && file_exists($dir . '/' . $imageName)) {
+                @copy($dir . '/' . $imageName, $cpanelDir . '/' . $imageName);
+            }
+
             $imagePath = 'uploads/edukasi/' . $imageName;
         }
 
