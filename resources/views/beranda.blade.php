@@ -198,11 +198,11 @@
                     </div>
                     
                     <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight lg:leading-tight">
-                        Ubah Sampah Rumah Tangga Jadi <span class="bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-700 bg-clip-text text-transparent">Saldo & Keberkahan</span> Desa
+                        Ubah Sampah Plastik  <span class="bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-700 bg-clip-text text-transparent">Menjadi Saldo Tabungan</span> Desa
                     </h1>
                     
                     <p class="mt-5 text-base sm:text-lg text-slate-600 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
-                        Selamat datang di portal digital <strong class="text-slate-800">Sobat Peduli Sampah</strong>. Mari bersama menjaga kebersihan Desa Mekarmaya, pilah sampah dari rumah, dan ubah sampah bernilai ekonomi menjadi tabungan rupiah transparan langsung dari smartphone Anda!
+                        Selamat datang di portal digital <strong class="text-slate-800">Bank Sampah Mekarmaya</strong>. Mari bersama menjaga kebersihan Desa Mekarmaya, pilah sampah dari rumah, dan ubah sampah bernilai ekonomi menjadi tabungan rupiah transparan langsung dari smartphone Anda!
                     </p>
 
                     <!-- Hero Call-to-Actions -->
