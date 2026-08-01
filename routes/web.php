@@ -42,6 +42,12 @@ Route::get('/edukasi', function () {
     return view('edukasi');
 })->name('edukasi');
 
+// Route khusus untuk memperbaiki gambar di hosting
+Route::get('/linkstorage', function () {
+    \Illuminate\Support\Facades\Artisan::call('storage:link');
+    return 'Symlink storage berhasil dibuat! Silakan cek kembali gambar Anda.';
+});
+
 Route::get('/bank-sampah', function () {
     return view('banksampah');
 })->name('banksampah');
