@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
+use App\Models\SiteSetting;
 
 class AdminSettingsController extends Controller
 {
@@ -29,7 +30,9 @@ class AdminSettingsController extends Controller
             ->having('total_saldo', '>', 0)
             ->get();
 
-        return view('admin.pengaturan', compact('activeWarga'));
+        $minimumWithdrawal = SiteSetting::getValue('minimum_withdrawal', 0);
+
+        return view('admin.pengaturan', compact('activeWarga', 'minimumWithdrawal'));
     }
 
     public function reset(Request $request)
@@ -118,5 +121,16 @@ class AdminSettingsController extends Controller
         }
 
         return back()->with('success', 'Logo khusus berhasil dihapus, sistem kembali menggunakan logo standar!');
+    }
+
+    public function updateMinWithdrawal(Request $request)
+    {
+        $request->validate([
+            'minimum_withdrawal' => 'required|numeric|min:0',
+        ]);
+
+        SiteSetting::setValue('minimum_withdrawal', $request->minimum_withdrawal);
+
+        return back()->with('success', 'Minimal saldo penarikan berhasil diperbarui menjadi Rp ' . number_format($request->minimum_withdrawal, 0, ',', '.') . '.');
     }
 }

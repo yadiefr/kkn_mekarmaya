@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\Models\SiteSetting;
 use Carbon\Carbon;
 
 class WargaTarikSaldoController extends Controller
@@ -49,7 +50,9 @@ class WargaTarikSaldoController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
-        return view('warga.tariksaldo', compact('user', 'activeSetting', 'upcomingSetting', 'totalSaldo', 'pendingRequest', 'requestHistory'));
+        $minimumWithdrawal = (int) SiteSetting::getValue('minimum_withdrawal', 0);
+
+        return view('warga.tariksaldo', compact('user', 'activeSetting', 'upcomingSetting', 'totalSaldo', 'pendingRequest', 'requestHistory', 'minimumWithdrawal'));
     }
 
     public function store(Request $request)
@@ -76,6 +79,12 @@ class WargaTarikSaldoController extends Controller
 
         if ($totalSaldo <= 0) {
             return back()->withErrors(['error' => 'Anda tidak memiliki saldo aktif untuk ditarik.']);
+        }
+
+        // Cek batas minimal saldo penarikan
+        $minimumWithdrawal = (int) SiteSetting::getValue('minimum_withdrawal', 0);
+        if ($minimumWithdrawal > 0 && $totalSaldo < $minimumWithdrawal) {
+            return back()->withErrors(['error' => 'Maaf, saldo Anda sebesar Rp ' . number_format($totalSaldo, 0, ',', '.') . ' belum mencapai batas minimal penarikan sebesar Rp ' . number_format($minimumWithdrawal, 0, ',', '.') . '.']);
         }
 
         // Cek pending request

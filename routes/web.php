@@ -159,6 +159,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/admin/pengaturan/reset', [AdminSettingsController::class, 'reset'])->name('admin.pengaturan.reset');
     Route::post('/admin/pengaturan/upload-logo', [AdminSettingsController::class, 'uploadLogo'])->name('admin.pengaturan.uploadLogo');
     Route::post('/admin/pengaturan/delete-logo', [AdminSettingsController::class, 'deleteLogo'])->name('admin.pengaturan.deleteLogo');
+    Route::post('/admin/pengaturan/min-withdrawal', [AdminSettingsController::class, 'updateMinWithdrawal'])->name('admin.pengaturan.minWithdrawal');
 });
 
 

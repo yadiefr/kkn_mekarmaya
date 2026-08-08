@@ -37,9 +37,25 @@
                 <div class="bg-gray-50 border border-gray-100 rounded-2xl p-6 text-center">
                     <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider block">Saldo Yang Bisa Dicairkan Saat Ini</span>
                     <span class="text-3xl font-black text-emerald-700 block mt-1">Rp {{ number_format($totalSaldo, 0, ',', '.') }}</span>
+
+                    @if($minimumWithdrawal > 0)
+                        <div class="mt-3 text-[11px] font-medium {{ $totalSaldo >= $minimumWithdrawal ? 'text-emerald-700' : 'text-red-600' }}">
+                            <i class="fas fa-info-circle mr-1"></i>
+                            Minimal saldo penarikan: <strong>Rp {{ number_format($minimumWithdrawal, 0, ',', '.') }}</strong>
+                            @if($totalSaldo < $minimumWithdrawal)
+                                — saldo Anda belum mencukupi.
+                            @else
+                                — saldo Anda memenuhi syarat.
+                            @endif
+                        </div>
+                    @endif
                     
                     @if($totalSaldo > 0)
-                        @if(!$pendingRequest)
+                        @if($minimumWithdrawal > 0 && $totalSaldo < $minimumWithdrawal)
+                            <button disabled class="mt-6 bg-gray-200 text-gray-400 text-xs font-bold px-8 py-3 rounded-xl cursor-not-allowed">
+                                <i class="fas fa-lock mr-2"></i>Saldo Belum Mencapai Batas Minimal
+                            </button>
+                        @elseif(!$pendingRequest)
                             <form action="{{ route('warga.tarik.ajukan') }}" method="POST" class="mt-6">
                                 @csrf
                                 <button type="submit" class="w-full sm:w-auto bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold px-8 py-3 rounded-xl shadow-md transition duration-200 cursor-pointer">

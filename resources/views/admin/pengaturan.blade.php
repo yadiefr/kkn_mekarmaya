@@ -102,6 +102,64 @@
             </div>
         </div>
 
+        <!-- FITUR SETTING MINIMAL SALDO PENARIKAN -->
+        <div class="bg-white rounded-2xl border border-gray-150 shadow-sm overflow-hidden">
+            <div class="p-5 border-b border-gray-100 bg-gray-50/50 flex items-center justify-between">
+                <div class="flex items-center">
+                    <i class="fas fa-wallet text-indigo-600 mr-2.5 text-sm"></i>
+                    <h3 class="text-xs font-bold text-gray-700 uppercase tracking-wider">Minimal Saldo Penarikan Warga</h3>
+                </div>
+            </div>
+
+            <div class="p-6 text-xs space-y-4">
+                <p class="text-gray-500 leading-relaxed">
+                    Atur jumlah minimal saldo yang harus dimiliki warga sebelum dapat mengajukan penarikan/pencairan dana. 
+                    Jika diatur <strong>Rp 0</strong>, maka tidak ada batas minimal (warga bisa menarik berapapun selama saldo &gt; 0).
+                </p>
+
+                <div class="flex flex-col sm:flex-row items-start sm:items-end gap-4 p-4 bg-gray-50/80 rounded-xl border border-gray-200/70">
+                    <!-- Info Nilai Saat Ini -->
+                    <div class="flex flex-col items-center justify-center text-center shrink-0">
+                        <span class="text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-2">Nilai Saat Ini</span>
+                        <div class="w-auto min-w-[80px] h-auto rounded-xl bg-white p-3 border border-gray-200 flex items-center justify-center shadow-xs">
+                            <span class="text-lg font-black {{ $minimumWithdrawal > 0 ? 'text-indigo-700' : 'text-gray-400' }}">
+                                Rp {{ number_format($minimumWithdrawal, 0, ',', '.') }}
+                            </span>
+                        </div>
+                        <span class="text-[10px] font-bold mt-2 px-2 py-0.5 rounded border {{ $minimumWithdrawal > 0 ? 'text-indigo-700 bg-indigo-50 border-indigo-200' : 'text-gray-500 bg-gray-200/80 border-gray-300' }}">
+                            {{ $minimumWithdrawal > 0 ? 'Batas Aktif' : 'Tanpa Batas' }}
+                        </span>
+                    </div>
+
+                    <!-- Form Update -->
+                    <div class="w-full space-y-3">
+                        <form action="{{ route('admin.pengaturan.minWithdrawal') }}" method="POST" class="space-y-3">
+                            @csrf
+                            <div>
+                                <label for="minimum_withdrawal" class="block font-bold text-gray-700 mb-1">Masukkan Nominal Minimal Penarikan (Rp)</label>
+                                <input type="number" name="minimum_withdrawal" id="minimum_withdrawal" 
+                                    value="{{ $minimumWithdrawal }}" min="0" step="1000" required
+                                    class="w-full p-2.5 border border-gray-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-400 text-sm font-semibold"
+                                    placeholder="Contoh: 10000">
+                                <p class="text-[10px] text-gray-400 mt-1">Masukkan angka tanpa titik atau koma. Contoh: <strong>10000</strong> untuk Rp 10.000. Isi <strong>0</strong> untuk menonaktifkan batas minimal.</p>
+                            </div>
+
+                            <button type="submit" class="bg-indigo-700 hover:bg-indigo-800 text-white font-bold px-4 py-2.5 rounded-xl shadow-md cursor-pointer inline-flex items-center text-xs transition duration-200">
+                                <i class="fas fa-save mr-2"></i>Simpan Pengaturan
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                @if($errors->has('minimum_withdrawal'))
+                    <div class="p-3 bg-red-50 border border-red-200 text-red-700 text-xs rounded-xl font-medium flex items-center">
+                        <i class="fas fa-exclamation-triangle mr-2 text-red-500"></i>
+                        {{ $errors->first('minimum_withdrawal') }}
+                    </div>
+                @endif
+            </div>
+        </div>
+
         <!-- DAFTAR WARGA DENGAN SALDO AKTIF -->
         <div class="bg-white rounded-2xl border border-gray-150 shadow-sm overflow-hidden">
             <div class="p-5 border-b border-gray-100 bg-gray-50/50 flex justify-between items-center">
